@@ -9,7 +9,7 @@
 * applications to perform a firmware upgrade.
 *
 *//*****************************************************************************
-* Copyright 2019, Cypress Semiconductor Corporation or a subsidiary of
+* Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
 * Cypress Semiconductor Corporation. All Rights Reserved.
 *
 * This software, including source code, documentation and related
@@ -66,33 +66,6 @@
 */
 /* NOTE All UUIDs need to be reversed when publishing in the database. */
 
-#ifdef WICED_OTA_VERSION_2
-/* {10022922-ccf5-11e8-b680-025041000001}
-   static const GUID GUID_OTA_FW_UPGRADE_SERVICE =
-    { 0x10022922, 0xccf5, 0x11e8, { 0xb6, 0x80, 0x02, 0x50, 0x41, 0x00, 0x00, 0x01 } }; */
-#define UUID_OTA_FW_UPGRADE_SERVICE                             0x01, 0x00, 0x00, 0x41, 0x50, 0x02, 0x80, 0xb6, 0xe8, 0x11, 0xf5, 0xcc, 0x22, 0x29, 0x02, 0x10
-
-/* {10270b52-ccf5-11e8-8c28-025041000001}
-   static const GUID GUID_OTA_SEC_FW_UPGRADE_SERVICE =
-   { 0x10270b52, 0xccf5, 0x11e8, { 0x8c, 0x28, 0x02, 0x50, 0x41, 0x00, 0x00, 0x01 } }; */
-#define UUID_OTA_SEC_FW_UPGRADE_SERVICE                         0x01, 0x00, 0x00, 0x41, 0x50, 0x02, 0x28, 0x8c, 0xe8, 0x11, 0xf5, 0xcc, 0x52, 0x0b, 0x27, 0x10
-
-/* {1058fcfc-ccf5-11e8-b112-025041000001}
-   static const GUID GUID_OTA_FW_UPGRADE_CHARACTERISTIC_CONTROL_POINT =
-   { 0x1058fcfc, 0xccf5, 0x11e8, { 0xb1, 0x12, 0x02, 0x50, 0x41, 0x00, 0x00, 0x01 } }; */
-#define UUID_OTA_FW_UPGRADE_CHARACTERISTIC_CONTROL_POINT        0x01, 0x00, 0x00, 0x41, 0x50, 0x02, 0x12, 0xb1, 0xe8, 0x11, 0xf5, 0xcc, 0xfc, 0xfc, 0x58, 0x10
-
-/* {107163c8-ccf5-11e8-9b81-025041000001}
-   static const GUID GUID_OTA_FW_UPGRADE_CHARACTERISTIC_DATA =
-   { 0x107163c8, 0xccf5, 0x11e8, { 0x9b, 0x81, 0x02, 0x50, 0x41, 0x00, 0x00, 0x01 } }; */
-#define UUID_OTA_FW_UPGRADE_CHARACTERISTIC_DATA                 0x01, 0x00, 0x00, 0x41, 0x50, 0x02, 0x81, 0x9b, 0xe8, 0x11, 0xf5, 0xcc, 0xc8, 0x63, 0x71, 0x10
-
-/* {10a51326-ccf5-11e8-ab31-025041000001}
-   static const GUID GUID_OTA_FW_UPGRADE_SERVICE_CHARACTERISTIC_APP_INFO =
-   { 0x10a51326, 0xccf5, 0x11e8, { 0xab, 0x31, 0x02, 0x50, 0x41, 0x00, 0x00, 0x01 } }; */
-
-#define UUID_OTA_FW_UPGRADE_SERVICE_CHARACTERISTIC_APP_INFO     0x01, 0x00, 0x00, 0x41, 0x50, 0x02, 0x31, 0xab, 0xe8, 0x11, 0xf5, 0xcc, 0x26, 0x13, 0xa5, 0x10
-#else
 /* {aE5D1E47-5C13-43A0-8635-82AD38A1381F}
    static const GUID WSRU_OTA_SERVICE =
    { 0xae5d1e47, 0x5c13, 0x43a0, { 0x86, 0x35, 0x82, 0xad, 0x38, 0xa1, 0x38, 0x1f } }; */
@@ -118,7 +91,6 @@
    { 0xa47f7608, 0x2e2d, 0x47eb, { 0x91, 0xe9, 0x75, 0xd4, 0xed, 0xc4, 0xde, 0x4b } }; */
 
 #define UUID_OTA_FW_UPGRADE_SERVICE_CHARACTERISTIC_APP_INFO     0x4b, 0xde, 0xc4, 0xed, 0xd4, 0x75, 0x3b, 0x91, 0xeb, 0x47, 0x2d, 0x2e, 0x08, 0x76, 0x7f, 0xa4
-#endif
 
 /* Maximum data packet length used during FW download */
 #define WICED_OTA_FW_UPGRADE_MAX_DATA_LEN                        128
@@ -131,7 +103,6 @@
 #define WICED_OTA_UPGRADE_COMMAND_GET_STATUS                     5 /* Not currently used */
 #define WICED_OTA_UPGRADE_COMMAND_CLEAR_STATUS                   6 /* Not currently used */
 #define WICED_OTA_UPGRADE_COMMAND_ABORT                          7
-#define WICED_OTA_UPGRADE_COMMAND_APPLY                          8
 
 /* Event definitions for the OTA FW upgrade */
 #define WICED_OTA_UPGRADE_STATUS_OK                              0
@@ -161,7 +132,26 @@
 #define OTA_FW_UPGRADE_STATUS_ABORTED                           2   /* OTA firmware upgrade process was aborted or failed verification */
 #define OTA_FW_UPGRADE_STATUS_COMPLETED                         3   /* OTA firmware upgrade completed, will reboot */
 #define OTA_FW_UPGRADE_STATUS_VERIFICATION_START                4   /**< OTA firmware upgrade starts verification */
+
+/* OTA firmware upgrade callback events */
+#define OTA_FW_UPGRADE_EVENT_STARTED                            1   /* Client started OTA firmware upgrade process */
+#define OTA_FW_UPGRADE_EVENT_DATA                               2   /* OTA firmware upgrade data received */
+#define OTA_FW_UPGRADE_EVENT_COMPLETED                          3   /* OTA firmware upgrade completed */
 /** \} group_ota_fw_upgrade_macros */
+
+/**
+* \addtogroup group_ota_fw_upgrade_structs
+* \{
+*/
+/* OTA firmware upgrade event data */
+typedef struct
+{
+    uint32_t offset;                                /**< Data offset */
+    uint32_t data_len;                              /**< Data length */
+    uint8_t  *p_data;                               /**< Pointer to data buffer */
+} wiced_bt_ota_fw_upgrad_event_data_t;
+
+/** \} group_ota_fw_upgrade_structs */
 
 #ifdef __cplusplus
 extern "C" {
@@ -194,6 +184,14 @@ typedef void (wiced_ota_firmware_upgrade_status_callback_t)(uint8_t status);
 *
 ******************************************************************************/
 typedef wiced_bt_gatt_status_t (wiced_ota_firmware_upgrade_send_data_callback_t)(wiced_bool_t is_notification, uint16_t conn_id, uint16_t attr_handle, uint16_t val_len, uint8_t *p_val);
+
+/** A callback used in Transfer-Only mode to pass event/data to upper layer
+*
+* \param   event  : OTA event that needs to be processed (see @ref OTA_FW_UPGRADE_EVENT "OTA firmware upgrade callback events")
+* \param   p_data : Pointer to OTA event data
+*
+******************************************************************************/
+typedef void (wiced_ota_firmware_event_callback_t)(uint16_t event, void *p_data);
 /** \} group_ota_fw_upgrade_cback_functions */
 
 /**
@@ -298,6 +296,16 @@ wiced_bool_t wiced_ota_fw_upgrade_is_gatt_handle(uint16_t handle);
 *
 ******************************************************************************/
 wiced_bool_t wiced_ota_fw_upgrade_get_new_fw_info(uint16_t *company_id, uint8_t *fw_id_len, uint8_t *fw_id);
+
+/******************************************************************************
+* Function Name: wiced_ota_fw_upgrade_set_transfer_mode
+***************************************************************************//**
+* \brief Set OTA for data transfer only
+*
+* \details Transfer only mode can be used by other module such as DFU
+*
+******************************************************************************/
+wiced_bool_t wiced_ota_fw_upgrade_set_transfer_mode(wiced_bool_t transfer_only, wiced_ota_firmware_event_callback_t *p_event_callback);
 
 #ifdef __cplusplus
 }

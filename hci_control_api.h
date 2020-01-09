@@ -9,7 +9,7 @@
 * 	HCI Control Protocol Software User Manual (002-16618) for additional details.
 *
 *//*****************************************************************************
-* Copyright 2019, Cypress Semiconductor Corporation or a subsidiary of
+* Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
 * Cypress Semiconductor Corporation. All Rights Reserved.
 *
 * This software, including source code, documentation and related
@@ -521,6 +521,8 @@
 #define HCI_CONTROL_MESH_COMMAND_HEALTH_ATTENTION_GET                       ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xae )  /* Health Attention Get */
 #define HCI_CONTROL_MESH_COMMAND_HEALTH_ATTENTION_SET                       ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xaf )  /* Health Attention Set */
 
+#define HCI_CONTROL_MESH_COMMAND_CONFIG_MODEL_ADD                           ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xb0 )  /* Add Vendor Model */
+
 #define HCI_CONTROL_MESH_COMMAND_SET_LOCAL_DEVICE                           ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe0 )  /* Set Local Device. Application can set it once to make provisioner client. */
 #define HCI_CONTROL_MESH_COMMAND_SET_DEVICE_KEY                             ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe1 )  /* Setup device key.  Application can set it once and then send multiple configuration commands. */
 #define HCI_CONTROL_MESH_COMMAND_CORE_LOW_POWER_SEND_FRIEND_CLEAR           ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe2 )  /* Terminate friendship with a Friend by sending a Friend Clear */
@@ -731,6 +733,8 @@
 #define HCI_CONTROL_HIDD_EVENT_VIRTUAL_CABLE_UNPLUGGED      ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x02 )    /* Host requested Virtual Cable Unplug */
 #define HCI_CONTROL_HIDD_EVENT_DATA                         ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x03 )    /* Host sent report */
 #define HCI_CONTROL_HIDD_EVENT_CLOSED                       ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x04 )    /* Host attempt to establish connection failed */
+#define HCI_CONTROL_HIDD_EVENT_HOST_ADDR                    ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x05 )    /* Paired host address */
+#define HCI_CONTROL_HIDD_EVENT_STATE_CHANGE                 ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x06 )    /* Device State Change */
 #define HCI_CONTROL_HIDD_EVENT_COMMAND_STATUS               ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0xFF )    /* Result status for HID commands */
 
 /* Events for the Test events group */

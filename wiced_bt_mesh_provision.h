@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, Cypress Semiconductor Corporation or a subsidiary of
+ * Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
  * Cypress Semiconductor Corporation. All Rights Reserved.
  *
  * This software, including source code, documentation and related
@@ -52,6 +52,10 @@
 extern "C"
 {
 #endif
+
+/* Maximum number of vendor specific opcode according to spec. */
+#define WICED_BT_MESH_MAX_VENDOR_MODEL_OPCODES 64
+
 
 /**
  * @addtogroup  wiced_bt_mesh_provisioning        Mesh Provisioning Library API
@@ -176,6 +180,14 @@ typedef struct
     uint16_t net_key_idx;               /**< Network Key Used to provision this device */
 } wiced_bt_mesh_set_dev_key_data_t;
 
+/* This structure contains information provided by the application to add vendor model.*/
+typedef struct
+{
+    uint16_t company_id;                                        /**< Company ID */
+    uint16_t model_id;                                          /**< Model ID */
+    uint8_t  num_opcodes;                                       /**< Number of opcodes */
+    uint8_t  opcode[WICED_BT_MESH_MAX_VENDOR_MODEL_OPCODES*3];   /**< List of opcodes */
+} wiced_bt_mesh_add_vendor_model_data_t;
 
 /**
 * This structure contains information sent to the provisioner application from the provisioner library with information from the proxy device advertisements
@@ -858,6 +870,7 @@ typedef PACKED struct
     uint16_t group_size;                                        /**< Number of elements in the update_node_list */
 #define WICED_BT_MESH_MAX_UPDATES_NODES 128                     /**< MAX number of updating nodes  */
     uint16_t update_nodes_list[WICED_BT_MESH_MAX_UPDATES_NODES];/**< List of the nodes */
+    wiced_bool_t ota_supported;                                 /**< Distributor support OTA */
 } wiced_bt_mesh_fw_distribution_start_data_t;
 
 /* This structure contains node information sent from the Distributor node when application requested the status information  */
@@ -877,7 +890,6 @@ typedef PACKED struct
     uint16_t        num_nodes;                                  /**< Number of nodes */
     wiced_bt_mesh_fw_distribution_details_t node[1];            /**< Details for each node */
 } wiced_bt_mesh_fw_distribution_status_data_t;
-
 
 /**
  * \brief Provision Server callback
@@ -986,6 +998,18 @@ wiced_bool_t wiced_bt_mesh_provision_local_device_set(wiced_bt_mesh_local_device
  * @return   WICED_TRUE/WICED_FALSE - success/failed.
  */
 void wiced_bt_mesh_provision_set_dev_key(wiced_bt_mesh_set_dev_key_data_t *p_data);
+
+/**
+ * \brief Add Vendor Model.
+ * \details The application can call this function to vendor model to mesh core.
+ * Once added, mesh core forwards all vendor specific messages/event to vendor client message handler.
+ *
+ * @param[in]  p_data Pointer to the data structure with vendor model information.
+ *
+ * @return   None
+ */
+void wiced_bt_mesh_add_vendor_model(wiced_bt_mesh_add_vendor_model_data_t *p_data);
+
 
 /* Maximum number of remembered device keys. Default value is 8. */
 extern uint8_t wiced_bt_mesh_provision_dev_key_max_num;
@@ -1807,7 +1831,7 @@ wiced_bool_t wiced_bt_mesh_fw_provider_get_status(wiced_bt_mesh_event_t *p_event
  *
  * @return      WICED_TRUE if operation has started successfully
  */
-wiced_bool_t wiced_bt_mesh_fw_provider_start(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_fw_distribution_start_data_t* p_data);
+wiced_bool_t wiced_bt_mesh_fw_provider_start(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_fw_distribution_start_data_t *p_data, wiced_bt_mesh_fw_provider_callback_t *p_callback);
 
 /**
  * \brief The application can call this function to terminate firmware distribution procedure.
@@ -1818,6 +1842,14 @@ wiced_bool_t wiced_bt_mesh_fw_provider_start(wiced_bt_mesh_event_t *p_event, wic
  */
 wiced_bool_t wiced_bt_mesh_fw_provider_stop(wiced_bt_mesh_event_t *p_event);
 
+/*
+ * \brief Process finish event received from OTA client
+ *
+ * @param[in]   status  0 if OTA finished successfully, otherwise failed
+ *
+ * @return      None
+ */
+void wiced_bt_mesh_fw_provider_ota_finish(uint8_t status);
 
 #ifdef __cplusplus
 }

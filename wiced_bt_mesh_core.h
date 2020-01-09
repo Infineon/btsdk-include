@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, Cypress Semiconductor Corporation or a subsidiary of
+ * Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
  * Cypress Semiconductor Corporation. All Rights Reserved.
  *
  * This software, including source code, documentation and related
@@ -1275,6 +1275,25 @@ extern uint16_t    wiced_bt_mesh_core_delay_answer_group_max;
 * Per spec ACK_TIMEOUT should be >= 150 + 50 * TTL. But we use hardcoded value to get rid of long ACK_TIMOUT for big TTL.
 */
 extern uint16_t wiced_bt_core_lower_transport_ack_timeout_ms;
+
+/**
+* \brief Proxy service adv interval: * 0.625 ms. Default value is 800 - 500 ms
+*/
+extern uint16_t    wiced_bt_mesh_core_proxy_adv_interval;
+
+/**
+ * \brief Returns pointer to the specific application key.
+ * \details Application may call this function to get application key by its global index. During Key Refresh procedure
+ * there are can be two application keys with same global index: old and new. Second parameter specifies which one to get.
+ *
+ * @param[in]   appkey_global_idx   Global Index og the application get to get.
+ * @param[in]   newKeyAtKeyRefresh  WICED_TRUE means the request for the updating value of the application key during Key Refresh procedure.
+ *                                  It doesn't exist if Key Refresh procedure isn't in the progress.
+ *                                  WICED_FALSE means the request for main application key.
+ *
+ * @return      Pointer to the application key. On error returns NULL.
+ */
+const uint8_t* wiced_bt_mesh_core_get_app_key(uint16_t appkey_global_idx, wiced_bool_t newKeyAtKeyRefresh);
 
 /* @} wiced_bt_mesh_core */
 /* @} wiced_bt_mesh */

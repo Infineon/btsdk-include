@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, Cypress Semiconductor Corporation or a subsidiary of
+ * Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
  * Cypress Semiconductor Corporation. All Rights Reserved.
  *
  * This software, including source code, documentation and related
@@ -292,14 +292,15 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @name Definition for messages exchanged between an app and FW Distribution Model
  * @{ */
 #define WICED_BT_MESH_FW_DISTRIBUTION_STATUS                153  /**< Reply to  Get message */
+#define WICED_BT_MESH_FW_DISTRIBUTION_START_OTA             154  /**< Start OTA for upload */
 /** @} FW_DISTRIBUTION_EVENT */
 
 /**
  * @anchor FW_UPDATE_EVENT
  * @name Definition for messages exchanged between an app and FW Update Model
  * @{ */
-#define WICED_BT_MESH_FW_UPDATE_VALIDATE                    154  /**< Check FW valication data */
-#define WICED_BT_MESH_FW_UPDATE_APPLY                       155  /**< Applying new FW */
+#define WICED_BT_MESH_FW_UPDATE_VALIDATE                    155  /**< Check FW valication data */
+#define WICED_BT_MESH_FW_UPDATE_APPLY                       156  /**< Applying new FW */
 /** @} FW_UPDATE_EVENT */
 
 /**

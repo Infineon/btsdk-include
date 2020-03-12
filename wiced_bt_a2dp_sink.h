@@ -134,16 +134,18 @@ typedef struct
 
 typedef struct
 {
-    wiced_result_t            result;  /* Whether the event indicates failure or success, WICED_BT_XXX */
-    uint8_t                   label;   /* Transaction label */
-    uint16_t                  handle;  /* Peer connection handle */
+    wiced_result_t              result;  /* Whether the event indicates failure or success, WICED_BT_XXX */
+    uint8_t                     label;   /* Transaction label */
+    uint16_t                    handle;  /* Peer connection handle */
+    wiced_bt_device_address_t   bdaddr;  /* Source device's BT address */
 } wiced_bt_a2dp_sink_start_t;
 
 typedef struct
 {
-    wiced_bt_device_address_t   bd_addr; /**< Peer bluetooth device address */
-    uint16_t                    handle; /* Peer connection handle */
-    wiced_bt_a2dp_codec_info_t  codec;  /* Configured codec params */
+    wiced_bt_device_address_t   bd_addr; /* Peer bluetooth device address */
+    uint16_t                    handle;  /* Peer connection handle */
+    wiced_bt_a2dp_codec_info_t  codec;   /* Configured codec params */
+    uint16_t                    cp_type; /* Content Protection Type */
 } wiced_bt_a2dp_sink_codec_config_t;
 
 /* Control callback event data */

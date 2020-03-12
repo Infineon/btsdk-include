@@ -111,7 +111,7 @@ typedef struct
     wiced_bt_ma_inst_id_t mas_inst_id;
     UINT8           supported_msg_type;
     UINT8           scn;
-    UINT16          version;
+    UINT16          rec_version;
     UINT16          psm;
     UINT32          peer_features;
 } wiced_bt_mce_mas_rec_t;

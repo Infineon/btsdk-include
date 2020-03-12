@@ -63,6 +63,7 @@ extern uint16_t wiced_bt_mesh_light_lightness_nvram_id_start;
 extern uint16_t wiced_bt_mesh_light_xyl_nvram_id_start;
 extern uint16_t wiced_bt_mesh_light_ctl_nvram_id_start;
 extern uint16_t wiced_bt_mesh_light_hsl_nvram_id_start;
+extern uint16_t wiced_bt_mesh_light_lc_run_nvram_id_start;
 extern uint16_t wiced_bt_mesh_light_lc_nvram_id_start;
 
 extern uint8_t  wiced_bt_mesh_scene_max_num;
@@ -6341,6 +6342,60 @@ void wiced_bt_mesh_model_blob_transfer_prepare(uint8_t element_idx, uint8_t *blo
  */
 void wiced_bt_mesh_model_blob_transfer_abort(uint8_t element_idx);
 /* @} wiced_bt_mesh_blob_transfer_server */
+
+/*
+ * Application can register with remote provisioning server to receive notification
+ * when unprovisioned device is detected
+ */
+typedef void (*wiced_bt_mesh_unprovisioned_device_cb_t)(uint8_t* p_uuid, uint16_t oob, uint32_t uri_hash, int8_t rssi);
+
+/**
+ * \brief Remote Provisioning Server initialization
+ *
+ * @param       None
+ *
+ * @return      None
+ */
+void wiced_bt_mesh_remote_provisioning_server_init(void);
+
+/**
+ * \brief Process Scan Response Packets to check if the packet is for remote provisioning server.
+ *
+ * @param  p_adv_report Advertising report paremeters
+ * @param  p_adv_data Advertising data
+ *
+ * @return   WICED_TRUE/WICED_FALSE - success/failed.
+ */
+wiced_bool_t wiced_bt_mesh_remote_provisioning_scan_rsp(wiced_bt_ble_scan_results_t* p_adv_report, uint8_t* p_adv_data);
+
+/**
+ * \brief Process Connectable Advertising Packets to check if the packet is for remote provisioning server.
+ *
+ * @param  p_adv_report Advertising report paremeters
+ * @param  p_adv_data Advertising data
+ *
+ * @return   WICED_TRUE/WICED_FALSE - success/failed.
+ */
+wiced_bool_t wiced_bt_mesh_remote_provisioning_connectable_adv_packet(wiced_bt_ble_scan_results_t* p_adv_report, uint8_t* p_adv_data);
+
+/**
+ * \brief Process None Connectable Advertising Packets to check if the packet is for remote provisioning server.
+ *
+ * @param  p_adv_report Advertising report paremeters
+ * @param  p_adv_data Advertising data
+ *
+ * @return   WICED_TRUE/WICED_FALSE - success/failed.
+ */
+wiced_bool_t wiced_bt_mesh_remote_provisioning_nonconnectable_adv_packet(wiced_bt_ble_scan_results_t* p_adv_report, uint8_t* p_adv_data);
+
+/**
+ * \brief Sets trace level for mesh_models_lib and mesh_provisioner_lib.
+ * \details Application may call this function to set trace level for mesh_models_lib and mesh_provisioner_lib. By default trace level is 0(no trace).
+ *
+ * @param[in]   level       Trace level to set. It can be any of WICED_BT_MESH_CORE_TRACE_XXX.
+ */
+void wiced_bt_mesh_models_set_trace_level(uint8_t level);
+
 
 /* @} wiced_bt_mesh_models */
 

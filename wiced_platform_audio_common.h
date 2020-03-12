@@ -54,15 +54,8 @@ enum platform_button_id {
     PLATFORM_BUTTON_VOLUME_UP,
     PLATFORM_BUTTON_VOLUME_DOWN,
 
-    /* A2DP buttons */
-    PLATFORM_BUTTON_A2DP_PLAY,
-    PLATFORM_BUTTON_A2DP_PAUSE,
-    PLATFORM_BUTTON_A2DP_FORWARD,
-    PLATFORM_BUTTON_A2DP_BACKWARD,
-
-    /* HFP buttons */
-    PLATFORM_BUTTON_CALL_ANSWER,
-    PLATFORM_BUTTON_CALL_HANG_UP,
+    /* WiCED HCI buttons. */
+    PLATFORM_BUTTON_WICED_HCI_DETECT_ON,
 
     /* LRAC Key/buttons*/
     PLATFORM_BUTTON_LRAC_BUTTON_1_LONG,
@@ -90,7 +83,6 @@ enum platform_codec_route {
     PLATFORM_CODEC_ROUTE_NONE = 0,
     PLATFORM_CODEC_ROUTE_CVSD,
     PLATFORM_CODEC_ROUTE_MSBC,
-    PLATFORM_CODEC_ROUTE_STREAM,
     PLATFORM_CODEC_ROUTE_AUDIO_INSERT,
 };
 typedef uint8_t platform_codec_route_t;
@@ -157,31 +149,6 @@ platform_global_state_t platform_state_get(void);
 wiced_result_t platform_audio_side_set(platform_audio_side_t audio_side);
 
 /*
- * platform_volume_voice_set
- */
-uint8_t platform_volume_voice_set(uint8_t volume);
-
-/*
- * platform_volume_ring_set
- */
-uint8_t platform_volume_ring_set(uint8_t volume);
-
-/*
- * platform_volume_micro_set
- */
-uint8_t platform_volume_micro_set(uint8_t volume);
-
-/*
- * platform_volume_stream_set
- */
-uint8_t platform_volume_stream_set(uint8_t volume);
-
-/*
- * platform_volume_audio_insert_set
- */
-uint8_t platform_volume_audio_insert_set(uint8_t volume);
-
-/*
  * platform_codec_route_set
  */
 wiced_result_t platform_codec_route_set(platform_codec_route_t codec_route);
@@ -210,3 +177,10 @@ wiced_result_t platform_switch_set(void *p_opaque, uint16_t sync_data_len);
  * wiced_platform_debug_enable
  */
 void wiced_platform_debug_enable( void );
+
+/*
+ * platform_button_emulator
+ *
+ * Emulate the button event.
+ */
+void platform_button_emulator(platform_button_id_t button_id, uint32_t repeat_counter);

@@ -261,7 +261,6 @@ typedef PACKED struct
     uint16_t                                company_id;         /**< Company identifier assigned by the Bluetooth SIG */
     uint16_t                                product_id;         /**< Vendor-assigned product identifier */
     uint16_t                                vendor_id;          /**< Vendor-assigned product version identifier */
-    uint64_t                                firmware_id;        /**< Vendor-assigned firmware version identifier */
     uint16_t                                replay_cache_size;  /**< Number of replay protection entries, i.e. maximum number of mesh devices that can send application messages to this device.*/
     uint16_t                                features;           /**< A bit field indicating the device features (see @ref BT_MESH_CORE_FEATURE "Supported features bitmap") */
     uint16_t                                oob;                /**< The OOB field (see @ref BT_MESH_CORE_OOB "OOB bitmap"). It indicates the availability of OOB data.*/
@@ -273,7 +272,6 @@ typedef PACKED struct
     uint8_t                                 elements_num;       /**< Number of elements in the following array elements */
     wiced_bt_mesh_core_config_element_t     *elements;          /**< Array of elements defined by tFND_ELEMENT with size elements_num */
 } wiced_bt_mesh_core_config_t;
-
 
 extern wiced_bt_mesh_core_config_t  mesh_config;
 

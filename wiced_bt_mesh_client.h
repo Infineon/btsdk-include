@@ -62,18 +62,6 @@ extern "C"
  */
 
 /**
- * \brief Process Advertising Packet.
- * \details The application can call this function to when it receives advertising packet.
- *
- * @param    p_adv_report Advertising report paremeters
- * @param    p_adv_data Advertising data
- *
- * @return   WICED_TRUE/WICED_FALSE - success/failed.
- */
-wiced_bool_t wiced_bt_mesh_remote_provisioning_adv_packet(wiced_bt_ble_scan_results_t *p_adv_report, uint8_t *p_adv_data);
-
-
-/**
  * \brief Checking GATT connection.
  * \details This function returns TRUE if remote provisioning started GATT connection
  *

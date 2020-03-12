@@ -1,14 +1,6 @@
 /***************************************************************************//**
 * \file <hci_control_api.h>
 *
-*	HCI Control Protocol Definitions
-*
-* \brief
-* 	This file provides definitions for the WICED HCI Control Interface between an MCU
-* 	and an embedded application running on a Cypress BT SoC. Please refer to the WICED
-* 	HCI Control Protocol Software User Manual (002-16618) for additional details.
-*
-*//*****************************************************************************
 * Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
 * Cypress Semiconductor Corporation. All Rights Reserved.
 *
@@ -39,11 +31,14 @@
 * including Cypress's product in a High Risk Product, the manufacturer
 * of such system or application assumes all risk of such use and in doing
 * so agrees to indemnify Cypress against all liability.
-*******************************************************************************/
-#ifndef __HCI_CONTROL_API_H
-#define __HCI_CONTROL_API_H
-
-/******************************************************************************
+*
+*	HCI Control Protocol Definitions
+*
+* \brief
+* 	This file provides definitions for the WICED HCI Control Interface between an MCU
+* 	and an embedded application running on a Cypress BT SoC. Please refer to the WICED
+* 	HCI Control Protocol Software User Manual (002-16618) for additional details.
+*
 * Packets exchanged over the UART between MCU and hci_control applications contain a 5-byte header.
 * -------------------------------------------------------------------------------------------------------
 * |  Packet Type      | Command Code          |    Group Code       |        Packet Length              |
@@ -51,6 +46,8 @@
 * |HCI_WICED_PKT(0x19)|HCI_CONTROL_COMMAND_...|HCI_CONTROL_GROUP_...|length(low byte)| length(high byte)|
 * -------------------------------------------------------------------------------------------------------
 ******************************************************************************/
+#ifndef __HCI_CONTROL_API_H
+#define __HCI_CONTROL_API_H
 
 /* Packet types */
 #define HCI_EVENT_PKT                                       4
@@ -531,7 +528,6 @@
 #define HCI_CONTROL_MESH_COMMAND_CORE_SET_IV_UPDATE_TEST_MODE               ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe5 )  /* Sends command to set or reset IV UPDATE test mode */
 #define HCI_CONTROL_MESH_COMMAND_CORE_SET_IV_RECOVERY_STATE                 ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe6 )  /* Sends command to set or reset IV RECOVERY mode */
 #define HCI_CONTROL_MESH_COMMAND_CORE_HEALTH_SET_FAULTS                     ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe7 )  /* Sends command to set faults array */
-#define HCI_CONTROL_MESH_COMMAND_CORE_CFG_ONE_NETKEY                        ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe8 )  /* Reduces resources to enable one netkey */
 #define HCI_CONTROL_MESH_COMMAND_CORE_CFG_ADV_IDENTITY                      ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe9 )  /* Begin advertising with Node Identity, simulating user interaction */
 #define HCI_CONTROL_MESH_COMMAND_CORE_ACCESS_PDU                            ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xea )  /* Handle Access PDU */
 #define HCI_CONTROL_MESH_COMMAND_CORE_SEND_SUBS_UPDT                        ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xeb )  /* Send Friend Subscription Add or Remove message */

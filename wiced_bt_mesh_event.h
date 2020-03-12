@@ -102,10 +102,15 @@ typedef struct wiced_bt_mesh_event__t
     uint8_t         reply;          /**< If TRUE the reply is expected */
 #define REPLY_TIMER_TICK        50
     uint8_t         reply_timeout;  /**< Time to wait for the peer model layer acknowledgment in 50-millisecond steps */
-#define TX_STATUS_COMPLETED     0
-#define TX_STATUS_FAILED        1
-#define TX_STATUS_ACK_RECEIVED  2
-    uint8_t         tx_status;      /**< Transmission failed or timeout occurred waiting for peer reply */
+    union
+    {
+#define TX_STATUS_COMPLETED         0
+#define TX_STATUS_FAILED            1
+#define TX_STATUS_ACK_RECEIVED      2
+        uint8_t         tx_flag;    /**< Transmission failed or timeout occurred waiting for peer reply */
+#define RPL_DELAY_DONT_SAVE         0xff
+        uint8_t         rpl_delay;   /**< Model indicates how SEQ shall be saved by the core. It is delay in seconds to save SEQ in RPL. 0-save immediatly; 0xff - don't save; */
+    } status;
     uint16_t        friend_addr;    /**< core sets it to friend address when calls complete_callback if segmented message has been sent and acked by the friend OnBehalfOf LPN. Otherwise it is 0 */
     uint8_t         send_segmented; /**< if non-0 then core uses segmentation to send that message even if it fits into unsegmented message. */
     int8_t          rssi;           /**< RSSI of the received message */

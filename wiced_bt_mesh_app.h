@@ -44,7 +44,24 @@
 #include "wiced_bt_mesh_model_defs.h"
 #include "wiced_bt_gatt.h"
 
+#define TRACE_NONE      0
+#define TRACE_CRITICAL  1
+#define TRACE_ERROR     1
+#define TRACE_WARNING   2
+#define TRACE_INFO      3
+#define TRACE_DEBUG     4
+
+/*
+ * Following bits may be set in the uuid[4] if SELF_CONFIG and/or EMBEDDED_PROVISION features supported
+ */
+#define CY_MAGIC_RPR_SUPPORTED          0x01
+#define CY_MAGIC_SELF_CONFIG_SUPPORTED  0x02
+#define CY_MAGIC_RELAY_SUPPORTED        0x04
+
 #pragma pack(1)
+#ifndef PACKED
+#define PACKED
+#endif
 
 typedef PACKED struct
 {
@@ -184,6 +201,7 @@ typedef struct
 
 extern wiced_bt_mesh_app_func_table_t wiced_bt_mesh_app_func_table;
 
+extern void mesh_application_gen_uuid(uint8_t* uuid);
 extern void mesh_application_factory_reset(void);
 
 /**

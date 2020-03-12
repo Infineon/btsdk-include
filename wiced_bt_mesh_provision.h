@@ -46,6 +46,10 @@
 #if defined _WIN32 || defined WICEDX_LINUX || defined __ANDROID__ || defined __APPLE__
 #define PACKED
 #pragma pack(1)
+#else
+#ifndef PACKED
+#define PACKED
+#endif
 #endif
 
 #ifdef __cplusplus

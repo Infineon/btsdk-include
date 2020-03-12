@@ -459,7 +459,7 @@ typedef struct
 
 typedef struct
 {
-    wiced_bt_ma_vcard_version_t         version;
+    wiced_bt_ma_vcard_version_t         vcard_version;
 
     wiced_bt_ma_vcard_property_t *      p_prop[WICED_BT_MA_VCARD_PROP_MAX];
 

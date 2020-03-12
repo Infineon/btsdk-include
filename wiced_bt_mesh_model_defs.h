@@ -1079,6 +1079,9 @@ extern "C"
 #define WICED_BT_MESH_REMOTE_PROVISIONING_SERVER_MULTI_DEVICE_SCAN      0x01
 #define WICED_BT_MESH_REMOTE_PROVISIONING_SERVER_SINGLE_DEVICE_SCAN     0x02
 
+#define WICED_BT_MESH_REMOTE_PROVISIONING_LINK_OPEN_TIMEOUT_MIN         0x01
+#define WICED_BT_MESH_REMOTE_PROVISIONING_LINK_OPEN_TIMEOUT_MAX         0x3C
+
 #define WICED_BT_MESH_REMOTE_PROVISION_STATE_IDLE                       0x00    /**< Idle */
 #define WICED_BT_MESH_REMOTE_PROVISION_STATE_LINK_OPENING               0x01    /**< Link Opening */
 #define WICED_BT_MESH_REMOTE_PROVISION_STATE_LINK_ACTIVE                0x02    /**< Link Active */
@@ -1271,7 +1274,9 @@ extern "C"
 #define WICED_BT_MESH_BLOB_TRANSFER_MAX_BLOB_SIZE                   262144  /**< Max BLOB size is 256KB */
 
 #define WICED_BT_MESH_CONFIG_PERIOD_LOG_MAX                         0x11    /**< Max value of period log */
-#define WICED_BT_MESH_CONFIG_COUNT_LOG_MAX                          0x10    /**< Max value of count log */
+#define WICED_BT_MESH_CONFIG_SUB_COUNT_LOG_MAX                      0x10    /**< Max value of subscription count log */
+#define WICED_BT_MESH_CONFIG_PUB_COUNT_LOG_MAX                      0x11    /**< Max value of publication count log */
+#define WICED_BT_MESH_CONFIG_COUNT_LOG_NO_LIMIT                     0xFF    /**< Value of count log representing unlimited count */
 #define WICED_BT_MESH_CONFIG_HOPS_MAX                               0x7f    /**< Max value of min hops or max hops */
 #define WICED_BT_MESH_CONFIG_TTL_MAX                                0x7F    /**< Max value of the TTL */
 

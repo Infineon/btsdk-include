@@ -184,11 +184,11 @@ typedef wiced_bool_t (*wiced_bt_mesh_core_received_msg_handler_t)(wiced_bt_mesh_
  * @param[in]   company_id      Opcode company ID
  * @param[in]   opcode          Opcode
  * @param[out]  p_model_id      Variable for found Model ID for that opcode
- * @param[out]  p_dont_save_rpl WICED_TRUE - don't save RPL on messages from that model
+ * @param[out]  p_rpl_flag      It can be any of RPL_STATUS_XXX defined in the wiced_bt_mesh_event.h. Model indicates how SEQ shall be saved by the core.
  *
  * @return      Message handler of the model for that opcode. If model isn't found then returns NULL.
 */
-typedef wiced_bt_mesh_core_received_msg_handler_t (*wiced_bt_mesh_core_get_msg_handler_callback_t)(uint16_t company_id, uint16_t opcode, uint16_t *p_model_id, wiced_bool_t *p_dont_save_rpl);
+typedef wiced_bt_mesh_core_received_msg_handler_t (*wiced_bt_mesh_core_get_msg_handler_callback_t)(uint16_t company_id, uint16_t opcode, uint16_t *p_model_id, uint8_t* p_rpl_flag);
 
 /**
  * \brief Publication request callback.
@@ -729,6 +729,8 @@ typedef struct
  */
 typedef struct
 {
+    uint8_t   pb_priv_key[WICED_BT_MESH_PROVISION_PRIV_KEY_LEN];        /**< public key of the node for ECDH authentication */
+    uint8_t   pb_public_key[WICED_BT_MESH_PROVISION_PUBLIC_KEY_LEN];    /**< private key of the node for ECDH authentication */
     uint32_t  conn_id;            /**< link id (connection id) for PB_ADV */
     uint8_t   state;              /**< one of the BP_ADV_TRANSPORT_STATE_XXX */
     uint8_t   client_pdu_sent;    /**< TRUE(>0) during the time when RPR client is senfing PDU to the provisioning node */
@@ -1140,25 +1142,6 @@ extern wiced_bool_t wiced_bt_core_boost_cpu_on_crypt_op;
 wiced_bool_t wiced_bt_mesh_core_get_network_id(uint16_t net_key_idx, uint8_t *network_id);
 
 /**
- * \brief Remote Provisioning Server initialization
- *
- * @param       None
- *
- * @return      None
- */
-void wiced_bt_mesh_remote_provisioning_server_init(void);
-
-/**
-* Process Advertising Packets to check if the packet is for remote provisioning server.
-*
-* @param  p_adv_report Advertising report paremeters
-* @param  p_adv_data Advertising data
-*
-* @return   WICED_TRUE/WICED_FALSE - success/failed.
-*/
-wiced_bool_t wiced_bt_mesh_remote_provisioning_adv_packet(wiced_bt_ble_scan_results_t *p_adv_report, uint8_t *p_adv_data);
-
-/**
 * \brief Encrypt or decrypts and authenticates data
 * @param[in]    encrypt         TRUE - encrypt, FALSE - decrypt
 * @param[in]    p_in_data       Input data
@@ -1294,6 +1277,48 @@ extern uint16_t    wiced_bt_mesh_core_proxy_adv_interval;
  * @return      Pointer to the application key. On error returns NULL.
  */
 const uint8_t* wiced_bt_mesh_core_get_app_key(uint16_t appkey_global_idx, wiced_bool_t newKeyAtKeyRefresh);
+
+/* The Bits of the modules of the mesh_core_lib for wiced_bt_mesh_core_set_trace_level */
+#define WICED_BT_MESH_CORE_TRACE_FID_MESH_DISCOVERY         0x00000002
+#define WICED_BT_MESH_CORE_TRACE_FID_ACESS_LAYER            0x00000004
+#define WICED_BT_MESH_CORE_TRACE_FID_CORE_AES_CCM           0x00000008
+#define WICED_BT_MESH_CORE_TRACE_FID_IV_UPDT                0x00000010
+#define WICED_BT_MESH_CORE_TRACE_FID_KEY_REFRESH            0x00000020
+#define WICED_BT_MESH_CORE_TRACE_FID_FOUNDATION             0x00000040
+#define WICED_BT_MESH_CORE_TRACE_FID_FOUNDATION_CFG_MODEL   0x00000080
+#define WICED_BT_MESH_CORE_TRACE_FID_FOUNDATION_CRT_MSG     0x00000100
+#define WICED_BT_MESH_CORE_TRACE_FID_FOUNDATION_HEARTBEAT   0x00000200
+#define WICED_BT_MESH_CORE_TRACE_FID_FOUNDATION_IDENTITY    0x00000400
+#define WICED_BT_MESH_CORE_TRACE_FID_FOUNDATION_MSG_HANDLER 0x00000800
+#define WICED_BT_MESH_CORE_TRACE_FID_NETWORK_LAYER          0x00001000
+#define WICED_BT_MESH_CORE_TRACE_FID_LOWER_TRANSPORT_LAYER  0x00002000
+#define WICED_BT_MESH_CORE_TRACE_FID_UPPER_TRANSPORT_LAYER  0x00004000
+#define WICED_BT_MESH_CORE_TRACE_FID_PB_TRANSPORT           0x00008000
+#define WICED_BT_MESH_CORE_TRACE_FID_PROVISIONING           0x00010000
+#define WICED_BT_MESH_CORE_TRACE_FID_MESH_CORE              0x00020000
+#define WICED_BT_MESH_CORE_TRACE_FID_MESH_UTIL              0x00040000
+#define WICED_BT_MESH_CORE_TRACE_FID_FRIENDSHIP             0x00080000
+#define WICED_BT_MESH_CORE_TRACE_FID_LOW_POWER              0x00100000
+#define WICED_BT_MESH_CORE_TRACE_FID_FRIEND                 0x00200000
+#define WICED_BT_MESH_CORE_TRACE_FID_HEALTH                 0x00400000
+#define WICED_BT_MESH_CORE_TRACE_FID_MESH_EVENT             0x00800000
+#define WICED_BT_MESH_CORE_TRACE_FID_ALL                    0xffffffff
+
+#define WICED_BT_MESH_CORE_TRACE_DEBUG      4
+#define WICED_BT_MESH_CORE_TRACE_INFO       3
+#define WICED_BT_MESH_CORE_TRACE_WARNING    2
+#define WICED_BT_MESH_CORE_TRACE_CRITICAL   1
+#define WICED_BT_MESH_CORE_TRACE_NO         0
+
+/**
+ * \brief Sets trace level for modules of mesh_core_lib.
+ * \details Application may call this function to set trace level for modules of mesh_core_lib. By default trace level for all modules is 0(no trace).
+ * This function can be called few times to set different trace levels for different modules.
+ *
+ * @param[in]   fids_mask   Mask of modules of the mesh_core_lib to set trace level. It can be any combination of bits WICED_BT_MESH_CORE_TRACE_FID_XXX.
+ * @param[in]   level       Trace level to set for modules of the mesh_core_lib. It can be any of WICED_BT_MESH_CORE_TRACE_XXX.
+ */
+void wiced_bt_mesh_core_set_trace_level(uint32_t fids_mask, uint8_t level);
 
 /* @} wiced_bt_mesh_core */
 /* @} wiced_bt_mesh */

@@ -89,8 +89,6 @@ typedef struct wiced_bt_mesh_event__t
     uint16_t        src;            /**< Address of the source mesh node */
     uint16_t        dst;            /**< Address of the destination mesh node */
     uint16_t        app_key_idx;    /**< Application key index used to decrypt when message was received or which should be used to encrypt to send the message */
-    uint16_t        num_in_group;   /**< number of devices in the group list */
-    uint16_t        *group_list;    /**< If dst is a group address, this points to the array of with individual unicast addresses */
     uint16_t        data_len;       /**< Length of data corresponding to the event */
     uint8_t         credential_flag;/**< Value of the Friendship Credential Flag */
     uint8_t         retrans_cnt;    /**< Number of retransmissions for each message. Should be <= 0x7f. It is ignored using 0 value or if it is reply (reply == WICED_TRUE). */

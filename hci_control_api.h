@@ -86,6 +86,7 @@
 #define HCI_CONTROL_GROUP_SCRIPT                              0x25
 #define HCI_CONTROL_GROUP_OTP                                 0x26
 #define HCI_CONTROL_GROUP_MCE                                 0x27
+#define HCI_CONTROL_GROUP_HK                                  0x28
 #define HCI_CONTROL_GROUP_MISC                                0xFF
 
 #define HCI_CONTROL_GROUP(x) ((((x) >> 8)) & 0xff)
@@ -236,6 +237,7 @@
 #define HCI_CONTROL_HIDD_COMMAND_HID_HOST_ADDR              ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x05 )     /* Paired host address */
 #define HCI_CONTROL_HIDD_COMMAND_DISCONNECT                 ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x06 )     /* Disconnect HID connection */
 #define HCI_CONTROL_HIDD_COMMAND_VIRTUAL_UNPLUG             ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x07 )     /* Send Virtual Unplug */
+#define HCI_CONTROL_HIDD_COMMAND_KEY                        ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x08 )     /* Send USB key */
 
 /* Test commands */
 #define HCI_CONTROL_TEST_COMMAND_ENCAPSULATED_HCI_COMMAND   ( ( HCI_CONTROL_GROUP_TEST << 8 ) | 0x10 )     /* Encapsulated HCI command - For manufacturing test purposes */
@@ -520,6 +522,16 @@
 
 #define HCI_CONTROL_MESH_COMMAND_CONFIG_MODEL_ADD                           ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xb0 )  /* Add Vendor Model */
 
+#define HCI_CONTROL_MESH_COMMAND_TRACE_CORE_SET                             ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xb1 )  /* Set Level for Core Traces */
+#define HCI_CONTROL_MESH_COMMAND_TRACE_MODELS_SET                           ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xb2 )  /* Set Level for Models Traces */
+#define HCI_CONTROL_MESH_COMMAND_RSSI_TEST_START                            ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xb3 )  /* Start RSSI test */
+#define HCI_CONTROL_MESH_COMMAND_SET_ADV_TX_POWER                           ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xb4 )  /* Set Mesh Core ADV Tx Power */
+
+#define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_UPLOAD_START               ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xc0 )  /* Prepare Distribution Client for FW Upload */
+#define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_UPLOAD_DATA                ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xc1 )  /* FW Upload next data chunk */
+#define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_UPLOAD_FINISH              ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xc2 )  /* FW Upload completed */
+#define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_UPLOAD_GET_STATUS          ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xc3 )  /* Get current status and phase */
+
 #define HCI_CONTROL_MESH_COMMAND_SET_LOCAL_DEVICE                           ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe0 )  /* Set Local Device. Application can set it once to make provisioner client. */
 #define HCI_CONTROL_MESH_COMMAND_SET_DEVICE_KEY                             ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe1 )  /* Setup device key.  Application can set it once and then send multiple configuration commands. */
 #define HCI_CONTROL_MESH_COMMAND_CORE_LOW_POWER_SEND_FRIEND_CLEAR           ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe2 )  /* Terminate friendship with a Friend by sending a Friend Clear */
@@ -589,6 +601,13 @@
 #define HCI_CONTROL_MCE_COMMAND_SET_MESSAGE_STATUS          ( ( HCI_CONTROL_GROUP_MCE << 8 ) | 0x09 )      /* Set message status */
 #define HCI_CONTROL_MCE_COMMAND_ABORT                       ( ( HCI_CONTROL_GROUP_MCE << 8 ) | 0x0A )      /* Abort */
 #define HCI_CONTROL_MCE_COMMAND_NOTIF_REG                   ( ( HCI_CONTROL_GROUP_MCE << 8 ) | 0x0B )      /* Register for message notification */
+
+/* HomeKit commands */
+#define HCI_CONTROL_HK_COMMAND_READ                         ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x01 )    /* Read characteristic */
+#define HCI_CONTROL_HK_COMMAND_WRITE                        ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x02 )    /* Write characteristic */
+#define HCI_CONTROL_HK_COMMAND_LIST                         ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x03 )    /* List all characteristics */
+#define HCI_CONTROL_HK_COMMAND_FACTORY_RESET                ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x04 )    /* Factory reset */
+#define HCI_CONTROL_HK_COMMAND_GET_TOKEN                    ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x05 )    /* Get software authentication token */
 
 /* General events that the controller can send */
 #define HCI_CONTROL_EVENT_COMMAND_STATUS                    ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x01 )    /* Command status event for the requested operation */
@@ -958,6 +977,9 @@
 
 #define HCI_CONTROL_MESH_EVENT_RAW_MODEL_DATA                               ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xbf )  /* Raw model data from the access layer */
 
+#define HCI_CONTROL_MESH_EVENT_FW_DISTRIBUTION_UPLOAD_STATUS                ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xc0 )  /* Prepare Distribution Client for FW Upload */
+#define HCI_CONTROL_MESH_EVENT_RSSI_TEST_RESULT                             ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xc1 )  /* RSSI test result */
+
 #define HCI_CONTROL_MESH_EVENT_PROXY_CONNECTION_STATUS                      ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe0 )  /* Proxy connection status */
 
 #define HCI_CONTROL_MESH_EVENT_NODE_RESET_STATUS                            ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0xe1 )  /* Config Node Reset status */
@@ -1051,6 +1073,12 @@
 #define HCI_CONTROL_MCE_EVENT_NOTIF_REG                     ( ( HCI_CONTROL_GROUP_MCE << 8 ) | 0x0B )      /* Notification registration result */
 #define HCI_CONTROL_MCE_EVENT_NOTIF                         ( ( HCI_CONTROL_GROUP_MCE << 8 ) | 0x0C )      /* Notification */
 
+/* HomeKit events */
+#define HCI_CONTROL_HK_EVENT_READ_RESPONSE                  ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x01 )    /* Response to read characteristic command */
+#define HCI_CONTROL_HK_EVENT_UPDATE                         ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x02 )    /* Characteristic value update */
+#define HCI_CONTROL_HK_EVENT_LIST_ITEM                      ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x03 )    /* Characteristic list item */
+#define HCI_CONTROL_HK_EVENT_TOKEN_DATA                     ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x04 )    /* Software token data */
+
 /* Status codes returned in HCI_CONTROL_EVENT_COMMAND_STATUS the event */
 #define HCI_CONTROL_STATUS_SUCCESS                          0
 #define HCI_CONTROL_STATUS_IN_PROGRESS                      1
@@ -1143,5 +1171,10 @@
 #define HCI_CONTROL_MCE_PARAM_NOTIF_STATUS                  16  /* Notification status (1:ON, 0:OFF), 1 byte */
 #define HCI_CONTROL_MCE_PARAM_MAX_LIST_COUNT                17  /* Maximum number of items listed, 2 bytes */
 #define HCI_CONTROL_MCE_PARAM_LIST_START_OFFSET             18  /* Offset of the first item in list, 2 bytes */
+
+/* HomeKit software token data flags */
+#define HCI_TOKEN_DATA_FLAG_START                           0x01
+#define HCI_TOKEN_DATA_FLAG_END                             0x02
+#define HCI_TOKEN_DATA_FLAG_UUID                            0x04
 
 #endif /* HCI_CONTROL_API.H_ */

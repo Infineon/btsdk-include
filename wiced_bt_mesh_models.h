@@ -292,8 +292,7 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @anchor FW_DISTRIBUTION_EVENT
  * @name Definition for messages exchanged between an app and FW Distribution Model
  * @{ */
-#define WICED_BT_MESH_FW_DISTRIBUTION_STATUS                153  /**< Reply to  Get message */
-#define WICED_BT_MESH_FW_DISTRIBUTION_START_OTA             154  /**< Start OTA for upload */
+#define WICED_BT_MESH_FW_DISTRIBUTION_STATUS                153  /**< Status change event and Get Status response */
 /** @} FW_DISTRIBUTION_EVENT */
 
 /**
@@ -5841,18 +5840,6 @@ wiced_result_t wiced_bt_mesh_model_scheduler_client_send_action_set(wiced_bt_mes
  * @{
  */
 
-
-/**
-* \brief FW Distribution Server callback is called by the Mesh Models library on receiving a message from the peer
-*
-* @param       event The event that the application should process (see @ref FW_DISTRIBUTION_EVENT "FW Distribution Events")
-* @param       p_event information about the message received.  The same pointer should be used in the reply if required.
-* @param       p_data Pointer to the status/details list data
-*
-* @return      None
-*/
-typedef void(wiced_bt_mesh_fw_distribution_server_callback_t)(uint16_t event, wiced_bt_mesh_event_t *p_event, void *p_data);
-
 /**
 * \brief Firmware Distribution Server Message Handler
 * \details The Mesh Core library calls this function for each message received.  The function returns WICED_TRUE if the message is destined for this specific model and successfully processed, and returns WICED_FALSE otherwise. FW Distribution Server.
@@ -5877,95 +5864,51 @@ void wiced_bt_mesh_model_fw_distribution_server_init(void);
 /* @} wiced_bt_mesh_fw_distribution_server */
 
 /* Firmware distribution firmware ID structure */
-#ifndef FW_DISTRIBUTION_FW__ID
-#define FW_DISTRIBUTION_FW__ID
 typedef PACKED struct
 {
+#define MESH_CYPRESS_FW_ID_LEN              11
     uint8_t  fw_id_len;                                 /**< length of firmware id stored in fw_id */
-#define WICED_BT_MESH_MAX_FIRMWARE_ID_LEN   16          /**< MAX len of firmware id is 16 bytes  TODO */
+#define WICED_BT_MESH_MIN_FIRMWARE_ID_LEN   2           /**< At minimum FW ID shall contain 2 bytes of company ID */
+#define WICED_BT_MESH_MAX_FIRMWARE_ID_LEN   113         /**< MAX len of firmware id is 113 bytes */
     uint8_t  fw_id[WICED_BT_MESH_MAX_FIRMWARE_ID_LEN];  /**< firmware id. maximum length is defined by WICED_BT_MESH_MAX_FIRMWARE_ID_LEN */
 } mesh_dfu_fw_id_t;
-#endif
 
-/**
-* FW Update Information Status Data structure exchanged between the application and FW Update Model
-*/
-typedef struct
+/* Firmware distribution meta data structure */
+typedef PACKED struct
 {
-    mesh_dfu_fw_id_t firmware_id;   /**< Firmware ID*/
-#define MESH_MAX_URL_LEN 128        /* TODO */
-    uint8_t url[MESH_MAX_URL_LEN];  /**<  URL */
-} wiced_bt_mesh_fw_update_fw_info_get_t;
-
-
-typedef struct
-{
-    mesh_dfu_fw_id_t firmware_id; /**< Firmware ID*/
-} wiced_bt_mesh_fw_update_get_t;
-
-typedef struct
-{
-    mesh_dfu_fw_id_t firmware_id;           /**< Firmware ID to be prepare */
-    uint8_t blob_id[8];                     /**< BLOB ID to be prepared */
-    uint8_t vendor_validation_data[256];    /**< Vendor validation data info */
-}wiced_bt_mesh_fw_update_prepare_t;
-
-
-typedef struct
-{
-    uint8_t update_policy;                  /**< Update policy */
-    mesh_dfu_fw_id_t firmware_id;           /**< Firmware ID to be start*/
-} wiced_bt_mesh_fw_update_start_t;
-
-
-typedef struct
-{
-    mesh_dfu_fw_id_t firmware_id;           /**< Firmware ID to be abort */
-} wiced_bt_mesh_fw_update_abort_t;
-
-
-typedef struct
-{
-    mesh_dfu_fw_id_t firmware_id;           /**< Firmware ID to be apply */
-}wiced_bt_mesh_fw_update_apply_t;
-
-
-
-/**
-* FW Update Status Data structure exchanged between the application and FW Update Model
-*/
-typedef struct
-{
-    uint8_t status;                                             /**< Status of the FW Update */
-    uint8_t phase;                                              /**< 3 bit value - phase of the update */
-    uint8_t additional_information;                             /**< 5 bit bitfield with additional information */
-    mesh_dfu_fw_id_t firmware_id;                               /**< Firmware ID */
-
-#define MESH_MAX_FIRMWARE_UPDATE_BLOB_LEN 64
-    uint8_t blob_id[MESH_MAX_FIRMWARE_UPDATE_BLOB_LEN];         /**< BLOB ID */
-} wiced_bt_mesh_fw_update_status_data_t;
-
-/**
-* FW Update Information Status Data structure exchanged between the application and FW Update Model
-*/
-typedef struct
-{
-    uint8_t status;                                         /**< Status of the FW info status TBD */
-    mesh_dfu_fw_id_t firmware_id;                           /**< Firmware ID*/
-#define MESH_MAX_URL_LEN 128                                /**< ToDo */
-    uint8_t url[MESH_MAX_URL_LEN];                          /**< URL */
-} wiced_bt_mesh_fw_update_fw_info_status_data_t;
+    uint8_t  len;                                       /**< length of firmware id stored in fw_id */
+#define WICED_BT_MESH_MAX_VALIDATION_DATA_LEN   255     /**< MAX len of validation data is 255 bytes */
+    uint8_t  data[WICED_BT_MESH_MAX_VALIDATION_DATA_LEN];  /**< validation data */
+} mesh_dfu_meta_data_t;
 
 /**
 * FW Distribution Distributor Capabilities
 */
 typedef struct
 {
-    uint16_t max_nodes;                                     /**< Maximum Nodes List Size */
-    uint8_t  oob_supported;                                 /**< Out-of-Band Retrieval Supported */
+    uint16_t max_node_list_size;                            /**< Maximum possible number of entries on the list of nodes */
+    uint16_t max_firmware_list_size;                        /**< Maximum possible number of entries on the list of firmwares */
+    uint32_t max_firmware_size;                             /**< Maximum size of one firmware in octets */
+    uint32_t max_upload_space;                              /**< Size of the Distributor’s storage in octets */
+    uint32_t remaining_upload_space;                        /**< Available size in the storage on the Distributor in octets */
+    uint8_t  oob_supported;                                 /**< Value of the Out-of-Band Retrieval Supported state */
 #define MESH_MAX_URI_SCHEME_NAMES 10                        /**< ToDo */
-    uint8_t uri_scheme_names[MESH_MAX_URI_SCHEME_NAMES];    /**< Supported URI Scheme Names */
+    uint8_t  uri_scheme_names[MESH_MAX_URI_SCHEME_NAMES];   /**< Value of the Supported URI Scheme Names state */
 } wiced_bt_mesh_fw_distr_caps_t;
+
+/**
+* FW Distribution Updating Node Item
+*/
+typedef struct
+{
+    unsigned int address : 15;                              /**< 15 least significant bits of a unicast address of the Updating Node */
+    unsigned int retrieved_update_phase : 4;                /**< Retrieved Update Phase state of the Updating Node */
+    unsigned int update_status : 3;                         /**< Status of the last operation with the Firmware Update Server model */
+    unsigned int transfer_status : 4;                       /**< Status of the last operation with the BLOB Transfer server model */
+    unsigned int transfer_progress : 6;                     /**< Percentage calculated as (2 * Transfer Progress) */
+} wiced_bt_mesh_fw_updating_node_item_t;
+
+#define WICED_BT_MESH_UPDATING_NODE_ITEM_SIZE               4
 
 /**
  * @addtogroup  wiced_bt_mesh_fw_update_client   Mesh FW Update Client
@@ -5979,17 +5922,6 @@ typedef struct
  */
 
 /**
-* \brief FW Update Client callback is called by the Mesh Models library on receiving a message from the peer
-*
-* @param       event The event that the application should process (see @ref FW_UPDATE_EVENT "FW update Events")
-* @param       p_event information about the message received.  The same pointer should be used in the reply if required.
-* @param       p_data Pointer to the level data
-*
-* @return      None
-*/
-typedef void(wiced_bt_mesh_fw_update_client_callback_t)(uint16_t event, wiced_bt_mesh_event_t *p_event, void *p_data);
-
-/**
 * \brief Generic Level Client Message Handler
 * \details The Mesh Core library calls this function for each message received.  The function returns WICED_TRUE if the message is destined for this specific model and successfully processed, and returns WICED_FALSE otherwise. Generic Level Server device.
 * The function parses the message and if appropriate calls the parent back to perform functionality.
@@ -6001,68 +5933,7 @@ typedef void(wiced_bt_mesh_fw_update_client_callback_t)(uint16_t event, wiced_bt
 * @return      WICED_TRUE if the message is for this company ID/Model/Element Index combination, WICED_FALSE otherwise.
 */
 wiced_bool_t wiced_bt_mesh_model_fw_update_client_message_handler(wiced_bt_mesh_event_t *p_event, uint8_t *p_data, uint16_t data_len);
-
-/**
-* \brief Level Client Module initialization
-*
-* @param       element_idx Device element to where model is used
-* @param       p_callback The application callback function that will be executed by the mesh models library when application action is required, or when a reply for the application request has been received.
-* @param       is_provisioned If TRUE, the application is being restarted after being provisioned or after a power loss. If FALSE the model cleans up NVRAM on startup.
-*
-* @return      None
-*/
-void wiced_bt_mesh_model_fw_update_client_init(uint8_t element_idx, void *p_callback, wiced_bool_t is_provisioned);
-
-/**
-* \brief The application can call this function to send Generic Level Get message to the server.
-*
-* @param       p_event Mesh event with the information about the message that has been created by the app for unsolicited message.
-*
- * @return      WICED_BT_SUCCESS if message has been queued for transmission.
- */
-wiced_result_t wiced_bt_mesh_model_fw_update_client_send_get(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_fw_update_get_t *p_data);
-
-/**
-* \brief The application can call this function to send Set Level client message to the server.
-*
-* @param       p_event Mesh event with the information about the message that has been created by the app for unsolicited message.
-* @param       p_data Pointer to the data to send
-*
- * @return      WICED_BT_SUCCESS if message has been queued for transmission.
- */
-wiced_result_t wiced_bt_mesh_model_fw_update_client_send_prepare(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_fw_update_prepare_t *p_data);
-
-/**
-* \brief The application can call this function to send Set Delta Level client message to the server.
-*
-* @param       p_event Mesh event with the information about the message that has been created by the app for unsolicited message.
-* @param       p_data Pointer to the data to send
-*
- * @return      WICED_BT_SUCCESS if message has been queued for transmission.
- */
-wiced_result_t wiced_bt_mesh_model_fw_update_client_send_start(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_fw_update_start_t *p_data);
-
-/**
-* \brief The application can call this function to send Set Move client message to the server.
-*
-* @param       p_event Mesh event with the information about the message that has been created by the app for unsolicited message.
-* @param       p_data Pointer to the data to send
-*
- * @return      WICED_BT_SUCCESS if message has been queued for transmission.
- */
-wiced_result_t wiced_bt_mesh_model_fw_update_client_send_abort(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_fw_update_abort_t *p_data);
-
-/**
-* \brief The application can call this function to send Set Move client message to the server.
-*
-* @param       p_event Mesh event with the information about the message that has been created by the app for unsolicited message.
-* @param       p_data Pointer to the data to send
-*
- * @return      WICED_BT_SUCCESS if message has been queued for transmission.
- */
-wiced_result_t wiced_bt_mesh_model_fw_update_client_send_apply(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_fw_update_apply_t *p_data);
-/* @} wiced_bt_mesh_fw_distribution_client */
-
+/* @} wiced_bt_mesh_fw_update_client */
 
 
 /**
@@ -6080,6 +5951,7 @@ typedef struct
     uint16_t    max_chunk_size;                         /**< Max chunk size */
     uint32_t    max_blob_size;                          /**< Maximum BLOB size which can be stored */
     uint16_t    mtu;                                    /**< Maximum payload size which fits into one message */
+    uint8_t     supported_transfer_mode;                /**< BLOB transfer mode supported by the server */
 } mesh_blob_transfer_capabilities_state_t;
 
 
@@ -6093,11 +5965,6 @@ typedef struct
 #define WICED_BT_MESH_BLOB_TRANSFER_SUSPENDED   3
     uint8_t     status;                                 /**< BLOB block status */
 } wiced_bt_mesh_blob_transfer_complete_t;
-
-#define WICED_BT_MESH_BLOB_TRANSFER_STATE_IDLE      0
-#define WICED_BT_MESH_BLOB_TRANSFER_STATE_ACTIVE    1
-#define WICED_BT_MESH_BLOB_TRANSFER_STATE_COMPLETED 2
-#define WICED_BT_MESH_BLOB_TRANSFER_STATE_FAILED    3
 
 /**
  * @addtogroup  wiced_bt_mesh_blob_transfer_client   Mesh BLOB Transfer Client
@@ -6156,28 +6023,6 @@ wiced_bool_t wiced_bt_mesh_model_blob_transfer_client_message_handler(wiced_bt_m
 void wiced_bt_mesh_model_blob_transfer_client_init(wiced_bt_mesh_blob_transfer_client_callback_t *p_callback, wiced_bt_mesh_blob_transfer_client_data_callback_t *p_data_callback);
 
 /**
- * \brief BLOB Transfer Client Get Info
- * \details A layer that utilizing BLOB Transfer Client services can call this function to to inquire device capabilities of a specic node.
- * called on the execution of further function calls.
- *
- * @param       unicast_addr Address of the BLOB Transfer Server
- * @param       app_key_idx App Key Index to be used to secure the message
- *
- * @return      WICED_TRUE if message to get information was successfully sent out
- */
-wiced_bool_t wiced_bt_mesh_blob_transfer_client_get_info(uint16_t unicast_addr, uint16_t app_key_idx);
-
-/**
- * \brief The application can call this function to send Get BLOB Transfer Phase Client message to the server.
- *
- * @param       unicast_addr Address of the BLOB Transfer Server
- * @param       app_key_idx App Key Index to be used to secure the message
- *
- * @return      WICED_TRUE if phase get was sent successfully
- */
-wiced_bool_t wiced_bt_mesh_model_blob_transfer_client_phase_get(uint16_t unicast_addr, uint16_t app_key_idx);
-
-/**
  * \brief BLOB Transfer Start
  * \details A client model above BLOB Transfer Client or an application can call this function to start actual BLOB transfer.
  * The tranfer is done using the multicast to a group address.  The BLOB is split into blocks which is then split into chunks.  The
@@ -6189,10 +6034,12 @@ wiced_bool_t wiced_bt_mesh_model_blob_transfer_client_phase_get(uint16_t unicast
  * @param       p_blob_id           BLOB ID for the current transmission
  * @param       blob_size           Size of the BLOB to distribute
  * @param       app_key_idx         App Key Index of the key to be used for securing the data
+ * @param       transfer_mode       Pull/Push
+ * @param       ttl                 TTL used by BLOB transfer for all messages
  *
  * @return      WICED_TRUE if distribution has been started successfully
  */
-wiced_bool_t wiced_bt_mesh_model_blob_transfer_client_start(uint16_t group_addr, uint16_t *p_group_list, uint16_t group_size, uint8_t *p_blob_id, uint32_t blob_size, uint16_t app_key_idx);
+wiced_bool_t wiced_bt_mesh_model_blob_transfer_client_start(uint16_t group_addr, uint16_t *p_group_list, uint16_t group_size, uint8_t *p_blob_id, uint32_t blob_size, uint16_t app_key_idx, uint8_t transfer_mode, uint8_t ttl);
 
 /**
  * \brief BLOB Transfer Abort
@@ -6205,31 +6052,18 @@ wiced_bool_t wiced_bt_mesh_model_blob_transfer_client_start(uint16_t group_addr,
 wiced_bool_t wiced_bt_mesh_model_blob_transfer_client_abort(uint8_t *p_blob_id);
 
 /**
- * \brief BLOB Transfer Client Get Status
- * \details A client model above BLOB Transfer Client or an application can call this function to retrieve status of current transfer.
- * The function executes and returns results syncronously.
- *
- * @param       p_state             Pointer to the state
- * @param       p_cur_block_num     Pointer to the current block number
- * @param       p_total_blocks      Pointer to the total number of blocks
- *
- * @return      WICED_TRUE if distribution has been started successfully
- */
-wiced_bool_t wiced_bt_mesh_blob_transfer_client_get_status(uint8_t *p_state, uint16_t *cur_block_num, uint16_t *p_total_blocks);
-/* @} wiced_bt_mesh_blob_transfer_client */
-
-/**
  * \brief BLOB Transfer Client Get Node Status
  * \details A client model above BLOB Transfer Client or an application can call this function to retrieve status of a node.
  * The function executes and returns results syncronously.
  *
  * @param       unicast_addr    Address of the node (BLOB Transfer Server)
  * @param       p_state         Pointer to return the node state
+ * @param       p_status        Pointer to return the node last received status
  * @param       p_progress      Pointer to return the transfer progress (if in active state, otherwise return 0)
  *
  * @return      WICED_TRUE if node exist
  */
-wiced_bool_t wiced_bt_mesh_blob_transfer_client_get_node_status(uint16_t unicast_addr, uint8_t *p_state, uint8_t *p_progress);
+wiced_bool_t wiced_bt_mesh_blob_transfer_client_get_node_status(uint16_t unicast_addr, uint8_t *p_state, uint8_t* p_status, uint8_t *p_progress);
 /* @} wiced_bt_mesh_blob_transfer_client */
 
 /**
@@ -6327,11 +6161,13 @@ wiced_bool_t wiced_bt_mesh_model_blob_transfer_server_message_handler(wiced_bt_m
  * @param       element_idx Device element to where model is used
  * @param       blob_id     Pointer to BLOB ID
  * @param       new_blob    TRUE: start new update, FALSE: resume previous update
+ * @param       ttl         TTL used by BLOB transfer for all messages
+ * @param       time_out    BLOB transfer idle time out
  * @param       p_callback  The application callback function that will be executed by the mesh models library when application action is required, or when a reply for the application request has been received.
  *
  * @return      None
  */
-void wiced_bt_mesh_model_blob_transfer_prepare(uint8_t element_idx, uint8_t *blob_id, wiced_bool_t new_blob, wiced_bt_mesh_blob_transfer_server_callback_t *p_callback);
+void wiced_bt_mesh_model_blob_transfer_prepare(uint8_t element_idx, uint8_t *blob_id, wiced_bool_t new_blob, uint8_t ttl, uint16_t time_out, wiced_bt_mesh_blob_transfer_server_callback_t *p_callback);
 
 /**
  * \brief BLOB Transfer Server abort transfer
@@ -6341,6 +6177,15 @@ void wiced_bt_mesh_model_blob_transfer_prepare(uint8_t element_idx, uint8_t *blo
  * @return      None
  */
 void wiced_bt_mesh_model_blob_transfer_abort(uint8_t element_idx);
+
+/**
+ * \brief BLOB Transfer Server get current phase
+ *
+ * @param       element_idx Device element to where model is used
+ *
+ * @return      None
+ */
+uint8_t wiced_bt_mesh_model_blob_transfer_get_phase(uint8_t element_idx);
 /* @} wiced_bt_mesh_blob_transfer_server */
 
 /*

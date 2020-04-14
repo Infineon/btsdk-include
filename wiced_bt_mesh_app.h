@@ -221,7 +221,7 @@ extern void wiced_bt_mesh_skip_wiced_hci_hdr(uint8_t **p_data, uint32_t *len);
 
 extern uint8_t wiced_bt_mesh_get_element_idx_from_wiced_hci(uint8_t **p_data, uint32_t *len);
 
-extern void mesh_transport_send_data(uint16_t opcode, uint8_t *p_trans_buf, uint16_t data_len);
+extern wiced_result_t mesh_transport_send_data(uint16_t opcode, uint8_t *p_trans_buf, uint16_t data_len);
 
 extern void wiced_bt_mesh_send_hci_tx_complete(wiced_bt_mesh_hci_event_t *p_hci_event, wiced_bt_mesh_event_t *p_event);
 

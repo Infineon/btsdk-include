@@ -42,6 +42,7 @@
 
 #include "wiced_bt_mesh_event.h"
 #include "wiced_bt_mesh_model_defs.h"
+#include "wiced_bt_mesh_models.h"
 
 #if defined _WIN32 || defined WICEDX_LINUX || defined __ANDROID__ || defined __APPLE__
 #define PACKED
@@ -162,6 +163,20 @@ extern "C"
 #define WICED_BT_MESH_RAW_MODEL_DATA                         253  /**< Raw model data for the apps that handle model layer */
 #define WICED_BT_MESH_PROXY_CONNECTION_STATUS                254  /**< Proxy connection status */
 #define WICED_BT_MESH_TX_COMPLETE                            255  /**< Transmission completed, or timeout waiting for peer ack. */
+
+/**
+ * @anchor FW_DISTRIBUTION_STATE
+ * @name Definitions of firmware distribution states
+ * @{ */
+#define WICED_BT_MESH_DFU_STATE_INIT                        0    /**< Initial state */
+#define WICED_BT_MESH_DFU_STATE_VALIDATE_NODES              1    /**< Checking if nodes can accept the firmware */
+#define WICED_BT_MESH_DFU_STATE_GET_DISTRIBUTOR             2    /**< Finding a proper node as Distributor */
+#define WICED_BT_MESH_DFU_STATE_UPLOAD                      3    /**< Uploading firmware from Initiator to Distributor */
+#define WICED_BT_MESH_DFU_STATE_DISTRIBUTE                  4    /**< Distributing firmware from Distributor to Updating Nodes */
+#define WICED_BT_MESH_DFU_STATE_APPLY                       5    /**< Applying firmware on Updating Nodes */
+#define WICED_BT_MESH_DFU_STATE_COMPLETE                    6    /**< Firmware distribution completed successfully */
+#define WICED_BT_MESH_DFU_STATE_FAILED                      7    /**< Firmware distribution failed */
+ /** @} FW_DISTRIBUTION_STATE */
 
 /* This structure contains information sent from the provisioner application to provisioner library to setup local device */
 typedef struct
@@ -846,35 +861,16 @@ typedef PACKED struct
     uint16_t list_size;                 /**< Number of addresses in the proxy filter list. */
 } wiced_bt_mesh_proxy_filter_status_data_t;
 
-/* Firmware distribution firmware ID structure */
-#ifndef FW_DISTRIBUTION_FW__ID
-#define FW_DISTRIBUTION_FW__ID
-typedef PACKED struct
-{
-    uint8_t  fw_id_len;                                 /**< length of firmware id stored in fw_id */
-#define WICED_BT_MESH_MAX_FIRMWARE_ID_LEN   16          /**< MAX len of firmware id is 16 bytes TODO */
-    uint8_t  fw_id[WICED_BT_MESH_MAX_FIRMWARE_ID_LEN];  /**< firmware id. maximum length is defined by WICED_BT_MESH_MAX_FIRMWARE_ID_LEN */
-} mesh_dfu_fw_id_t;
-#endif
-
-/* Firmware distribution validation data structure */
-typedef PACKED struct
-{
-    uint8_t  len;                                       /**< length of firmware id stored in fw_id */
-#define WICED_BT_MESH_MAX_VALIDATION_DATA_LEN   255     /**< MAX len of validation data is 255 bytes */
-    uint8_t  data[WICED_BT_MESH_MAX_VALIDATION_DATA_LEN];  /**< validation data */
-} mesh_dfu_validation_data_t;
-
 /* This structure contains information sent from the provisioner application to the firmware distributor to start firware distribution for the specified list of nodes. */
 typedef PACKED struct
 {
     mesh_dfu_fw_id_t firmware_id;                               /**< Firmware ID of the firmware that will be downloaded */
-    mesh_dfu_validation_data_t validation_data;                 /**< Validation data of the firmware that will be downloaded */
+    mesh_dfu_meta_data_t meta_data;                             /**< Meta data of the firmware that will be downloaded */
+    uint16_t proxy_addr;                                        /**< Address of the proxy device */
     uint16_t group_addr;                                        /**< Group address to be used for the nodes being updated */
     uint16_t group_size;                                        /**< Number of elements in the update_node_list */
-#define WICED_BT_MESH_MAX_UPDATES_NODES 128                     /**< MAX number of updating nodes  */
+#define WICED_BT_MESH_MAX_UPDATES_NODES 256                     /**< MAX number of updating nodes  */
     uint16_t update_nodes_list[WICED_BT_MESH_MAX_UPDATES_NODES];/**< List of the nodes */
-    wiced_bool_t ota_supported;                                 /**< Distributor support OTA */
 } wiced_bt_mesh_fw_distribution_start_data_t;
 
 /* This structure contains node information sent from the Distributor node when application requested the status information  */
@@ -888,7 +884,7 @@ typedef PACKED struct
 /* This structure contains information sent from the Distributor node when application requested the status information  */
 typedef PACKED struct
 {
-    uint8_t         phase;                                      /**< Distribution phase */
+    uint8_t         state;                                      /**< Current distribution state (see @ref FW_DISTRIBUTION_STATE) */
     uint16_t        list_size;                                  /**< Node list size */
     uint16_t        node_index;                                 /**< Index of first node */
     uint16_t        num_nodes;                                  /**< Number of nodes */
@@ -1005,7 +1001,7 @@ void wiced_bt_mesh_provision_set_dev_key(wiced_bt_mesh_set_dev_key_data_t *p_dat
 
 /**
  * \brief Add Vendor Model.
- * \details The application can call this function to vendor model to mesh core.
+ * \details The application can call this function to add vendor model to mesh core.
  * Once added, mesh core forwards all vendor specific messages/event to vendor client message handler.
  *
  * @param[in]  p_data Pointer to the data structure with vendor model information.
@@ -1014,6 +1010,16 @@ void wiced_bt_mesh_provision_set_dev_key(wiced_bt_mesh_set_dev_key_data_t *p_dat
  */
 void wiced_bt_mesh_add_vendor_model(wiced_bt_mesh_add_vendor_model_data_t *p_data);
 
+/**
+ * \brief Set ADV Tx Power.
+ * \details The application can call this function to set ADV Tx Power in the mesh core.
+ * Once set, mesh core will use updated Tx power for subsequent advertisements.
+ *
+ * @param[in]  adv_tx_power ADV Tx Power value to set (0:min - 4:max).
+ *
+ * @return   None
+ */
+void wiced_bt_mesh_adv_tx_power_set(uint8_t adv_tx_power);
 
 /* Maximum number of remembered device keys. Default value is 8. */
 extern uint8_t wiced_bt_mesh_provision_dev_key_max_num;

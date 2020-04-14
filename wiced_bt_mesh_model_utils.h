@@ -600,9 +600,28 @@ void mesh_dfu_fw_id_to_data(mesh_dfu_fw_id_t *firmware_id, uint8_t **p_data);
 wiced_bool_t mesh_dfu_compare_fw_id(mesh_dfu_fw_id_t *firmware_id_src, mesh_dfu_fw_id_t *firmware_id_dst);
 
 /*
+ * DFU FW ID / FW verification callbacks
+ */
+typedef wiced_bool_t(*mesh_dfu_active_fw_id_t)(mesh_dfu_fw_id_t* p_id);
+typedef wiced_bool_t(*mesh_dfu_fw_id_verify_t)(mesh_dfu_fw_id_t* p_id);
+typedef wiced_bool_t(*mesh_dfu_fw_verify_t)(uint32_t fw_size, mesh_dfu_fw_id_t *p_fw_id, mesh_dfu_meta_data_t *p_meta_data);
+
+void wiced_bt_mesh_set_dfu_callbacks(mesh_dfu_active_fw_id_t p_active_fw_id_cb, mesh_dfu_fw_id_verify_t p_fw_id_verify_cb, mesh_dfu_fw_verify_t p_fw_verify_cb);
+
+/*
  * Get FW ID from active firmware
  */
 wiced_bool_t mesh_dfu_get_active_fw_id(mesh_dfu_fw_id_t *firmware_id);
+
+/*
+ * Check if FW ID is acceptable
+ */
+wiced_bool_t mesh_dfu_fw_id_acceptable(mesh_dfu_fw_id_t *firmware_id);
+
+/*
+ * Verify received FW with meta data
+ */
+wiced_bool_t mesh_dfu_fw_verify(uint32_t fw_size, mesh_dfu_fw_id_t *p_fw_id, mesh_dfu_meta_data_t *p_meta_data);
 
 /*
  * Find index of an element that contains specified model ID on the device

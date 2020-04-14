@@ -563,6 +563,18 @@ wiced_bool_t wiced_bt_mesh_core_check_node_identity(uint16_t addr, const uint8_t
  /** @} WICED_BT_MESH_CORE_TEST_MODE_SIGNAL */
 
 /**
+* \brief The RPL updates from the Host.
+* \details Application shall call this function to pass RPL updates when RPL persistant storage is on another MCU
+*
+* @param[in]   opcode      : opcode (see HCI_CONTROL_MESH_COMMAND_CORE_XXX in hci_control_api.h)
+* @param[in]   p_data      : data
+* @param[in]   data_len    : length of the data
+*
+* @return      WICED_TRUE if opcode is recognized and handled. Otherwise caller has to call some other handler.
+*/
+wiced_bool_t wiced_bt_mesh_core_proc_rx_cmd(uint16_t opcode, const uint8_t* p_data, uint16_t data_len);
+
+/**
  * \brief The signals for different test modes.
  * \details Application shall support some test modes (for example IV update) used for certification and compliance testing.
  * The activation of the test mode shall be carried out locally (via a HW or SW interface).
@@ -571,9 +583,9 @@ wiced_bool_t wiced_bt_mesh_core_check_node_identity(uint16_t addr, const uint8_t
  * @param[in]   p_data       data
  * @param[in]   data_len     length of the data
  *
- * @return      WICED_BT_SUCCESS if opcode is recognized and handles. Otherwise caller has to call some other handler
+ * @return      WICED_BT_SUCCESS if opcode is recognized and handled. Otherwise caller has to call some other handler.
  */
-wiced_result_t wiced_bt_mesh_core_test_mode_signal(uint16_t opcode, const uint8_t *p_data, uint16_t data_len);
+wiced_bool_t wiced_bt_mesh_core_test_mode_signal(uint16_t opcode, const uint8_t *p_data, uint16_t data_len);
 
 /*
  * \breaf Calculates URI hash URI Hash: s1(URI Data)[0-3]
@@ -1086,6 +1098,7 @@ extern uint16_t wiced_bt_mesh_core_nvm_idx_net_key_begin;
 extern uint16_t wiced_bt_mesh_core_nvm_idx_app_key_begin;
 extern uint16_t wiced_bt_mesh_core_nvm_idx_health_state;
 extern uint16_t wiced_bt_mesh_core_nvm_idx_cfg_data;
+extern uint16_t wiced_bt_mesh_core_nvm_idx_fw_distributor;
 
 /* Advertisements TX Power. Default value is 4. */
 extern uint8_t  wiced_bt_mesh_core_adv_tx_power;

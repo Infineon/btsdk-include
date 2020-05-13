@@ -43,6 +43,7 @@
 #include "wiced_bt_rfcomm.h"
 #include "wiced_bt_trace.h"
 #include "wiced_timer.h"
+#include "wiced_bt_utils.h"
 
 /******************************************************************************
 *  Constants
@@ -438,13 +439,6 @@ extern void wiced_bt_hfp_hf_ssm_execute(wiced_bt_hfp_hf_scb_t *p_scb,
     wiced_bt_hfp_hf_data_t *p_data, uint8_t event);
 
 /* Utility functions */
-extern void wiced_bt_hfp_hf_utils_bdcpy(wiced_bt_device_address_t a,
-    const wiced_bt_device_address_t b);
-extern int wiced_bt_hfp_hf_utils_bdcmp(const wiced_bt_device_address_t a,
-    const wiced_bt_device_address_t b);
-extern int wiced_bt_hfp_hf_utils_strucmp(const char *p_s, const char *p_t);
-extern uint8_t wiced_bt_hfp_hf_utils_itoa(uint16_t i, char *p_s);
-extern int16_t wiced_bt_hfp_hf_utils_str2int(const char *p_s);
 extern int32_t wiced_bt_hfp_hf_utils_str2uint16(const char *p_s);
 
 /* Action functions */

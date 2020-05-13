@@ -361,13 +361,6 @@ typedef struct
     uint16_t  input_oob_action;         /**< Supported Input OOB Actions (see @ref BT_MESH_IN_OOB_ACT "Input OOB Action field values") */
 } wiced_bt_mesh_provision_capabilities_data_t;
 
-/* This structure contains information sent from the provisioner application to provisioner library with out of band data */
-typedef struct
-{
-    uint8_t  data_size;                 /**< Size of the Output OOB used or size of the Input OOB used */
-    uint8_t  data[64];                  /**< Output or Input OOB data */
-} wiced_bt_mesh_provision_oob_value_data_t;
-
 /* This structure contains information sent to the provisioner application from the provisioner library with provisioning result */
 typedef struct
 {
@@ -938,10 +931,11 @@ void wiced_bt_mesh_app_provision_server_configure(wiced_bt_mesh_provision_capabi
  * \details Application should call this function to setup OOB data used during provisioing of the local device
  *
  * @param    p_oob Out of band data
+ * @param    len   Out of band data length
  *
  * @return   WICED_TRUE/WICED_FALSE - success/failed.
  */
-wiced_bool_t wiced_bt_mesh_provision_set_oob(wiced_bt_mesh_provision_oob_value_data_t *p_oob);
+wiced_bool_t wiced_bt_mesh_provision_set_oob(uint8_t *p_oob, uint8_t len);
 
 /**
  * \brief Provision Set Out of Band data
@@ -949,10 +943,11 @@ wiced_bool_t wiced_bt_mesh_provision_set_oob(wiced_bt_mesh_provision_oob_value_d
  *
  * @param    p_event Pointer to the mesh event which identifies remote provisioning server
  * @param    p_oob Out of band data
+ * @param    len   Out of band data length
  *
  * @return   WICED_TRUE/WICED_FALSE - success/failed.
  */
-wiced_bool_t wiced_bt_mesh_provision_client_set_oob(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_provision_oob_value_data_t *p_oob);
+wiced_bool_t wiced_bt_mesh_provision_client_set_oob(wiced_bt_mesh_event_t *p_event, uint8_t *p_oob, uint32_t len);
 
 /**
  * \brief Provision Client callback

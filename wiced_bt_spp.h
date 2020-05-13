@@ -45,6 +45,8 @@ extern "C" {
 
 // MAX packet size that can be sent over SPP
 #define SPP_MAX_PACKET_SIZE    1013
+#define PORT_PURGE_TXCLEAR     0x01
+#define PORT_PURGE_RXCLEAR     0x02
 
 /**
  * @addtogroup  wiced_bt_spp_api_functions        SPP Library API
@@ -203,6 +205,16 @@ void wiced_bt_spp_rx_flow_enabled(uint16_t handle, wiced_bool_t enable);
  */
 wiced_bool_t wiced_bt_spp_can_send_more_data(uint16_t handle);
 
+/**
+ * SPP application may use this function to discard all the data from the
+ * output or input queues of the specified connection.
+ *
+ * @param[in]      handle : Connection handle indicated in the connection up callback
+ * @param[in]      purge_flags - specify the action to take with PORT_PURGE_TXCLEAR
+ *                 and/or PORT_PURGE_RXCLEAR.
+ * @return         rfcomm port return code
+ */
+uint8_t wiced_bt_spp_port_purge(uint16_t handle, uint8_t purge_flags);
 
 /**@} wiced_bt_spp_api_functions */
 

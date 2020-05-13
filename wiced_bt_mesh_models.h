@@ -288,12 +288,15 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
 #define WICED_BT_MESH_TIME_CHANGED                           152 /**< Time changed event state */
 /** @} TIME_EVENT */
 
+/*! \cond SUPPRESS_DOXYGEN */
 /**
+ * NOTE: This is preliminary implementation subject to change
  * @anchor FW_DISTRIBUTION_EVENT
  * @name Definition for messages exchanged between an app and FW Distribution Model
  * @{ */
 #define WICED_BT_MESH_FW_DISTRIBUTION_STATUS                153  /**< Status change event and Get Status response */
 /** @} FW_DISTRIBUTION_EVENT */
+/*! \endcond */
 
 /**
  * @anchor FW_UPDATE_EVENT
@@ -5829,31 +5832,33 @@ wiced_result_t wiced_bt_mesh_model_scheduler_client_send_action_set(wiced_bt_mes
 /* @} wiced_bt_mesh_scheduler_client */
 
 
+/*! \cond SUPPRESS_DOXYGEN */
 /**
+ * NOTE: This is preliminary implementation subject to change
  * @addtogroup  wiced_bt_mesh_fw_distribution_server   Mesh Firmware Distribution Server
  * @ingroup     wiced_bt_mesh_models
  *
  * The WICED Mesh Firmware Distribution Server module provides a way for an application to implement a functionality for the devices that support Firmware Distribution.
  *
- * TBD
- *
  * @{
  */
 
 /**
-* \brief Firmware Distribution Server Message Handler
-* \details The Mesh Core library calls this function for each message received.  The function returns WICED_TRUE if the message is destined for this specific model and successfully processed, and returns WICED_FALSE otherwise. FW Distribution Server.
-* The function parses the message and if appropriate calls the parent back to perform functionality.
-*
-* @param       p_event Mesh event with information about received message.
-* @param       p_data Pointer to the data portion of the message
-* @param       data_len Length of the data in the message
-*
-* @return      WICED_TRUE if the message is for this company ID/Model/Element Index combination, WICED_FALSE otherwise.
-*/
+ * NOTE: This is preliminary implementation subject to change
+ * \brief Firmware Distribution Server Message Handler
+ * \details The Mesh Core library calls this function for each message received.  The function returns WICED_TRUE if the message is destined for this specific model and successfully processed, and returns WICED_FALSE otherwise. FW Distribution Server.
+ * The function parses the message and if appropriate calls the parent back to perform functionality.
+ *
+ * @param       p_event Mesh event with information about received message.
+ * @param       p_data Pointer to the data portion of the message
+ * @param       data_len Length of the data in the message
+ *
+ * @return      WICED_TRUE if the message is for this company ID/Model/Element Index combination, WICED_FALSE otherwise.
+ */
 wiced_bool_t wiced_bt_mesh_model_fw_distribution_server_message_handler(wiced_bt_mesh_event_t *p_event, uint8_t *p_data, uint16_t data_len);
 
 /**
+ * NOTE: This is preliminary implementation subject to change
  * \brief FW Distribution initialization
  *
  * @param       None
@@ -5862,6 +5867,7 @@ wiced_bool_t wiced_bt_mesh_model_fw_distribution_server_message_handler(wiced_bt
  */
 void wiced_bt_mesh_model_fw_distribution_server_init(void);
 /* @} wiced_bt_mesh_fw_distribution_server */
+/*! \endcond */
 
 /* Firmware distribution firmware ID structure */
 typedef PACKED struct

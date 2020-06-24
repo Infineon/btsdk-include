@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * \file <hci_control_api.h>
 *
-* Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
+* Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
 * Cypress Semiconductor Corporation. All Rights Reserved.
 *
 * This software, including source code, documentation and related
@@ -87,6 +87,7 @@
 #define HCI_CONTROL_GROUP_OTP                                 0x26
 #define HCI_CONTROL_GROUP_MCE                                 0x27
 #define HCI_CONTROL_GROUP_HK                                  0x28
+#define HCI_CONTROL_GROUP_HCI_AUDIO                           0x29
 #define HCI_CONTROL_GROUP_MISC                                0xFF
 
 #define HCI_CONTROL_GROUP(x) ((((x) >> 8)) & 0xff)
@@ -609,6 +610,14 @@
 #define HCI_CONTROL_HK_COMMAND_FACTORY_RESET                ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x04 )    /* Factory reset */
 #define HCI_CONTROL_HK_COMMAND_GET_TOKEN                    ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x05 )    /* Get software authentication token */
 
+/* HCI Audio commands */
+#define HCI_CONTROL_HCI_AUDIO_COMMAND_GET                   ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x00 ) /* Generic Get command */
+#define HCI_CONTROL_HCI_AUDIO_COMMAND_SET                   ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x01 ) /* Generic Set command */
+#define HCI_CONTROL_HCI_AUDIO_COMMAND_MIC_DATA              ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x02 ) /* Record data from MIC */
+#define HCI_CONTROL_HCI_AUDIO_COMMAND_PUSH_NVRAM_DATA       ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x03 ) /* Push NVRAM data by ID */
+#define HCI_CONTROL_HCI_AUDIO_COMMAND_BT_START              ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x04 ) /* Start BT stack */
+#define HCI_CONTROL_HCI_AUDIO_COMMAND_BUTTON                ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x30 ) /* Button event */
+
 /* General events that the controller can send */
 #define HCI_CONTROL_EVENT_COMMAND_STATUS                    ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x01 )    /* Command status event for the requested operation */
 #define HCI_CONTROL_EVENT_WICED_TRACE                       ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x02 )    /* WICED trace packet */
@@ -1078,6 +1087,17 @@
 #define HCI_CONTROL_HK_EVENT_UPDATE                         ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x02 )    /* Characteristic value update */
 #define HCI_CONTROL_HK_EVENT_LIST_ITEM                      ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x03 )    /* Characteristic list item */
 #define HCI_CONTROL_HK_EVENT_TOKEN_DATA                     ( ( HCI_CONTROL_GROUP_HK << 8 ) | 0x04 )    /* Software token data */
+
+/* HCI Audio events */
+#define HCI_CONTROL_HCI_AUDIO_EVENT_COMMAND_STATUS          ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x01 )    /* Command status event for the requested operation */
+#define HCI_CONTROL_HCI_AUDIO_EVENT_SCO_DATA                ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x02 )    /* SCO data from HFP */
+#define HCI_CONTROL_HCI_AUDIO_EVENT_STREAM_START            ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x03 )    /* Stream start */
+#define HCI_CONTROL_HCI_AUDIO_EVENT_STREAM_STOP             ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x04 )    /* Stream stop */
+#define HCI_CONTROL_HCI_AUDIO_EVENT_STREAM_CONFIG           ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x05 )    /* Stream configure */
+#define HCI_CONTROL_HCI_AUDIO_EVENT_STREAM_VOLUME           ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x06 )    /* Stream volume */
+#define HCI_CONTROL_HCI_AUDIO_EVENT_STREAM_MIC_GAIN         ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x07 )    /* Stream MIC gain */
+#define HCI_CONTROL_HCI_AUDIO_EVENT_WRITE_NVRAM_DATA        ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x08 )    /* Write NVRAM data */
+#define HCI_CONTROL_HCI_AUDIO_EVENT_DELETE_NVRAM_DATA       ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x09 )    /* Delete NVRAM data */
 
 /* Status codes returned in HCI_CONTROL_EVENT_COMMAND_STATUS the event */
 #define HCI_CONTROL_STATUS_SUCCESS                          0

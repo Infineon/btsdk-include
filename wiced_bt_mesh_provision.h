@@ -1,5 +1,5 @@
 /*
- * Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
+ * Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
  * Cypress Semiconductor Corporation. All Rights Reserved.
  *
  * This software, including source code, documentation and related
@@ -163,20 +163,6 @@ extern "C"
 #define WICED_BT_MESH_RAW_MODEL_DATA                         253  /**< Raw model data for the apps that handle model layer */
 #define WICED_BT_MESH_PROXY_CONNECTION_STATUS                254  /**< Proxy connection status */
 #define WICED_BT_MESH_TX_COMPLETE                            255  /**< Transmission completed, or timeout waiting for peer ack. */
-
-/**
- * @anchor FW_DISTRIBUTION_STATE
- * @name Definitions of firmware distribution states
- * @{ */
-#define WICED_BT_MESH_DFU_STATE_INIT                        0    /**< Initial state */
-#define WICED_BT_MESH_DFU_STATE_VALIDATE_NODES              1    /**< Checking if nodes can accept the firmware */
-#define WICED_BT_MESH_DFU_STATE_GET_DISTRIBUTOR             2    /**< Finding a proper node as Distributor */
-#define WICED_BT_MESH_DFU_STATE_UPLOAD                      3    /**< Uploading firmware from Initiator to Distributor */
-#define WICED_BT_MESH_DFU_STATE_DISTRIBUTE                  4    /**< Distributing firmware from Distributor to Updating Nodes */
-#define WICED_BT_MESH_DFU_STATE_APPLY                       5    /**< Applying firmware on Updating Nodes */
-#define WICED_BT_MESH_DFU_STATE_COMPLETE                    6    /**< Firmware distribution completed successfully */
-#define WICED_BT_MESH_DFU_STATE_FAILED                      7    /**< Firmware distribution failed */
- /** @} FW_DISTRIBUTION_STATE */
 
 /* This structure contains information sent from the provisioner application to provisioner library to setup local device */
 typedef struct
@@ -853,36 +839,6 @@ typedef PACKED struct
     uint8_t  type;                      /**< The proxy filter type (0-white list, 1-black list). */
     uint16_t list_size;                 /**< Number of addresses in the proxy filter list. */
 } wiced_bt_mesh_proxy_filter_status_data_t;
-
-/* This structure contains information sent from the provisioner application to the firmware distributor to start firware distribution for the specified list of nodes. */
-typedef PACKED struct
-{
-    mesh_dfu_fw_id_t firmware_id;                               /**< Firmware ID of the firmware that will be downloaded */
-    mesh_dfu_meta_data_t meta_data;                             /**< Meta data of the firmware that will be downloaded */
-    uint16_t proxy_addr;                                        /**< Address of the proxy device */
-    uint16_t group_addr;                                        /**< Group address to be used for the nodes being updated */
-    uint16_t group_size;                                        /**< Number of elements in the update_node_list */
-#define WICED_BT_MESH_MAX_UPDATES_NODES 256                     /**< MAX number of updating nodes  */
-    uint16_t update_nodes_list[WICED_BT_MESH_MAX_UPDATES_NODES];/**< List of the nodes */
-} wiced_bt_mesh_fw_distribution_start_data_t;
-
-/* This structure contains node information sent from the Distributor node when application requested the status information  */
-typedef PACKED struct
-{
-    uint16_t unicast_address;
-    uint8_t  phase;
-    uint8_t  progress;
-} wiced_bt_mesh_fw_distribution_details_t;
-
-/* This structure contains information sent from the Distributor node when application requested the status information  */
-typedef PACKED struct
-{
-    uint8_t         state;                                      /**< Current distribution state (see @ref FW_DISTRIBUTION_STATE) */
-    uint16_t        list_size;                                  /**< Node list size */
-    uint16_t        node_index;                                 /**< Index of first node */
-    uint16_t        num_nodes;                                  /**< Number of nodes */
-    wiced_bt_mesh_fw_distribution_details_t node[1];            /**< Details for each node */
-} wiced_bt_mesh_fw_distribution_status_data_t;
 
 /**
  * \brief Provision Server callback
@@ -1781,80 +1737,6 @@ wiced_bool_t wiced_bt_mesh_provision_scan_extended_start(wiced_bt_mesh_event_t *
  * @return   WICED_TRUE/WICED_FALSE - success/failed.
  */
 wiced_bool_t wiced_bt_mesh_provision_scan_stop(wiced_bt_mesh_event_t *p_event);
-
-/**
- * \brief Firmware Provider callback
- * \details The Firmware Provider callback is called by the Mesh Provision library during the device firmware update process
- *
- * @param[in]       event Event that the application should process (see @ref PROVISION_EVENT "Mesh Provisioner Events")
- * @param[in]       p_event Pointer to the data structure identifying the source of the message
- * @param[in]       p_data Data with DFU information.
- *
- * @return      None
- */
-typedef void(wiced_bt_mesh_fw_provider_callback_t)(uint16_t event, wiced_bt_mesh_event_t *p_event, void *p_data);
-
-/**
- * \brief Firmware Provider Model initialization
- * \details The Provisioner Application should call this function during the startup to initialize FW provider.
- *
- * @param none
- *
- * @return      None
- */
-void wiced_bt_mesh_model_fw_provider_init(void);
-
-/**
- * \brief Firmware Provider Message Handler
- * \details The mesh core library calls this function for each message received.  The function returns WICED_TRUE if the message is destined for this specific model and successfully processed, and returns WICED_FALSE otherwise. Generic Level Server device.
- * The function parses the message and if appropriate calls the parent back to perform functionality.
- *
- * @param[in]       p_event Mesh event with information about received message.
- * @param[in]       p_data Pointer to the data portion of the message
- * @param[in]       data_len Length of the data in the message
- *
- * @return      WICED_TRUE if the message is for this company ID/Model/Element Index combination, WICED_FALSE otherwise.
- */
-wiced_bool_t wiced_bt_mesh_model_fw_provider_message_handler(wiced_bt_mesh_event_t *p_event, uint8_t *p_data, uint16_t data_len);
-
-/**
- * \brief The application can call this function to get the state of the current firmware distribution process.
- * The function may register a callback which will be executed when reply from the distributor is received.
- *
- * @param[in]       p_event Mesh event with the distributor's address that has been created by the app for unsolicited message.
- * @param[in]       p_callback The application callback function that will be executed by the Mesh Provisioning library when a reply for the application request has been received.
- *
- * @return      WICED_TRUE if operation has started successfully
- */
-wiced_bool_t wiced_bt_mesh_fw_provider_get_status(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_fw_provider_callback_t *p_callback);
-
-/**
- * \brief The application can call this function to start firmware distribution procedure.
- *
- * @param[in]       p_event Mesh event with the distributor address that has been created by the app for unsolicited message.
- * @param[in]       p_data Pointer to the data to send
- *
- * @return      WICED_TRUE if operation has started successfully
- */
-wiced_bool_t wiced_bt_mesh_fw_provider_start(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_fw_distribution_start_data_t *p_data, wiced_bt_mesh_fw_provider_callback_t *p_callback);
-
-/**
- * \brief The application can call this function to terminate firmware distribution procedure.
- *
- * @param[in]       p_event Mesh event with the distributor address that has been created by the app for unsolicited message.
- *
- * @return      WICED_TRUE if operation has started successfully
- */
-wiced_bool_t wiced_bt_mesh_fw_provider_stop(wiced_bt_mesh_event_t *p_event);
-
-/*
- * \brief Process finish event received from OTA client
- *
- * @param[in]   status  0 if OTA finished successfully, otherwise failed
- *
- * @return      None
- */
-void wiced_bt_mesh_fw_provider_ota_finish(uint8_t status);
 
 #ifdef __cplusplus
 }

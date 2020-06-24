@@ -6,7 +6,7 @@
 * 	Provides definitions that can be used by a peer Serial GATT
 *        applications to send and receive data from a peer device.
 *//*****************************************************************************
-* Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
+* Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
 * Cypress Semiconductor Corporation. All Rights Reserved.
 *
 * This software, including source code, documentation and related

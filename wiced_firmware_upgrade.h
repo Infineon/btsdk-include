@@ -7,7 +7,7 @@
 *        and retrieving information to/from memory.The data being stored
 *        are the DS portions of the memory map.
 *//*****************************************************************************
-* Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
+* Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
 * Cypress Semiconductor Corporation. All Rights Reserved.
 *
 * This software, including source code, documentation and related
@@ -43,11 +43,11 @@
 
 #include "wiced.h"
 
-/******************************************************************************
+/**
 *
-* \addtogroup group_ota_wiced_firmware_upgrade   WICED OTA Firmware Upgrade
-*
-* \{
+* \addtogroup group_wiced_firmware_upgrade   WICED Firmware Upgrade
+* \ingroup    wicedsys
+* @{
 *
 ******************************************************************************/
 
@@ -155,4 +155,4 @@ uint32_t   wiced_firmware_upgrade_retrieve_from_nv(uint32_t offset, uint8_t *dat
 void     wiced_firmware_upgrade_finish(void);
 
 #endif /* WICED_FIRMWARE_UPGRADE_H */
-/** \} group_ota_wiced_firmware_upgrade */
+/** \} group_wiced_firmware_upgrade */

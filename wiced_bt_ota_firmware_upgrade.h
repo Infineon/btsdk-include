@@ -9,7 +9,7 @@
 * applications to perform a firmware upgrade.
 *
 *//*****************************************************************************
-* Copyright 2020, Cypress Semiconductor Corporation or a subsidiary of
+* Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
 * Cypress Semiconductor Corporation. All Rights Reserved.
 *
 * This software, including source code, documentation and related
@@ -46,9 +46,9 @@
 #include "wiced_bt_gatt.h"
 
 /**
-* \defgroup    wicedsys                             System
+* \defgroup    wicedsys                             WICED System
 *
-* \addtogroup  group_ota_wiced_firmware_upgrade     OTA Firmware Upgrade
+* \addtogroup  group_ota_wiced_firmware_upgrade     WICED OTA Firmware Upgrade
 * \ingroup     wicedsys
 * @{
 *
@@ -140,7 +140,7 @@
 /** \} group_ota_fw_upgrade_macros */
 
 /**
-* \addtogroup group_ota_fw_upgrade_structs
+* \addtogroup group_ota_fw_upgrade_structs Structs
 * \{
 */
 /* OTA firmware upgrade event data */
@@ -307,12 +307,11 @@ wiced_bool_t wiced_ota_fw_upgrade_get_new_fw_info(uint16_t *company_id, uint8_t 
 ******************************************************************************/
 wiced_bool_t wiced_ota_fw_upgrade_set_transfer_mode(wiced_bool_t transfer_only, wiced_ota_firmware_event_callback_t *p_event_callback);
 
+/** \} group_ota_fw_upgrade_functions */
 #ifdef __cplusplus
 }
 #endif
 
-/** \} group_ota_fw_upgrade_functions */
 /** \} group_ota_wiced_firmware_upgrade */
-/** @} */
 
 #endif /* WICED_BT_OTA_FIRMWARE_UPGRADE__H */

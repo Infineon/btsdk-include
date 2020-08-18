@@ -194,7 +194,7 @@ wiced_bool_t wiced_bt_spp_send_session_data(uint16_t handle, uint8_t *p_data, ui
  * @return          none
  */
 
-void wiced_bt_spp_rx_flow_enabled(uint16_t handle, wiced_bool_t enable);
+void wiced_bt_spp_rx_flow_enable(uint16_t handle, wiced_bool_t enable);
 
 /**
  * Function         wiced_bt_spp_can_send_more_data

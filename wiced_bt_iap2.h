@@ -167,6 +167,42 @@ typedef void (*wiced_bt_iap2_tx_complete_callback_t)(uint16_t handle, wiced_resu
  */
 typedef wiced_bool_t (*wiced_bt_iap2_rx_data_callback_t)(uint16_t handle, uint8_t* data, uint32_t dataLen);
 
+/*
+ * iAP2, additional, optional, Events
+ */
+typedef enum
+{
+    WICED_BT_IAP2_EVENT_RFCOMM_CONNECTED,
+    WICED_BT_IAP2_EVENT_RFCOMM_DISCONNECTED,
+} wiced_bt_iap2_event_t;
+
+/* Data associated with the WICED_BT_IAP2_EVENT_RFCOMM_CONNECTED event */
+typedef struct
+{
+    wiced_bt_device_address_t bdaddr;
+    uint16_t port_handle;
+} wiced_bt_iap2_event_data_rfcomm_connected_t;
+
+/* Data associated with the WICED_BT_IAP2_EVENT_RFCOMM_DISCONNECTED event */
+typedef struct
+{
+    uint16_t port_handle;
+} wiced_bt_iap2_event_data_rfcomm_disconnected_t;
+
+/* Data (union) associated with the wiced_bt_iap2_event_t event */
+typedef union
+{
+    wiced_bt_iap2_event_data_rfcomm_connected_t rfcomm_connected;
+    wiced_bt_iap2_event_data_rfcomm_disconnected_t rfcomm_disconnected;
+} wiced_bt_iap2_event_data_t;
+
+
+/**
+ * Function         wiced_bt_iap2_callback_t
+ */
+typedef void (wiced_bt_iap2_callback_t)(wiced_bt_iap2_event_t event,
+        wiced_bt_iap2_event_data_t *p_data);
+
 /**
  * Following structure is used to register application with wiced_bt_iap2 library
  */
@@ -181,7 +217,7 @@ typedef struct
     wiced_bt_iap2_service_not_found_callback_t  p_service_not_found_callback;   /**< iAP2 service not found */
     wiced_bt_iap2_connection_down_callback_t    p_connection_down_callback;     /**< iAP2 connection disconnected */
     wiced_bt_iap2_rx_data_callback_t            p_rx_data_callback;             /**< Data packet received */
-
+    wiced_bt_iap2_callback_t                    *p_callback;
 } wiced_bt_iap2_reg_t;
 
 /**
@@ -248,7 +284,7 @@ void wiced_bt_iap2_disconnect( uint16_t handle );
 wiced_bool_t wiced_bt_iap2_send_session_data( uint16_t session, uint8_t *p_data, uint32_t len );
 
 /**
- * Function         wiced_bt_iap2_rx_flow_enabled
+ * Function         wiced_bt_iap2_rx_flow_enable
  *
  * IAP2 application may use this call to disable or reenable the RX data flow
  *
@@ -257,7 +293,7 @@ wiced_bool_t wiced_bt_iap2_send_session_data( uint16_t session, uint8_t *p_data,
  * @return          Nothing
  */
 
-void wiced_bt_iap2_rx_flow_enabled( uint16_t session, wiced_bool_t enable );
+void wiced_bt_iap2_rx_flow_enable( uint16_t session, wiced_bool_t enable );
 
 /**
  * Function         wiced_bt_iap2_can_send_more_data

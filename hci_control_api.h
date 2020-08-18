@@ -110,6 +110,11 @@
 #define HCI_CONTROL_COMMAND_BOND                            ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x10 )    /* Initiate Bonding with a peer device */
 #define HCI_CONTROL_COMMAND_READ_BUFF_STATS                 ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x11 )    /* Read Buffer statistics */
 #define HCI_CONTROL_COMMAND_SET_LOCAL_NAME                  ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x12 )    /* Set the local name */
+#define HCI_CONTROL_COMMAND_UNBOND_DEVICE                   ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x13 )    /* Unbond (Delete NVRAM Id) a Device (by BdAddr) */
+#define HCI_CONTROL_COMMAND_GET_BONDED_DEVICES              ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x14 )    /* Get Bonded/Paired Device list */
+#define HCI_CONTROL_COMMAND_PIN_REPLY                       ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x15 )    /* PIN Code Reply */
+#define HCI_CONTROL_COMMAND_SSP_REPLY                       ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x16 )    /* SSP Code Reply */
+
 
 /* LE Commands */
 #define HCI_CONTROL_LE_COMMAND_SCAN                         ( ( HCI_CONTROL_GROUP_LE << 8 ) | 0x01 )    /* Start scan */
@@ -274,6 +279,7 @@
 #define HCI_CONTROL_IAP2_COMMAND_GET_AUTH_CHIP_INFO          ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x04 )    /* Send get auth chip info */
 #define HCI_CONTROL_IAP2_COMMAND_GET_AUTH_CHIP_CERTIFICATE   ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x05 )    /* Send get auth chip info */
 #define HCI_CONTROL_IAP2_COMMAND_GET_AUTH_CHIP_SIGNATURE     ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x06 )    /* Send get auth chip info */
+#define HCI_CONTROL_IAP2_COMMAND_SEND_IDENTITY_DATA          ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x07 )    /* Send identity data */
 
 /* Handsfree AG commands */
 #define HCI_CONTROL_AG_COMMAND_CONNECT                      ( ( HCI_CONTROL_GROUP_AG << 8 ) | 0x01 )    /* Establish connection to HF Device */
@@ -636,6 +642,8 @@
 #define HCI_CONTROL_EVENT_READ_BUFFER_STATS                 ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x0F )    /* Read Buffer statistics event */
 #define HCI_CONTROL_EVENT_KEYPRESS_NOTIFICATION             ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x10 )    /* KeyPress notification */
 #define HCI_CONTROL_EVENT_CONNECTION_STATUS                 ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x11 )    /* Connection Status */
+#define HCI_CONTROL_EVENT_PIN_REQUEST                       ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x12 )    /* PIN Code Request */
+#define HCI_CONTROL_EVENT_SSP_REQUEST                       ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x13 )    /* SSP Code Request */
 
 /* Events for the HFP profile */
 #define HCI_CONTROL_HF_EVENT_OPEN                           ( ( HCI_CONTROL_GROUP_HF << 8 ) | 0x01 )    /* HS connection opened or connection attempt failed  */
@@ -808,6 +816,10 @@
 #define HCI_CONTROL_IAP2_EVENT_AUTH_CHIP_INFO               ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x07 )    /* IAP2 auth chip info */
 #define HCI_CONTROL_IAP2_EVENT_AUTH_CHIP_CERTIFICATE        ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x08 )    /* IAP2 auth chip certificate */
 #define HCI_CONTROL_IAP2_EVENT_AUTH_CHIP_SIGNATURE          ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x09 )    /* IAP2 auth chip signature */
+#define HCI_CONTROL_IAP2_EVENT_RFCOMM_CONNECTED             ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x0A )    /* IAP2 RFCOMM connected*/
+#define HCI_CONTROL_IAP2_EVENT_RFCOMM_DISCONNECTED          ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x0B )    /* IAP2 RFCOMM disconnected */
+#define HCI_CONTROL_IAP2_EVENT_COMMAND_STATUS               ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x0C )    /* Command status event for the requested operation */
+
 
 /* Events for Handsfree AG */
 #define HCI_CONTROL_AG_EVENT_OPEN                           ( ( HCI_CONTROL_GROUP_AG << 8 ) | 0x01 )
@@ -1149,6 +1161,9 @@
 
 /* Max TX packet to be sent over SPP */
 #define HCI_CONTROL_SPP_MAX_TX_BUFFER                       700
+
+/* Max TX packet to be sent over IAP2 */
+#define HCI_CONTROL_IAP2_MAX_TX_BUFFER                       700
 
 /* Max GATT command packet size to be sent over UART */
 #define HCI_CONTROL_GATT_COMMAND_MAX_TX_BUFFER              100

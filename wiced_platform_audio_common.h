@@ -83,7 +83,6 @@ enum platform_codec_route {
     PLATFORM_CODEC_ROUTE_NONE = 0,
     PLATFORM_CODEC_ROUTE_CVSD,
     PLATFORM_CODEC_ROUTE_MSBC,
-    PLATFORM_CODEC_ROUTE_AUDIO_INSERT,
 };
 typedef uint8_t platform_codec_route_t;
 

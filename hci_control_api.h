@@ -185,6 +185,7 @@
 #define HCI_CONTROL_SPP_COMMAND_CONNECT                     ( ( HCI_CONTROL_GROUP_SPP << 8 ) | 0x01 )    /* Establish connection to SPP server */
 #define HCI_CONTROL_SPP_COMMAND_DISCONNECT                  ( ( HCI_CONTROL_GROUP_SPP << 8 ) | 0x02 )    /* Release SPP connection */
 #define HCI_CONTROL_SPP_COMMAND_DATA                        ( ( HCI_CONTROL_GROUP_SPP << 8 ) | 0x03 )    /* Send data */
+#define HCI_CONTROL_SPP_COMMAND_PEER_MTU                    ( ( HCI_CONTROL_GROUP_SPP << 8 ) | 0x04 )    /* Get peer mtu size */
 
 /* Audio Profile commands */
 #define HCI_CONTROL_AUDIO_COMMAND_CONNECT                   ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x01 )    /* Audio connect to sink */
@@ -280,6 +281,7 @@
 #define HCI_CONTROL_IAP2_COMMAND_GET_AUTH_CHIP_CERTIFICATE   ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x05 )    /* Send get auth chip info */
 #define HCI_CONTROL_IAP2_COMMAND_GET_AUTH_CHIP_SIGNATURE     ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x06 )    /* Send get auth chip info */
 #define HCI_CONTROL_IAP2_COMMAND_SEND_IDENTITY_DATA          ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x07 )    /* Send identity data */
+#define HCI_CONTROL_IAP2_COMMAND_PEER_MTU                    ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x08 )    /* Get peer mtu size */
 
 /* Handsfree AG commands */
 #define HCI_CONTROL_AG_COMMAND_CONNECT                      ( ( HCI_CONTROL_GROUP_AG << 8 ) | 0x01 )    /* Establish connection to HF Device */
@@ -713,6 +715,7 @@
 #define HCI_CONTROL_SPP_EVENT_TX_COMPLETE                   ( ( HCI_CONTROL_GROUP_SPP << 8 ) | 0x05 )    /* Data packet has been queued for transmission */
 #define HCI_CONTROL_SPP_EVENT_RX_DATA                       ( ( HCI_CONTROL_GROUP_SPP << 8 ) | 0x06 )    /* SPP data received */
 #define HCI_CONTROL_SPP_EVENT_COMMAND_STATUS                ( ( HCI_CONTROL_GROUP_SPP << 8 ) | 0x07 )    /* Command status event for the requested operation */
+#define HCI_CONTROL_SPP_EVENT_PEER_MTU                      ( ( HCI_CONTROL_GROUP_SPP << 8 ) | 0x08 )    /* Get peer mtu size */
 
 /* Events for the Audio profile */
 #define HCI_CONTROL_AUDIO_EVENT_COMMAND_COMPLETE            ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x00 )    /* Command complete event for the requested operation */
@@ -725,6 +728,7 @@
 #define HCI_CONTROL_AUDIO_EVENT_STARTED                     ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x07 )    /* Command for audio start succeeded */
 #define HCI_CONTROL_AUDIO_EVENT_STOPPED                     ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x08 )    /* Command for audio stop completed */
 #define HCI_CONTROL_AUDIO_EVENT_STATISTICS                  ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x09 )    /* Command for audio statistics */
+#define HCI_CONTROL_AUDIO_EVENT_SUPPORT_FEATURES            ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x10 )    /* Device reportes the supported features of AV source */
 
 /* Events for the AVRCP profile target events */
 #define HCI_CONTROL_AVRC_TARGET_EVENT_CONNECTED             ( ( HCI_CONTROL_GROUP_AVRC_TARGET << 8 ) | 0x01 )    /* AVRCP Target connected */
@@ -819,7 +823,7 @@
 #define HCI_CONTROL_IAP2_EVENT_RFCOMM_CONNECTED             ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x0A )    /* IAP2 RFCOMM connected*/
 #define HCI_CONTROL_IAP2_EVENT_RFCOMM_DISCONNECTED          ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x0B )    /* IAP2 RFCOMM disconnected */
 #define HCI_CONTROL_IAP2_EVENT_COMMAND_STATUS               ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x0C )    /* Command status event for the requested operation */
-
+#define HCI_CONTROL_IAP2_EVENT_PEER_MTU                     ( ( HCI_CONTROL_GROUP_IAP2 << 8 ) | 0x0D )    /* Get peer mtu size */
 
 /* Events for Handsfree AG */
 #define HCI_CONTROL_AG_EVENT_OPEN                           ( ( HCI_CONTROL_GROUP_AG << 8 ) | 0x01 )

@@ -314,6 +314,12 @@ wiced_bool_t wiced_bt_iap2_can_send_more_data(void);
  */
 void wiced_bt_iap2_port_purge(uint16_t handle, uint8_t purge_flags);
 
+/**
+ * iAP2 application use this function to read the peer_mtu size when rfcomm connection made
+ * @return         rfcomm port peer mtu size
+ */
+uint16_t wiced_bt_iap2_rfcomm_get_peer_mtu(uint16_t handle);
+
 /**@} wiced_bt_iap2_api_functions */
 
 #ifdef __cplusplus

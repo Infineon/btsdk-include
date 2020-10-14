@@ -216,6 +216,14 @@ wiced_bool_t wiced_bt_spp_can_send_more_data(uint16_t handle);
  */
 uint8_t wiced_bt_spp_port_purge(uint16_t handle, uint8_t purge_flags);
 
+/**
+ * SPP application may use this function to read the peer_mtu size when rfcomm connection made
+ *
+ * @return         rfcomm port peer mtu size
+ */
+uint16_t wiced_bt_spp_rfcomm_get_peer_mtu(uint16_t handle);
+
+
 /**@} wiced_bt_spp_api_functions */
 
 #ifdef __cplusplus

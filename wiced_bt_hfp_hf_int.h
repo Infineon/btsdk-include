@@ -5,12 +5,12 @@
 * 	This is a private interface file for the Handsfree profile.
 *
 *//*****************************************************************************
-* Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
-* Cypress Semiconductor Corporation. All Rights Reserved.
+* Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
 * This software, including source code, documentation and related
-* materials ("Software"), is owned by Cypress Semiconductor Corporation
-* or one of its subsidiaries ("Cypress") and is protected by and subject to
+* materials ("Software") is owned by Cypress Semiconductor Corporation
+* or one of its affiliates ("Cypress") and is protected by and subject to
 * worldwide patent protection (United States and foreign),
 * United States copyright laws and international treaty provisions.
 * Therefore, you may use this Software only as provided in the license
@@ -19,7 +19,7 @@
 * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
 * non-transferable license to copy, modify, and compile the Software
 * source code solely for use in connection with Cypress's
-* integrated circuit products. Any reproduction, modification, translation,
+* integrated circuit products.  Any reproduction, modification, translation,
 * compilation, or representation of this Software except as specified
 * above is prohibited without the express written permission of Cypress.
 *
@@ -44,6 +44,9 @@
 #include "wiced_bt_trace.h"
 #include "wiced_timer.h"
 #include "wiced_bt_utils.h"
+#if BTSTACK_VER >= 0x01020000
+#include "wiced_memory.h"
+#endif // BTSTACK_VER
 
 /******************************************************************************
 *  Constants
@@ -324,12 +327,14 @@ typedef struct
 } wiced_bt_hfp_hf_peer_indicator_t;
 #endif
 
+#ifndef BTSTACK_VER
 typedef struct
 {
     void      *p_first;
     void      *p_last;
     uint16_t  count;
 } BUFFER_Q;
+#endif // !BTSTACK_VER
 
 /* Type for each service control block */
 typedef struct
@@ -348,7 +353,11 @@ typedef struct
     uint16_t                     peer_version;                       /* Handsfree profile version of te peer */
     uint8_t                      peer_scn;                           /* Peer scn */
     uint8_t                      slc_at_init_state;                  /* At-cmd state during slc establishment */
+#if BTSTACK_VER >= 0x01020000
+    wiced_bt_buffer_q_t         wiced_bt_hfp_hf_at_cmd_queue;       /* Q for sending AT cmds serially*/
+#else
     BUFFER_Q                     wiced_bt_hfp_hf_at_cmd_queue;       /* Q for sending AT cmds serially*/
+#endif
     wiced_timer_t                wiced_bt_hfp_hf_at_cmd_queue_timer; /* Timer to recover if peer do not respond to AT command */
     uint8_t                      wiced_bt_hfp_hf_at_cmd_queue_depth; /* Depth of AT command Q*/
     uint32_t                     feature_mask;
@@ -368,6 +377,10 @@ typedef struct
 #if (WICED_BT_HFP_HF_VERSION >= WICED_BT_HFP_HF_VERSION_1_7 \
   && WICED_BT_HFP_HF_IND_SUPPORTED == TRUE)
     wiced_bt_hfp_hf_peer_indicator_t peer_ind[WICED_BT_HFP_HF_MAX_NUM_PEER_IND]; /* Peer HF indicator status */
+#endif
+#if BTSTACK_VER >= 0x01020000
+    /* TODO : for now fifo size if fixed, need to update the required max memory for rfcomm_fifo */
+    uint8_t                     rfcomm_fifo[400];
 #endif
 } wiced_bt_hfp_hf_scb_t;
 
@@ -471,7 +484,12 @@ extern void wiced_bt_hfp_hf_cmd_timeout(wiced_bt_hfp_hf_scb_t *p_scb,
 
 /* RFCOMM callback related functions */
 extern void wiced_bt_hfp_hf_rfcomm_mgmt_cback(wiced_bt_rfcomm_result_t code, uint16_t handle);
+#if BTSTACK_VER >= 0x01020000
+extern void wiced_bt_hfp_hf_rfcomm_data_cback(wiced_bt_rfcomm_port_event_t code, uint16_t handle);
+extern void wiced_bt_hfp_hf_rfcomm_port_tx_cmpl_cback(uint16_t handle, void* p_data);
+#else
 extern int wiced_bt_hfp_hf_rfcomm_data_cback(uint16_t handle, void *p_data, uint16_t len);
+#endif
 
 /* AT command related */
 extern void wiced_bt_hfp_hf_at_init(wiced_bt_hfp_hf_at_cb_t *p_cb);

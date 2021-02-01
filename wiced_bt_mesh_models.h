@@ -1,10 +1,10 @@
 /*
- * Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
- * Cypress Semiconductor Corporation. All Rights Reserved.
+ * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
- * materials ("Software"), is owned by Cypress Semiconductor Corporation
- * or one of its subsidiaries ("Cypress") and is protected by and subject to
+ * materials ("Software") is owned by Cypress Semiconductor Corporation
+ * or one of its affiliates ("Cypress") and is protected by and subject to
  * worldwide patent protection (United States and foreign),
  * United States copyright laws and international treaty provisions.
  * Therefore, you may use this Software only as provided in the license
@@ -13,7 +13,7 @@
  * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
  * non-transferable license to copy, modify, and compile the Software
  * source code solely for use in connection with Cypress's
- * integrated circuit products. Any reproduction, modification, translation,
+ * integrated circuit products.  Any reproduction, modification, translation,
  * compilation, or representation of this Software except as specified
  * above is prohibited without the express written permission of Cypress.
  *
@@ -1694,33 +1694,6 @@ typedef struct
     uint16_t len;                                  /**< Size of the Property Value */
     uint8_t  value[MESH_MAX_LIGHT_LC_PROPERTY_VALUE_LEN];   /**< Property value */
 } wiced_bt_mesh_light_lc_property_status_data_t;
-
-/**
- * BLOB Transfer Start structure exchanged between the application and BLOB Transfer model
- */
-typedef struct
-{
-    uint32_t blob_size;                             /**< BLOB size */
-} wiced_bt_mesh_blob_transfer_start_t;
-
-/**
- * BLOB Trasfer Block Data structure exchanged between the application and BLOB Transfer model
- */
-typedef struct
-{
-    uint32_t offset;                                /**< Data offset */
-    uint32_t data_len;                              /**< Block data length */
-    uint8_t  *p_data;                               /**< Pointer to data buffer */
-} wiced_bt_mesh_blob_transfer_block_data_t;
-
-/**
- * BLOB Transfer Finish structure exchanged between the application and BLOB Transfer model
- */
-typedef struct
-{
-    uint8_t blob_transfer_result;                    /**< BLOB Transfer final result */
-} wiced_bt_mesh_blob_transfer_finish_t;
-
 
 /**
  * \brief Scene store message handler

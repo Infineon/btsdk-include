@@ -1,10 +1,10 @@
 /*
-* Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
-* Cypress Semiconductor Corporation. All Rights Reserved.
+* Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
 * This software, including source code, documentation and related
-* materials ("Software"), is owned by Cypress Semiconductor Corporation
-* or one of its subsidiaries ("Cypress") and is protected by and subject to
+* materials ("Software") is owned by Cypress Semiconductor Corporation
+* or one of its affiliates ("Cypress") and is protected by and subject to
 * worldwide patent protection (United States and foreign),
 * United States copyright laws and international treaty provisions.
 * Therefore, you may use this Software only as provided in the license
@@ -13,7 +13,7 @@
 * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
 * non-transferable license to copy, modify, and compile the Software
 * source code solely for use in connection with Cypress's
-* integrated circuit products. Any reproduction, modification, translation,
+* integrated circuit products.  Any reproduction, modification, translation,
 * compilation, or representation of this Software except as specified
 * above is prohibited without the express written permission of Cypress.
 *
@@ -601,14 +601,18 @@ uint8_t uint32_to_log_heartbeat(uint32_t period);
 // same as uint32_from_log() but for heartbeat publication/subscription count/period - it is based on ext**(log-1)
 uint32_t uint32_from_log_heartbeat(uint8_t log);
 
+// A device may have 1, 2, or 3 models implemented to control the color. One of them is running as a startup
+// master, and tell application about the currently set color
+#define MESH_UTILS_COLOR_MASTER_HSL   0
+#define MESH_UTILS_COLOR_MASTER_CTL   1
+#define MESH_UTILS_COLOR_MASTER_XYL   2
+void mesh_model_set_color_light_master(uint8_t element_idx, uint8_t master);
+
 #ifndef TIMER_PARAM_TYPE
 #define TIMER_PARAM_TYPE WICED_TIMER_PARAM_TYPE
 #endif
 
-// Uncomment below line to build for FW
-//#define MESH_FW
-
-#ifdef MESH_FW
+#ifdef NEW_WICED_STACK
 #define wiced_memory_permanent_allocate wiced_bt_get_buffer
 #endif
 

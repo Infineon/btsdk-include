@@ -9,12 +9,12 @@
 * applications to perform a firmware upgrade.
 *
 *//*****************************************************************************
-* Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
-* Cypress Semiconductor Corporation. All Rights Reserved.
+* Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
 * This software, including source code, documentation and related
-* materials ("Software"), is owned by Cypress Semiconductor Corporation
-* or one of its subsidiaries ("Cypress") and is protected by and subject to
+* materials ("Software") is owned by Cypress Semiconductor Corporation
+* or one of its affiliates ("Cypress") and is protected by and subject to
 * worldwide patent protection (United States and foreign),
 * United States copyright laws and international treaty provisions.
 * Therefore, you may use this Software only as provided in the license
@@ -23,7 +23,7 @@
 * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
 * non-transferable license to copy, modify, and compile the Software
 * source code solely for use in connection with Cypress's
-* integrated circuit products. Any reproduction, modification, translation,
+* integrated circuit products.  Any reproduction, modification, translation,
 * compilation, or representation of this Software except as specified
 * above is prohibited without the express written permission of Cypress.
 *
@@ -161,7 +161,7 @@ extern "C" {
 * \addtogroup group_ota_fw_upgrade_cback_functions
 * \{
 */
-/** An optional callback to be executed when the OTA Fimware Upgrade state changes.
+/** An optional callback to be executed when the OTA Firmware Upgrade state changes.
 * The application can register the callback to execute when the client starts,
 * aborts or completes the OTA firmware upgrade process. When the firmware
 * has been downloaded and verified and before a callback is executed before
@@ -208,7 +208,8 @@ typedef void (wiced_ota_firmware_event_callback_t)(uint16_t event, void *p_data)
 *          that the secure OTA firmware update procedure is being used.
 *
 * \param public_key             The pointer to the public key.
-* \param p_pre_reboot_callback  The callback to issue at the end of an upgrade procedure before a chip reboot.
+* \param p_status_callback      Optional callback to be executed when the Firmware Upgrade state changes. NULL if not used.
+* \param p_send_data_callback   Optional callback to be executed to before sending data over the air. NULL if not used.
 *
 * \note  WICED BT platforms that use external flash(i.e not on chip flash) must define the flash size, sector size
 *        before calling this API. For example see the wiced_platform.h, for default flash configuration

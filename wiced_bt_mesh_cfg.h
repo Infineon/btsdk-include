@@ -1,10 +1,10 @@
 /*
- * Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
- * Cypress Semiconductor Corporation. All Rights Reserved.
+ * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
- * materials ("Software"), is owned by Cypress Semiconductor Corporation
- * or one of its subsidiaries ("Cypress") and is protected by and subject to
+ * materials ("Software") is owned by Cypress Semiconductor Corporation
+ * or one of its affiliates ("Cypress") and is protected by and subject to
  * worldwide patent protection (United States and foreign),
  * United States copyright laws and international treaty provisions.
  * Therefore, you may use this Software only as provided in the license
@@ -13,7 +13,7 @@
  * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
  * non-transferable license to copy, modify, and compile the Software
  * source code solely for use in connection with Cypress's
- * integrated circuit products. Any reproduction, modification, translation,
+ * integrated circuit products.  Any reproduction, modification, translation,
  * compilation, or representation of this Software except as specified
  * above is prohibited without the express written permission of Cypress.
  *
@@ -232,8 +232,19 @@ typedef PACKED struct
 {
     uint8_t     receive_window;         /**< Receive Window value in milliseconds supported by the Friend node. It must be > 0. */
     uint16_t    cache_buf_len;          /**< Length of the buffer for the cache */
-    uint16_t    max_lpn_num;            /**< Max number of Low Power Nodes with established friendship. Must be > 0 if Friend feature is supported.*/
+    uint16_t    max_lpn_num;            /**< Max number of Low Power Nodes with established friendship. Must be > 0 if Friend feature is supported. See note below for calculating max_lpn_num */
 } wiced_bt_mesh_core_config_friend_t;
+
+/** To calculate max_lpn_num:
+#define MSG_OFFSET 20 // offset in friend structure defined internally in mesh core library is 20 bytes
+#define MSG_QUE_SIZE 33 // Each message in the queue takes 33 bytes
+#define FRIEND_LPN_STATE 140 // sizeof friend LPN structure defined internally in mesh core library is 140 bytes
+uint16_t max_lpn_msg_num; // number of messages user application needs in the queue
+uint64_t app_available_memory; // available user application memory
+
+max_lpn_num = (app_available_memory - MSG_OFFSET) / (FRIEND_LPN_STATE  + max_lpn_msg_num* MSG_QUE_SIZE);
+// For example, if max_lpn_msg_num = 4, and app_available_memory = 6K, then max_lpn_num =  (6k - MSG_OFFSET) / (FRIEND_LPN_STATE + max_lpn_msg_num * MSG_QUE_SIZE) = 22
+*/
 
 /* Transmit Extended Address flag for NINFO messages */
 #define WICED_BT_MESH_CORE_CONFIG_DIRECTED_FORWARDING_FLAG_NINFO_EA                 0x01

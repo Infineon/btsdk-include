@@ -1,10 +1,10 @@
 /*
- * Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
- * Cypress Semiconductor Corporation. All Rights Reserved.
+ * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
- * materials ("Software"), is owned by Cypress Semiconductor Corporation
- * or one of its subsidiaries ("Cypress") and is protected by and subject to
+ * materials ("Software") is owned by Cypress Semiconductor Corporation
+ * or one of its affiliates ("Cypress") and is protected by and subject to
  * worldwide patent protection (United States and foreign),
  * United States copyright laws and international treaty provisions.
  * Therefore, you may use this Software only as provided in the license
@@ -13,7 +13,7 @@
  * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
  * non-transferable license to copy, modify, and compile the Software
  * source code solely for use in connection with Cypress's
- * integrated circuit products. Any reproduction, modification, translation,
+ * integrated circuit products.  Any reproduction, modification, translation,
  * compilation, or representation of this Software except as specified
  * above is prohibited without the express written permission of Cypress.
  *
@@ -1203,6 +1203,44 @@ void wiced_bt_mesh_core_set_dev_key_callback(wiced_bt_mesh_core_get_dev_key_call
  * @return      Address of the friend node of the LPN. Unassigned address (0) means friendship is not established.
  */
 uint16_t wiced_bt_mesh_core_lpn_get_friend_addr(void);
+
+/**
+ * \brief Callback function to receive LPN sleep event.
+ * \details BLOB transfer server implement this callback to send message before LPN goes to sleep.
+ *
+ * @param[out]  p_sleep_time    Change LPN sleep time if necessary
+ *
+ * @return      None
+ */
+typedef void(*wiced_bt_mesh_core_lpn_sleep_callback_t)(uint32_t *p_sleep_time);
+
+/**
+ * \brief Set callback function to receive LPN sleep event.
+ *
+ * @param[in]   callback        Callback function. It can be NULL to disable callback.
+ *
+ * @return      None
+ */
+void wiced_bt_mesh_core_lpn_set_sleep_callback(wiced_bt_mesh_core_lpn_sleep_callback_t callback);
+
+/**
+ * \brief Set a smaller poll timeout.
+ * \details This is called by a task that requires more frequent data exchange (such as DFU).
+ *
+ * @param[in]   timeout         New poll timeout value (in 100ms).
+ *
+ * @return      Original poll timeout (in 100ms).
+ */
+uint32_t wiced_bt_mesh_core_lpn_set_poll_timeout(uint32_t timeout);
+
+/**
+ * \brief Restore original poll timeout.
+ *
+ * @param[in]   timeout         Original poll timeout value (in 100ms).
+ *
+ * @return      None
+ */
+void wiced_bt_mesh_core_lpn_restore_poll_timeout(uint32_t timeout);
 
 /**
  * \brief Stops all advertisements and timers.

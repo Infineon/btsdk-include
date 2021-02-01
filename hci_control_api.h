@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file <hci_control_api.h>
 *
-* Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
-* Cypress Semiconductor Corporation. All Rights Reserved.
+* Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
 * This software, including source code, documentation and related
-* materials ("Software"), is owned by Cypress Semiconductor Corporation
-* or one of its subsidiaries ("Cypress") and is protected by and subject to
+* materials ("Software") is owned by Cypress Semiconductor Corporation
+* or one of its affiliates ("Cypress") and is protected by and subject to
 * worldwide patent protection (United States and foreign),
 * United States copyright laws and international treaty provisions.
 * Therefore, you may use this Software only as provided in the license
@@ -15,7 +15,7 @@
 * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
 * non-transferable license to copy, modify, and compile the Software
 * source code solely for use in connection with Cypress's
-* integrated circuit products. Any reproduction, modification, translation,
+* integrated circuit products.  Any reproduction, modification, translation,
 * compilation, or representation of this Software except as specified
 * above is prohibited without the express written permission of Cypress.
 *
@@ -88,6 +88,8 @@
 #define HCI_CONTROL_GROUP_MCE                                 0x27
 #define HCI_CONTROL_GROUP_HK                                  0x28
 #define HCI_CONTROL_GROUP_HCI_AUDIO                           0x29
+#define HCI_CONTROL_GROUP_DFU                                 0x2a
+#define HCI_CONTROL_GROUP_AUDIO_DUAL_A2DP                     0x2b
 #define HCI_CONTROL_GROUP_MISC                                0xFF
 
 #define HCI_CONTROL_GROUP(x) ((((x) >> 8)) & 0xff)
@@ -193,8 +195,10 @@
 #define HCI_CONTROL_AUDIO_START                             ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x03 )    /* Start audio with specific sample rate/mode */
 #define HCI_CONTROL_AUDIO_STOP                              ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x04 )    /* Stop audio */
 #define HCI_CONTROL_AUDIO_PACKET_COUNT                      ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x05 )    /* Debug packet counter sent from host */
-#define HCI_CONTROL_AUDIO_DATA                              ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x06 )    /* Audio data */
+#define HCI_CONTROL_AUDIO_DATA                              ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x06 )    /* Audio data (PCM) */
 #define HCI_CONTROL_AUDIO_READ_STATISTICS                   ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x07 )    /* Audio Statistics */
+#define HCI_CONTROL_AUDIO_DATA_MP3                          ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x10 )    /* Audio data (MP3) */
+#define HCI_CONTROL_AUDIO_DATA_FORMAT                       ( ( HCI_CONTROL_GROUP_AUDIO << 8 ) | 0x11 )    /* Audio data format */
 
 /* AVRC Target Profile commands */
 #define HCI_CONTROL_AVRC_TARGET_COMMAND_CONNECT                     ( ( HCI_CONTROL_GROUP_AVRC_TARGET << 8 ) | 0x01 )    /* Initiate connection to the peer. */
@@ -625,6 +629,11 @@
 #define HCI_CONTROL_HCI_AUDIO_COMMAND_PUSH_NVRAM_DATA       ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x03 ) /* Push NVRAM data by ID */
 #define HCI_CONTROL_HCI_AUDIO_COMMAND_BT_START              ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x04 ) /* Start BT stack */
 #define HCI_CONTROL_HCI_AUDIO_COMMAND_BUTTON                ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x30 ) /* Button event */
+
+/* HCI DFU */
+#define HCI_CONTROL_DFU_COMMAND_READ_CONFIG                 ( ( HCI_CONTROL_GROUP_DFU << 8 ) | 0x00 ) /* DFU start request */
+#define HCI_CONTROL_DFU_COMMAND_WRITE_COMMAND               ( ( HCI_CONTROL_GROUP_DFU << 8 ) | 0x01 ) /* DFU Data Transfer Packet */
+#define HCI_CONTROL_DFU_COMMAND_WRITE_DATA                  ( ( HCI_CONTROL_GROUP_DFU << 8 ) | 0x02 ) /* DFU Data Transfer Packet */
 
 /* General events that the controller can send */
 #define HCI_CONTROL_EVENT_COMMAND_STATUS                    ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x01 )    /* Command status event for the requested operation */
@@ -1114,6 +1123,14 @@
 #define HCI_CONTROL_HCI_AUDIO_EVENT_STREAM_MIC_GAIN         ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x07 )    /* Stream MIC gain */
 #define HCI_CONTROL_HCI_AUDIO_EVENT_WRITE_NVRAM_DATA        ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x08 )    /* Write NVRAM data */
 #define HCI_CONTROL_HCI_AUDIO_EVENT_DELETE_NVRAM_DATA       ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x09 )    /* Delete NVRAM data */
+
+/* HCI DFU events */
+#define HCI_CONTROL_DFU_EVENT_CONFIG                        ( ( HCI_CONTROL_GROUP_DFU << 8 ) | 0x01 ) /* configuration data */
+#define HCI_CONTROL_DFU_EVENT_STARTED                       ( ( HCI_CONTROL_GROUP_DFU << 8 ) | 0x02 ) /* upgrade started */
+#define HCI_CONTROL_DFU_EVENT_DATA                          ( ( HCI_CONTROL_GROUP_DFU << 8 ) | 0x03 ) /* data received */
+#define HCI_CONTROL_DFU_EVENT_VERIFICATION                  ( ( HCI_CONTROL_GROUP_DFU << 8 ) | 0x04 ) /* verification Complete */
+#define HCI_CONTROL_DFU_EVENT_VERIFIED                      ( ( HCI_CONTROL_GROUP_DFU << 8 ) | 0x05 ) /* verified */
+#define HCI_CONTROL_DFU_EVENT_ABORTED                       ( ( HCI_CONTROL_GROUP_DFU << 8 ) | 0x06 ) /* aborted */
 
 /* Status codes returned in HCI_CONTROL_EVENT_COMMAND_STATUS the event */
 #define HCI_CONTROL_STATUS_SUCCESS                          0

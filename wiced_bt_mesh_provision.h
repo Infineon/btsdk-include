@@ -159,7 +159,7 @@ extern "C"
 #define WICED_BT_MESH_PROVISION_PDU_REPORT                   248  /**< PDU Report */
  /** @} REMOTE_PROVISIONG_SERVER_EVENT */
 
-#define WICED_BT_MESH_EVENT_TIMEOUT                          252  /**< Timeout occured waiting for reply */
+#define WICED_BT_MESH_TX_TO_FRIEND_COMPLETE                  252  /**< Transmission to friend completed */
 #define WICED_BT_MESH_RAW_MODEL_DATA                         253  /**< Raw model data for the apps that handle model layer */
 #define WICED_BT_MESH_PROXY_CONNECTION_STATUS                254  /**< Proxy connection status */
 #define WICED_BT_MESH_TX_COMPLETE                            255  /**< Transmission completed, or timeout waiting for peer ack. */
@@ -823,7 +823,7 @@ typedef PACKED struct
 /* This structure contains information sent from the provisioner application to the provisioner library with new filter type. */
 typedef PACKED struct
 {
-    uint8_t  type;                      /**< The proxy filter type (0-white list, 1-black list). */
+    uint8_t  type;                      /**< The proxy filter type (0-accept list, 1-reject list). */
 } wiced_bt_mesh_proxy_filter_set_type_data_t;
 
 /* This structure contains information sent from the provisioner application to the provisioner library with addresses to be added or deleted from the filter. */
@@ -836,7 +836,7 @@ typedef PACKED struct
 /* This structure contains information sent to the provisioner application from the provisioner library with current filter setup information. */
 typedef PACKED struct
 {
-    uint8_t  type;                      /**< The proxy filter type (0-white list, 1-black list). */
+    uint8_t  type;                      /**< The proxy filter type (0-accept list, 1-reject list). */
     uint16_t list_size;                 /**< Number of addresses in the proxy filter list. */
 } wiced_bt_mesh_proxy_filter_status_data_t;
 

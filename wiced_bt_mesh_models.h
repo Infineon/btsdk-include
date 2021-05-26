@@ -3482,7 +3482,7 @@ wiced_bool_t wiced_bt_mesh_model_light_lightness_setup_server_message_handler(wi
  * \details This is an internal Mesh Models library function and does not need to be implemented or called by the application,
  * unless application wants to replace the library functionality.  In multi server applications, for example a color light which supports
  * both HSL and CTL controls, only one model should receive Get/Set for lightness, level and on/onff messages.
- * This function should be called when the master changes.
+ * This function should be called when the startup controller changes.
  *
  * @param       element_idx Device element to where model is used
  * @param       p_callback Application or Parent model callback that will be executed on receiving a message
@@ -3861,19 +3861,19 @@ uint16_t wiced_bt_mesh_model_light_ctl_server_scene_store_handler(uint8_t elemen
 uint16_t wiced_bt_mesh_model_light_ctl_server_scene_recall_handler(uint8_t element_idx, uint8_t *p_buffer, uint16_t buffer_len, uint32_t transition_time, uint32_t delay);
 
 /**
- * \brief Set Light CTL Model as a startup master
+ * \brief Set Light CTL Model as a startup controller
  * \details The Light CTL Scene Restore Server Message Handler is an internal Mesh Models library function and
  * does not need to be implemented or called by the application, unless application wants to replace the library functionality.
- * For multi-model applications, for example, when application supports both HSL and CTL controls, only one can be setup as a startup master.
- * If the master mode is set, the library will execute the power on requirements, for example it can set the temperature, lightness
- * based on the last set state.  If the model is not set as a master, it will not execute on power up state.
+ * For multi-model applications, for example, when application supports both HSL and CTL controls, only one can be setup as a startup controller.
+ * If the controller mode is set, the library will execute the power on requirements, for example it can set the temperature, lightness
+ * based on the last set state.  If the model is not set as a controller, it will not execute on power up state.
  *
  * @param       element_idx The element index of the top level model
- * @param       startup_master If set to WICED_TRUE, the model will execute On Power Up operation
+ * @param       startup_controller If set to WICED_TRUE, the model will execute On Power Up operation
  *
  * @return      None
  */
-void wiced_bt_mesh_model_light_ctl_server_set_startup_master(uint8_t element_idx, wiced_bool_t startup_master);
+void wiced_bt_mesh_model_light_ctl_server_set_startup_controller(uint8_t element_idx, wiced_bool_t startup_controller);
 
 /* @} wiced_bt_mesh_light_ctl_server */
 
@@ -4228,19 +4228,19 @@ uint16_t wiced_bt_mesh_model_light_hsl_server_scene_store_handler(uint8_t elemen
 uint16_t wiced_bt_mesh_model_light_hsl_server_scene_recall_handler(uint8_t element_idx, uint8_t *p_buffer, uint16_t buffer_len, uint32_t transition_time, uint32_t delay);
 
 /**
- * \brief Set Light HSL Model as a startup master
+ * \brief Set Light HSL Model as a startup controller
  * \details This is an internal Mesh Models library function and
  * does not need to be implemented or called by the application, unless application wants to replace the library functionality.
- * For multi-model applications, for example the ones that support both HSL and CTL controls, only one can be setup as a startup master.
- * If the master mode is set, the library will execute the power on requirements, for example it can set the lightness/hue/saturation
- * based on the last state before the power off.  If the model is not set as a master, it will not execute on power up state.
+ * For multi-model applications, for example the ones that support both HSL and CTL controls, only one can be setup as a startup controller.
+ * If the controller mode is set, the library will execute the power on requirements, for example it can set the lightness/hue/saturation
+ * based on the last state before the power off.  If the model is not set as a controller, it will not execute on power up state.
  *
  * @param       element_idx The element index of the top level model
- * @param       startup_master If set to WICED_TRUE, the model will execute on power up operation
+ * @param       startup_controller If set to WICED_TRUE, the model will execute on power up operation
  *
  * @return      None
  */
-void wiced_bt_mesh_model_light_hsl_server_set_startup_master(uint8_t element_idx, wiced_bool_t startup_master);
+void wiced_bt_mesh_model_light_hsl_server_set_startup_controller(uint8_t element_idx, wiced_bool_t startup_controller);
 
 /* @} wiced_bt_mesh_light_hsl_server */
 
@@ -4576,19 +4576,19 @@ uint16_t wiced_bt_mesh_model_light_xyl_server_scene_store_handler(uint8_t elemen
 uint16_t wiced_bt_mesh_model_light_xyl_server_scene_recall_handler(uint8_t element_idx, uint8_t *p_buffer, uint16_t buffer_len, uint32_t transition_time, uint32_t delay);
 
 /**
- * \brief Set Light XYL Model as a startup master
+ * \brief Set Light XYL Model as a startup controller
  * \details This is an internal Mesh Models library function and
  * does not need to be implemented or called by the application, unless application wants to replace the library functionality.
- * For multi-model applications, for example the ones that support HSL, CTL and XYL controls, only one can be setup as a startup master.
- * If the master mode is set, the library will execute the power on requirements, for example it can set the lightness/hue/saturation
- * based on the last state before the power off.  If the model is not set as a master, it will not execute on power up state.
+ * For multi-model applications, for example the ones that support HSL, CTL and XYL controls, only one can be setup as a startup controller.
+ * If the controller mode is set, the library will execute the power on requirements, for example it can set the lightness/hue/saturation
+ * based on the last state before the power off.  If the model is not set as a controller, it will not execute on power up state.
  *
  * @param       element_idx The element index of the top level model
- * @param       startup_master If set to WICED_TRUE, the model will execute on power up operation
+ * @param       startup_controller If set to WICED_TRUE, the model will execute on power up operation
  *
  * @return      None
  */
-void wiced_bt_mesh_model_light_xyl_server_set_startup_master(uint8_t element_idx, wiced_bool_t startup_master);
+void wiced_bt_mesh_model_light_xyl_server_set_startup_controller(uint8_t element_idx, wiced_bool_t startup_controller);
 
 /* @} wiced_bt_mesh_light_xyl_server */
 

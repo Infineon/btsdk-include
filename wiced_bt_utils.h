@@ -38,6 +38,7 @@
 #define __WICED_BT_UTILS_H
 
 #include "wiced_bt_types.h"
+#include "wiced_bt_dev.h"
 
 /*******************************************************************
 ** WICED BT related definitions and declarations
@@ -53,6 +54,8 @@ int utl_bdcmp(const BD_ADDR a, const BD_ADDR b);
 int utl_bdcmpany(const BD_ADDR a);
 void utl_bdsetany(BD_ADDR a);
 
+
+
 /*******************************************************************
 ** string and character related definitions and declarations
 *******************************************************************/
@@ -65,6 +68,21 @@ int utl_strucmp(const char *p_s, const char *p_t);
 unsigned long utl_strtoul(const char *nptr, char **endptr, int base);
 char utl_toupper(char c);
 uint8_t utl_itoa(uint16_t i, char *p_s);
+
+
+/*******************************************************************
+ * Function         wiced_bt_read_raw_rssi
+ *
+ *                  returns the raw or actual RSSI
+ *
+ * @param[in]       connection_handle   : peer connection handle
+ * @param[in]       p_callback_in       : application callback to receive RSSI
+ *
+ * @return          void
+*******************************************************************/
+typedef void (wiced_bt_read_raw_rssi_command_complete_cback_t) (wiced_bt_dev_vendor_specific_command_complete_params_t *p_command_complete_params);
+wiced_bt_dev_status_t wiced_bt_read_raw_rssi(uint16_t connection_handle, wiced_bt_read_raw_rssi_command_complete_cback_t *p_callback_in);
+
 
 #if defined (CYW20706A2) || defined (CYW43012C0)
 // strchr defined in ROM for most chips, define here for the missing ones

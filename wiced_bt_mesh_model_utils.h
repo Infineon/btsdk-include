@@ -446,6 +446,15 @@ void wiced_bt_mesh_models_utils_cancel_send(wiced_bt_mesh_event_t **p_out_event_
 wiced_result_t wiced_bt_mesh_models_utils_send(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_event_t **p_out_event, wiced_bool_t is_command, uint16_t opcode, uint8_t *p_buffer, uint16_t len, wiced_bt_mesh_core_send_complete_callback_t complete_callback);
 
 /**
+ * This function can be called to extend reply timeout, for example, when a friend has replied on behalf of an LPN
+ *
+ * @param       p_event event that has been used in initial wiced_bt_mesh_models_utils_send function
+ *
+ * @return      WICED_TRUE if success.
+ */
+wiced_bool_t wiced_bt_mesh_models_utils_update_reply_timeout(wiced_bt_mesh_event_t* p_event);
+
+/**
  * The access layer has completed sending of the packet.
  * Returns TRUE if event was dequeued.  FALSE if timer is still running and another complete will follow when timer expires.
  */
@@ -602,11 +611,11 @@ uint8_t uint32_to_log_heartbeat(uint32_t period);
 uint32_t uint32_from_log_heartbeat(uint8_t log);
 
 // A device may have 1, 2, or 3 models implemented to control the color. One of them is running as a startup
-// master, and tell application about the currently set color
-#define MESH_UTILS_COLOR_MASTER_HSL   0
-#define MESH_UTILS_COLOR_MASTER_CTL   1
-#define MESH_UTILS_COLOR_MASTER_XYL   2
-void mesh_model_set_color_light_master(uint8_t element_idx, uint8_t master);
+// controller, and tell application about the currently set color
+#define MESH_UTILS_COLOR_CONTROLLER_HSL   0
+#define MESH_UTILS_COLOR_CONTROLLER_CTL   1
+#define MESH_UTILS_COLOR_CONTROLLER_XYL   2
+void mesh_model_set_color_light_controller(uint8_t element_idx, uint8_t controller);
 
 #ifndef TIMER_PARAM_TYPE
 #define TIMER_PARAM_TYPE WICED_TIMER_PARAM_TYPE

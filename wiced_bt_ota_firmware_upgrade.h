@@ -259,7 +259,10 @@ wiced_bt_gatt_status_t wiced_ota_fw_upgrade_read_handler(uint16_t conn_id, wiced
 *          OTA Firmware Upgrade library for handles that belong to the FW Upgrade Service.
 *
 ******************************************************************************/
+#if BTSTACK_VER > 0x01020000
+#else
 wiced_bt_gatt_status_t wiced_ota_fw_upgrade_write_handler(uint16_t conn_id, wiced_bt_gatt_write_t *p_write_data);
+#endif
 
 /******************************************************************************
 * Function Name: wiced_ota_fw_upgrade_indication_cfm_handler

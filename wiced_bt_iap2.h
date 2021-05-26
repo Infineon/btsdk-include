@@ -85,6 +85,7 @@ extern uint8_t MatchAction;
 extern uint8_t AppMatchTeamId[];                /**<  zero terminating string with the match team ID */
 extern uint8_t CurrentLanguage[];               /**<  zero terminating string with the current language */
 extern uint8_t SupportedLanguage[];             /**<  list of zero terminating strings with supported languages for example en\0fr\0\0 */
+extern uint8_t ProductPlanUID[];                /**<  zero terminating string with sample ProductPlanUID value */
 
 /**< Size of the buffer required to read chip information from the MFi chip */
 #define AUTH_CHIP_INFO_DATA_SIZE                8

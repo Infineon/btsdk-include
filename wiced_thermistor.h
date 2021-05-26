@@ -44,12 +44,21 @@
 extern "C" {
 #endif
 
+/**
+ * Following structure is used to initialize thermistor
+ */
+typedef struct
+{
+    uint16_t                high_pin;           /*  A/D input high pin    */
+    uint16_t                low_pin;            /*  A/D input low pin (not used for thermistor ncu15wf104)   */
+    uint16_t                adc_power_pin;      /*  ADC power pin (not used for thermistor ncu15wf104) */
+} thermistor_cfg_t;
+
 /******************************************************************************
 * Function Name: therm_init
 ***************************************************************************//**
 * init thermistor.
 *
-* \param None.
 *
 * \return None
 ******************************************************************************/
@@ -60,9 +69,11 @@ void thermistor_init(void);
 ***************************************************************************//**
 * read thermistor temperature.
 *
-* \return Temperature in degrees Celsius * 100
+* \param  p_thermistor_cfg: pointer to thermister config structure
+*
+* \return Temperature in degrees Celsius * 100.
 ******************************************************************************/
-int16_t thermistor_read(void);
+int16_t thermistor_read(thermistor_cfg_t *p_thermistor_cfg);
 
 
 #ifdef __cplusplus

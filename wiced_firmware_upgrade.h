@@ -154,5 +154,28 @@ uint32_t   wiced_firmware_upgrade_retrieve_from_nv(uint32_t offset, uint8_t *dat
 ******************************************************************************/
 void     wiced_firmware_upgrade_finish(void);
 
+/******************************************************************************
+*
+* Stored in DS header area, product id and version used to compare with upgrade image.
+*
+******************************************************************************/
+typedef struct
+{
+    uint16_t product_id;
+    uint8_t major;
+    uint8_t minor;
+} wiced_bt_application_id_t;
+
+/******************************************************************************
+* Function Name: wiced_get_current_app_id_and_version
+***************************************************************************//**
+* \brief Retrieves application version information from nvram.
+*
+* \details The application calls this function to retrieve the appplication id
+*          and version to compare with the downloaded image.
+*
+******************************************************************************/
+wiced_bool_t wiced_get_current_app_id_and_version(wiced_bt_application_id_t *app_id_and_version);
+
 #endif /* WICED_FIRMWARE_UPGRADE_H */
 /** \} group_wiced_firmware_upgrade */

@@ -45,6 +45,7 @@
 *******************************************************************************/
 #ifndef WICED_BT_BEACON_H
 #define WICED_BT_BEACON_H
+#include "wiced_bt_ble.h"
 
 #if defined(CYW43012C0)
 #include "wiced_bt_ble_multi_adv.h"

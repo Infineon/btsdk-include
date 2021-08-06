@@ -164,6 +164,34 @@ extern "C"
 #define WICED_BT_MESH_PROXY_CONNECTION_STATUS                254  /**< Proxy connection status */
 #define WICED_BT_MESH_TX_COMPLETE                            255  /**< Transmission completed, or timeout waiting for peer ack. */
 
+#define WICED_BT_MESH_CONFIG_PRIVATE_BEACON_STATUS           262  /**< Private Beacon Status */
+#define WICED_BT_MESH_CONFIG_PRIVATE_GATT_PROXY_STATUS       263  /**< Private GATT Proxy Status */
+#define WICED_BT_MESH_CONFIG_PRIVATE_NODE_IDENTITY_STATUS    264  /**< Private Node Identity Status */
+#define WICED_BT_MESH_CONFIG_ON_DEMAND_PRIVATE_PROXY_STATUS  265  /**< On-Demand Private Proxy Status */
+#define WICED_BT_MESH_SOLICITATION_PDU_RPL_ITEMS_STATUS      266  /**< Solicitation PDU RPL Items Status */
+
+#define WICED_BT_MESH_NETWORK_FILTER_STATUS                  267  /**< Network Filter Status */
+
+#define WICED_BT_MESH_DF_DIRECTED_CONTROL_STATUS                   268
+#define WICED_BT_MESH_DF_PATH_METRIC_STATUS                        269
+#define WICED_BT_MESH_DF_DISCOVERY_TABLE_CAPABILITIES_STATUS       270
+#define WICED_BT_MESH_DF_FORWARDING_TABLE_STATUS                   271
+#define WICED_BT_MESH_DF_FORWARDING_TABLE_DEPENDENTS_STATUS        272
+#define WICED_BT_MESH_DF_FORWARDING_TABLE_DEPENDENTS_GET_STATUS    273
+#define WICED_BT_MESH_DF_FORWARDING_TABLE_ENTRIES_COUNT_STATUS     274
+#define WICED_BT_MESH_DF_FORWARDING_TABLE_ENTRIES_STATUS           275
+#define WICED_BT_MESH_DF_WANTED_LANES_STATUS                       276
+#define WICED_BT_MESH_DF_TWO_WAY_PATH_STATUS                       277
+#define WICED_BT_MESH_DF_PATH_ECHO_INTERVAL_STATUS                 278
+#define WICED_BT_MESH_DF_DIRECTED_NETWORK_TRANSMIT_STATUS          279
+#define WICED_BT_MESH_DF_DIRECTED_RELAY_RETRANSMIT_STATUS          280
+#define WICED_BT_MESH_DF_RSSI_THRESHOLD_STATUS                     281
+#define WICED_BT_MESH_DF_DIRECTED_PATHS_STATUS                     282
+#define WICED_BT_MESH_DF_DIRECTED_PUBLISH_POLICY_STATUS            283
+#define WICED_BT_MESH_DF_PATH_DISCOVERY_TIMING_CONTROL_STATUS      284
+#define WICED_BT_MESH_DF_DIRECTED_CONTROL_NETWORK_TRANSMIT_STATUS  285
+#define WICED_BT_MESH_DF_DIRECTED_CONTROL_RELAY_RETRANSMIT_STATUS  286
+
 /* This structure contains information sent from the provisioner application to provisioner library to setup local device */
 typedef struct
 {

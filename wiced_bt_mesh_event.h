@@ -60,6 +60,7 @@ extern "C"
 // Bits of the field wiced_bt_mesh_event_t::app_key_idx
 #define WICED_BT_MESH_EVENT_KEY_IDX_DEFAULT_NETKEYIDX   0xffff  /**<  Use device key with default (first) net key idx. */
 #define WICED_BT_MESH_EVENT_KEY_IDX_FLAG_DEVKEY         0x8000  /**<  1 means it is protected by device key and remaining part contains net_key_idx. 0 means it is protected by application key and remaining part contains app_key_idx. */
+#define WICED_BT_MESH_EVENT_KEY_IDX_FLAG_INT_IDX        0x4000  /**<  1 means it is internal key index in the same order as added. 0 means it is global key index. */
 #define WICED_BT_MESH_EVENT_KEY_IDX_MSK_KEYIDX          0x0fff  /**<  Mask of the app_key_index/net_key_index depending on value 0/1 of the bit WICED_BT_MESH_EVENT_KEY_IDX_FLAG_DEVKEY */
 /** @} WICED_BT_MESH_EVENT_KEY_IDX */
 
@@ -90,7 +91,10 @@ typedef struct wiced_bt_mesh_event__t
     uint16_t        dst;            /**< Address of the destination mesh node */
     uint16_t        app_key_idx;    /**< Application key index used to decrypt when message was received or which should be used to encrypt to send the message */
     uint16_t        data_len;       /**< Length of data corresponding to the event */
-    uint8_t         credential_flag;/**< Value of the Friendship Credential Flag */
+#define CREDENTIAL_FLAG_FLOODING    0x00    /*< Flooding Credentials  */
+#define CREDENTIAL_FLAG_FRENDSHIP   0x01    /*< Friendship Credentials  */
+#define CREDENTIAL_FLAG_DIRECTED    0x02    /*< Directed Forwarding Credentials  */
+    uint8_t         credential_flag;/**< One of the CREDENTIAL_FLAG_XXX value. It comes from publication or credentials of the received message */
     uint8_t         retrans_cnt;    /**< Number of retransmissions for each message. Should be <= 0x7f. It is ignored using 0 value or if it is reply (reply == WICED_TRUE). */
                                     /**< If bit 0x80 is set, the retransmission count and time applies to number of network rexmits, no access layer rexmits, the time is in 10ms ticks */
                                     /**< The number of transmissions is the retrans_cnt + 1. The transmission interval = (retrans_time + 1) * 10 */
@@ -109,6 +113,9 @@ typedef struct wiced_bt_mesh_event__t
 #define RPL_DELAY_DONT_SAVE         0xff
         uint8_t         rpl_delay;   /**< Model indicates how SEQ shall be saved by the core. It is delay in seconds to save SEQ in RPL. 0-save immediatly; 0xff - don't save; */
     } status;
+#define TAG_USE_DIRECTED            0x01
+#define TAG_IMMUTABLE_CREDENTIALS   0x02
+    uint8_t         flags;
     uint16_t        friend_addr;    /**< core sets it to friend address when calls complete_callback if segmented message has been sent and acked by the friend OnBehalfOf LPN. Otherwise it is 0 */
     uint8_t         send_segmented; /**< if non-0 then core uses segmentation to send that message even if it fits into unsegmented message. */
     int8_t          rssi;           /**< RSSI of the received message */

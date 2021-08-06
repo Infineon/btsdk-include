@@ -51,8 +51,10 @@ extern "C"
 #include "wiced_bt_ble.h"
 
 /* The Identification Type field values of the proxy service advertisement */
-#define WICED_BT_MESH_PROXY_IDENTIFICATION_TYPE_NETWORK_ID      0
-#define WICED_BT_MESH_PROXY_IDENTIFICATION_TYPE_NODE_IDENTITY   1
+#define WICED_BT_MESH_PROXY_IDENTIFICATION_TYPE_NETWORK_ID              0
+#define WICED_BT_MESH_PROXY_IDENTIFICATION_TYPE_NODE_IDENTITY           1
+#define WICED_BT_MESH_PROXY_IDENTIFICATION_TYPE_PRIVATE_NETWORK_ID      2
+#define WICED_BT_MESH_PROXY_IDENTIFICATION_TYPE_PRIVATE_NODE_IDENTITY   3
 
 /**
  * @addtogroup  wiced_bt_mesh               BLE Mesh
@@ -91,6 +93,8 @@ extern "C"
 #define WICED_BT_MESH_CORE_CMD_SPECIAL_PROXY_FLT_ADD_ADDR   0x01    /**<  Sent by a Proxy Client to add addresses to the proxy filter list. */
 #define WICED_BT_MESH_CORE_CMD_SPECIAL_PROXY_FLT_DEL_ADDR   0x02    /**<  Sent by a Proxy Client to remove addresses from the proxy filter list. */
 #define WICED_BT_MESH_CORE_CMD_SPECIAL_PROXY_FLT_STATUS     0x03    /**<  Acknowledgment by a Proxy Server to a Proxy Client to report the status of the proxy filter list. */
+#define WICED_BT_MESH_CORE_CMD_SPECIAL_DIRECTED_PROXY_CAPABILITIES_STATUS   0x04    /**< Sent by a Directed Proxy Server to report the status of its capabilities for a subnet. */
+#define WICED_BT_MESH_CORE_CMD_SPECIAL_DIRECTED_PROXY_CONTROL               0x05    /**< Sent by a Directed Proxy Client to set connection parameters of the Directed Proxy for a subnet. */
 #define WICED_BT_MESH_CORE_CMD_SPECIAL_HEARTBEAT            0x0a    /**<  Heartbeat message came from Transport layer. */
 /** @} WICED_BT_MESH_CORE_CMD_SPECIAL */
 
@@ -292,6 +296,8 @@ typedef enum
     WICED_BT_MESH_CORE_STATE_LPN_SCAN,              /**< LPN layer requests stop(or start) scanning when it doesn't expect(or expects) any packets */
     WICED_BT_MESH_CORE_STATE_FRND_FRIENDSHIP,       /**< Friend friendship state is changed - established or aborted */
     WICED_BT_MESH_CORE_STATE_TYPE_CLR_RPL,          /**< RPL is cleared */
+    WICED_BT_MESH_CORE_STATE_PRIVATE_BEACON,        /**< Private beacon received */
+    WICED_BT_MESH_CORE_STATE_PROXY_SERVICE_ADV,     /**< Proxy service advertisement received */
 } wiced_bt_mesh_core_state_type_t;
 
 /**
@@ -366,6 +372,26 @@ typedef struct
     uint16_t        addr;               /**< Peer address friendship is established or aborted with */
 } wiced_bt_mesh_core_state_friendship_t;
 
+/**
+* Data for state types WICED_BT_MESH_CORE_STATE_PRIVATE_BEACON.
+*/
+typedef struct
+{
+    uint8_t         flags;              /**< Key refresh flag and IV update flag */
+    const uint8_t   *iv_index;          /**< IV index */
+    const uint8_t   *random;            /**< Private beacon random */
+    const uint8_t   *bd_addr;           /**< Sender address */
+} wiced_bt_mesh_core_state_beacon_t;
+
+/**
+* Data for state types WICED_BT_MESH_CORE_STATE_PROXY_SERVICE_ADV.
+*/
+typedef struct
+{
+    uint8_t         type;               /**< Proxy service identification type */
+    uint16_t        net_key_idx;        /**< Subnet index */
+} wiced_bt_mesh_core_state_proxy_serivce_t;
+
 typedef union
 {
     wiced_bt_mesh_core_state_seq_t              seq;                        /**< State for type WICED_BT_MESH_CORE_STATE_TYPE_SEQ */
@@ -380,7 +406,8 @@ typedef union
     uint32_t                                    lpn_sleep;                  /**< LPN application can go to sleep mode for a specific sleep time or can return
                                                                                  with same or changed sleep time to let core to procceed with poll after that time. */
     wiced_bt_mesh_core_state_friendship_t       frnd;                       /**< Friend friendship state is changed - established or aborted */
-
+    wiced_bt_mesh_core_state_beacon_t           beacon;                     /**< Contents of received beacon */
+    wiced_bt_mesh_core_state_proxy_serivce_t    proxy_service;              /**< Proxy service advertisement data */
 } wiced_bt_mesh_core_state_t;
 
 typedef void(*wiced_bt_mesh_core_state_changed_callback_t)(wiced_bt_mesh_core_state_type_t type, wiced_bt_mesh_core_state_t *p_state);
@@ -417,6 +444,15 @@ typedef struct
  * @return      wiced_result_t WICED_BT_SUCCESS means device provisioned, WICED_BT_PENDING - it is not provisioned, otherwise it is not functional.
  */
 wiced_result_t wiced_bt_mesh_core_init(wiced_bt_mesh_core_init_t *p_init);
+
+/**
+ * \brief Mesh Core de-initialization.
+ * \details The wiced_bt_mesh_core_deinit function can be called to reset device to unprovisioned state.
+ * The function deletes main nvram item and restarts device.
+ *
+ * @param[in]   nvram_access_callback   Callback function to read/write from/to NVRAM
+ */
+void wiced_bt_mesh_core_deinit(wiced_bt_core_nvram_access_t nvram_access_callback);
 
 /**
  * \brief Mesh Core Start.
@@ -494,10 +530,11 @@ void wiced_bt_mesh_core_cancel_send(wiced_bt_mesh_event_t *p_event);
  *
  * @param[in]   rssi             RSSI of the received packet
  * @param[in]   p_adv_data       Advertisement packet data
+ * @param[in]   remote_bd_addr   BD address of the node that advertisement packet data came from
  *
  * @return      wiced_result_t
  */
-wiced_result_t wiced_bt_mesh_core_adv_packet(int8_t rssi, const uint8_t *p_adv_data);
+wiced_result_t wiced_bt_mesh_core_adv_packet(int8_t rssi, const uint8_t *p_adv_data, const uint8_t* remote_bd_addr);
 
 /**
  * \brief Handle packet received by proxy via GATT.
@@ -552,6 +589,31 @@ void wiced_bt_mesh_core_connection_status(uint32_t conn_id, wiced_bool_t connect
 wiced_bool_t wiced_bt_mesh_core_check_node_identity(uint16_t addr, const uint8_t *data, uint8_t len, uint16_t *p_net_key_idx);
 
  /**
+* \brief Checks if received Service Data for Mesh Proxy Service with Private Node Identity corresponds to that node address
+* \details Application should call that function on each received advertizing with proxy service data for Mesh Proxy Service with Private Node Identity to check if it is came from specific node address.
+*
+* @param[in]   addr:           :Node address to check Identity for
+* @param[in]   p_data          :Received service data returned by wiced_bt_ble_check_advertising_data()
+* @param[in]   len             :Length of the received service data.
+* @param[out]  net_key_idx     :Optional (can be NULL) pointer to variable to receive matched global network index - it is valid on success only.
+*
+* @return      WICED_TRUE/WICED_FALSE - success/failed
+*/
+wiced_bool_t wiced_bt_mesh_core_check_private_node_identity(uint16_t addr, const uint8_t* data, uint8_t len, uint16_t* p_net_key_idx);
+
+/**
+ * \brief Checks if received Service Data for Mesh Proxy Service with Private Network Identity is valid
+ * \details Application should call that function on each received advertizing with proxy service data for Mesh Proxy Service with Private Network Identity to check if it is for a valid network.
+ *
+ * @param[in]   p_data          :Received service data returned by wiced_bt_ble_check_advertising_data()
+ * @param[in]   len             :Length of the received service data.
+ * @param[out]  net_key_idx     :Pointer to variable to receive matched global network index - it is valid on success only.
+ *
+ * @return      WICED_TRUE/WICED_FALSE - success/failed
+ */
+wiced_bool_t wiced_bt_mesh_core_check_private_network_id(const uint8_t* data, uint8_t len, uint16_t* p_net_key_idx);
+
+ /**
  * @anchor WICED_BT_MESH_CORE_TEST_MODE_SIGNAL
  * @name Test Mode Signals.
  * \details The following is the list of signals used for certification and compliance testing.
@@ -598,10 +660,11 @@ void wiced_bt_mesh_core_calc_uri_hash(const uint8_t *uri, uint8_t len, uint8_t *
 
 /**
 * \brief Sets node identity state as a result of user interaction.
-* @param        None
+ * @param[in]   type        0: network identity, 1: node identity, 2: private network identity, 3: private node identity
+ * @param[in]   action      1: ON, 0: OFF
 * @return       None
 */
-void wiced_bt_mesh_core_set_node_identity(void);
+void wiced_bt_mesh_core_set_node_identity(uint8_t type, uint8_t action);
 
 /**
  * \brief Indicates the fault happened.
@@ -675,6 +738,7 @@ wiced_bool_t wiced_bt_mesh_core_health_set_faults(uint8_t element_idx, uint8_t t
  * @{
  */
 #define WICED_BT_MESH_PROVISION_ALG_FIPS_P256_ELLIPTIC_CURVE      0x0001
+#define WICED_BT_MESH_PROVISION_ALG_ECDH_P256_HMAC_SHA256_AES_CCM 0x0002
 #define WICED_BT_MESH_PROVISION_CAPS_PUB_KEY_TYPE_AVAILABLE       0x01
 #define WICED_BT_MESH_PROVISION_CAPS_PUB_KEY_TYPE_PROHIBITED      0xfe
 #define WICED_BT_MESH_PROVISION_CAPS_STATIC_OOB_TYPE_AVAILABLE    0x01
@@ -703,6 +767,7 @@ typedef struct
  * @{
  */
 #define WICED_BT_MESH_PROVISION_START_ALG_FIPS_P256               0x00
+#define WICED_BT_MESH_PROVISION_START_ALG_P256_HMAC_SHA256_AES_CCM  0x01
 #define WICED_BT_MESH_PROVISION_START_PUB_KEY_NO                  0x00
 #define WICED_BT_MESH_PROVISION_START_PUB_KEY_USED                0x01
 #define WICED_BT_MESH_PROVISION_START_AUTH_METHOD_NO              0x00
@@ -754,11 +819,11 @@ typedef struct
     wiced_bt_mesh_core_provision_capabilities_t capabilities;
     wiced_bt_mesh_core_provision_start_t        start;
     uint8_t   peer_public_key_or_ecdh_secret[WICED_BT_MESH_PROVISION_PUBLIC_KEY_LEN];  /**< we will use it for ECDH secret too */
-    uint8_t   conf_key_or_dev_key[WICED_BT_MESH_KEY_LEN];
-    uint8_t   confirmation[WICED_BT_MESH_PROVISION_CONFIRMATION_LEN];
-    uint8_t   prov_salt[WICED_BT_MESH_KEY_LEN];
+    uint8_t   conf_key_or_dev_key[WICED_BT_MESH_KEY_LEN * 2];   // ConformationKey can be 128 bit or 256 bit
+    uint8_t   confirmation[WICED_BT_MESH_PROVISION_CONFIRMATION_LEN * 2];  // Conformation can be 128 bit or 256 bit
+    uint8_t   prov_salt[WICED_BT_MESH_KEY_LEN * 2]; // It can keep 128 or 256 ConformationSalt or 128 bit ProvisionongSalt
     uint8_t   session_key[WICED_BT_MESH_KEY_LEN];
-    uint8_t   random[WICED_BT_MESH_PROVISION_RANDOM_LEN];
+    uint8_t   random[WICED_BT_MESH_PROVISION_RANDOM_LEN * 2]; // Random can be 128 bit or 256 bit
     uint8_t   oob_value[16];    /**< max static OOB value len is 256 bits(16bytes). Max input and output OOB value length is 8 bytes */
     uint8_t   oob_value_len;    /**< length of the OOB value */
     uint16_t  net_key_idx;      /**< NetKeyIdx provisioned */
@@ -1038,11 +1103,6 @@ typedef struct
     uint32_t    received_seg_msg_cnt;               /**< Number of received segments */
     uint32_t    received_ack_msg_cnt;               /**< Number of received ACKs */
     uint32_t    dropped_access_layer_msg_cnt;       /**< Number of messages dropped by access layer */
-
-    uint32_t    df_not_relayed_msg_cnt;             /**< Number of messages which don't relay using Directed Forwarding Mode */
-    uint32_t    df_relayed_msg_cnt;                 /**< Number of messages which relayed using Directed Forwarding Mode */
-    uint32_t    df_sent_ack_msg_cnt;                /**< Number of Segment Acknowledgment message using Directed Forwarding Mode */
-    uint32_t    df_sent_msg_cnt;                    /**< Number of messages sent using Directed Forwarding Mode  */
 } wiced_bt_mesh_core_transport_statistics_t;
 
 /**
@@ -1099,15 +1159,10 @@ extern uint16_t wiced_bt_mesh_core_nvm_idx_app_key_begin;
 extern uint16_t wiced_bt_mesh_core_nvm_idx_health_state;
 extern uint16_t wiced_bt_mesh_core_nvm_idx_cfg_data;
 extern uint16_t wiced_bt_mesh_core_nvm_idx_fw_distributor;
+extern uint16_t wiced_bt_mesh_core_nvm_idx_df_config;
 
 /* Advertisements TX Power. Default value is 4. */
 extern uint8_t  wiced_bt_mesh_core_adv_tx_power;
-
-/**
-* Interval in seconds of advertising of the Proxy Service Network ID. 0 means always advertise.
-* Ignored if proxy isn't enabled. Default value is 5.
-*/
-extern uint8_t wiced_bt_mesh_core_proxy_on_demand_advert_to;
 
 /**
 * If the value of that variable is WICED_TRUE then the transport layer always use 32-bit TransMIC.
@@ -1140,9 +1195,6 @@ extern uint8_t wiced_bt_core_lower_transport_seg_trans_cnt;
 * Default value is WICED_TRUE
 */
 extern wiced_bool_t wiced_bt_core_boost_cpu_on_crypt_op;
-
-/* Code of the Mesh Proxy request */
-#define WICED_MESH_PROXY_REQ 0x0077
 
 /**
  * \brief Fills buffer net_id with 8 bytes Network ID for net_key_idx.
@@ -1271,11 +1323,6 @@ wiced_bool_t wiced_bt_mesh_core_del_last_element(void);
 */
 wiced_bool_t wiced_bt_mesh_core_needs_composition_refresh(void);
 
-#define WICED_BT_MESH_CORE_DIRECTED_FORWARDING_TEST_FLAGS_DISABLE_DISCOVERY_INIT 0x0001
-#define WICED_BT_MESH_CORE_DIRECTED_FORWARDING_TEST_FLAGS_DISABLE_DELEGATED_DISCOVERY_INIT  0x0002
-/* sets flags for PTS testing */
-extern uint32_t wiced_bt_mesh_core_directed_forwarding_test_flags;
-
 /**
 * \brief Advertising interval of the unprovisioned beacon in units 0.5 sec. Default value: 8000 (5 sec)
 */
@@ -1316,6 +1363,11 @@ extern uint16_t wiced_bt_core_lower_transport_ack_timeout_ms;
 extern uint16_t    wiced_bt_mesh_core_proxy_adv_interval;
 
 /**
+* \brief Report core events from a node for test purpose
+*/
+extern uint16_t mesh_core_report_events_node_addr;
+
+/**
  * \brief Returns pointer to the specific application key.
  * \details Application may call this function to get application key by its global index. During Key Refresh procedure
  * there are can be two application keys with same global index: old and new. Second parameter specifies which one to get.
@@ -1328,6 +1380,24 @@ extern uint16_t    wiced_bt_mesh_core_proxy_adv_interval;
  * @return      Pointer to the application key. On error returns NULL.
  */
 const uint8_t* wiced_bt_mesh_core_get_app_key(uint16_t appkey_global_idx, wiced_bool_t newKeyAtKeyRefresh);
+
+/**
+* \brief Set test events report node address
+*
+* @param       node_addr    Address of the node being monitored, set to 0 to disable report
+*
+* @return      None
+*/
+void wiced_bt_mesh_core_set_test_events_report(uint16_t node_addr);
+
+/**
+* \brief Sets beacon state as a result of user interaction.
+* @param[in]   type        0: Beacon, 1: Private Beacon
+* @param[in]   onoff       0: OFF, 1: ON
+* @return      None
+*/
+void wiced_bt_mesh_core_set_beacon(uint8_t type, uint8_t onoff);
+
 
 /* The Bits of the modules of the mesh_core_lib for wiced_bt_mesh_core_set_trace_level */
 #define WICED_BT_MESH_CORE_TRACE_FID_MESH_DISCOVERY         0x00000002
@@ -1373,6 +1443,10 @@ void wiced_bt_mesh_core_set_trace_level(uint32_t fids_mask, uint8_t level);
 
 /* @} wiced_bt_mesh_core */
 /* @} wiced_bt_mesh */
+
+
+// Sets bd address for advertisements
+void wiced_bt_mesh_core_set_adv_bdaddr(wiced_bt_device_address_t bda);
 
 #ifdef __cplusplus
 }

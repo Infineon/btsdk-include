@@ -615,7 +615,7 @@ typedef struct
  */
 typedef struct
 {
-    uint16_t action_number;                         /**< Bit field indicating defined Actions in the Schedule Register */
+    uint8_t action_number;                          /**< Index of the Schedule Register entry to get */
 } wiced_bt_mesh_scheduler_action_get_t;
 
 /**

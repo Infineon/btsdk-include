@@ -76,6 +76,36 @@ typedef PACKED struct
     uint8_t  data[1];
 } wiced_bt_mesh_hci_event_t;
 
+/**
+* @anchor WICED_BT_MESH_HCI_COMMAND_FLAGS
+* @name Bits of the wiced_bt_mesh_hci_command_t::flags
+* \details The following is the bits meaning of the field flags in the structure wiced_bt_mesh_hci_command_t.
+* @{
+*/
+/**
+* Bits meaning
+*/
+// Bits of the field wiced_bt_mesh_hci_command_t::flags
+#define WICED_BT_MESH_HCI_COMMAND_FLAGS_SEND_SEGMENTED                  0x01  /**<  1 means core uses segmentation to send that message even if it fits into unsegmented message. */
+#define WICED_BT_MESH_HCI_COMMAND_FLAGS_TAG_USE_DIRECTED                0x02  /**<  Tag Use Directed. */
+#define WICED_BT_MESH_HCI_COMMAND_FLAGS_TAG_IMMUTABLE_CREDENTIALS       0x04  /**<  Tag Immutable Credentials */
+/** @} WICED_BT_MESH_HCI_COMMAND_FLAGS */
+
+// Represents WICED-HCI command. In the stream it is has LE bytes order
+typedef PACKED struct
+{
+    uint16_t dst;
+    uint16_t app_key_idx;
+    uint8_t  element_idx;
+    uint8_t  reply;
+    uint8_t  flags;
+    uint8_t  ttl;
+    uint8_t  retrans_cnt;
+    uint8_t  retrans_time;
+    uint8_t  reply_timeout;
+    uint8_t  data[1];
+} wiced_bt_mesh_hci_command_t;
+
 #pragma pack()
 
 extern uint8_t mesh_mfr_name[WICED_BT_MESH_PROPERTY_LEN_DEVICE_MANUFACTURER_NAME];
@@ -203,6 +233,8 @@ extern wiced_bt_mesh_app_func_table_t wiced_bt_mesh_app_func_table;
 
 extern void mesh_application_gen_uuid(uint8_t* uuid);
 extern void mesh_application_factory_reset(void);
+// If uuid_len == 16 then assigns UUID to the node. It does factory reset. And it does factory reset
+extern void mesh_application_hard_reset(uint8_t* uuid, uint8_t uuid_len);
 
 /**
  *@brief Returns the first usable by application NVRAM Identifier.

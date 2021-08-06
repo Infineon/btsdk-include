@@ -42,7 +42,7 @@
 #ifndef WICED_BT_MCE_API_H
 #define WICED_BT_MCE_API_H
 
-#include "wiced_bt_ma_def.h"
+#include "wiced_bt_map_def.h"
 
 /*****************************************************************************
 **  Constants and data types
@@ -63,7 +63,7 @@
 #define WICED_BT_MCE_MN_NUM_SESSION  WICED_BT_MCE_NUM_MA
 
 #define WICED_BT_MNS_RFCOMM_SCN      2
-#define WICED_BT_MNS_L2CAP_PSM       3
+#define WICED_BT_MNS_L2CAP_PSM       0x1005
 
 /* Client callback function events */
 enum
@@ -84,9 +84,7 @@ enum
     WICED_BT_MCE_FOLDER_LIST_EVT,
     WICED_BT_MCE_MSG_LIST_EVT,
     WICED_BT_MCE_GET_MSG_EVT,
-#if (defined(BTA_MAP_1_2_SUPPORTED) && BTA_MAP_1_2_SUPPORTED == TRUE)
     WICED_BT_MCE_GET_MAS_INS_INFO,
-#endif
     WICED_BT_MCE_PUSH_MSG_EVT,
     WICED_BT_MCE_MSG_PROG_EVT,
     WICED_BT_MCE_ABORT_EVT,
@@ -210,7 +208,7 @@ typedef struct
     wiced_bt_obex_rsp_code_t    obx_rsp_code;       /* obex response code */
 } wiced_bt_mce_get_msg_t;
 
-#if (defined(BTA_MAP_1_2_SUPPORTED) && BTA_MAP_1_2_SUPPORTED == TRUE)
+
 /* Structure associated with WICED_BT_MCE_GET_MAS_INS_INFO */
 typedef struct
 {
@@ -220,7 +218,7 @@ typedef struct
     wiced_bt_ma_mas_ins_info_t  mas_ins_info;
     wiced_bt_obex_rsp_code_t    obx_rsp_code;       /* obex response code */
 } wiced_bt_mce_get_mas_ins_info_t;
-#endif
+
 
 /* Structure associated with WICED_BT_MCE_MSG_PROG_EVT  */
 typedef struct
@@ -308,9 +306,7 @@ typedef union
     wiced_bt_mce_list_data_t          list_data;      /* WICED_BT_MCE_FOLDER_LIST_EVT,
                                                          WICED_BT_MCE_MSG_LIST_EVT */
     wiced_bt_mce_get_msg_t            get_msg;        /* WICED_BT_MCE_GET_MSG_EVT  */
-#if (defined(BTA_MAP_1_2_SUPPORTED) && BTA_MAP_1_2_SUPPORTED == TRUE)
     wiced_bt_mce_get_mas_ins_info_t   get_mas_ins_info; /* WICED_BT_MCE_GET_MAS_INS_INFO */
-#endif
     wiced_bt_mce_push_msg_t           push_msg;       /* WICED_BT_MCE_PUSH_MSG_EVT */
     wiced_bt_mce_msg_prog_t           prog;           /* WICED_BT_MCE_MSG_PROG_EVT */
     wiced_bt_mce_abort_t              abort;
@@ -373,13 +369,16 @@ void wiced_bt_mce_disable(void);
 **  Parameters      sec_mask - The security setting for the message access server.
 **                  p_service_name - The name of the Message Notification service, in SDP.
 **                                   Maximum length is 35 bytes.
+**                  scn - The RFCOMM SCN number where MN server listens for incoming request.
+**                  psm - [MAP 1.2 and above]
+**                        The L2CAP PSM number where MN server listens for incoming request.
 **                  features - Local supported features
 **
 ** Returns          void
 **
 *******************************************************************************/
-void wiced_bt_mce_mn_start(UINT8 sec_mask, const char *p_service_name,
-                           wiced_bt_ma_supported_features_t features);
+void wiced_bt_mce_mn_start(UINT8 sec_mask, const char *p_service_name, const UINT8 scn,
+            const UINT16 psm, wiced_bt_ma_supported_features_t features);
 
 /*******************************************************************************
 **
@@ -561,13 +560,15 @@ void wiced_bt_mce_get_folder_list(wiced_bt_ma_sess_handle_t session_id,
 ** Parameter        session_id -  session handle
 **                  p_folder        - folder name
 **                  p_filter_param - message listing filter parameters
+**                  is_srmp_enable - True to add SRMP header
 **
 ** Returns          void
 **
 *******************************************************************************/
 void wiced_bt_mce_get_msg_list(wiced_bt_ma_sess_handle_t session_id,
                                const char *p_folder,
-                               wiced_bt_ma_msg_list_filter_param_t *p_filter_param);
+                               wiced_bt_ma_msg_list_filter_param_t *p_filter_param,
+			       wiced_bool_t is_srmp_enable);
 
 /*******************************************************************************
 **

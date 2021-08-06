@@ -321,6 +321,13 @@ void wiced_bt_iap2_port_purge(uint16_t handle, uint8_t purge_flags);
  */
 uint16_t wiced_bt_iap2_rfcomm_get_peer_mtu(uint16_t handle);
 
+/**
+ * iAP2 application use this function to get the connection state with the peer specified by btaddr
+
+ * @return         connection state
+ */
+uint8_t wiced_bt_iap2_get_connection_state( uint8_t *bd_addr );
+
 /**@} wiced_bt_iap2_api_functions */
 
 #ifdef __cplusplus

@@ -69,6 +69,7 @@ extern "C"
 #define WICED_BT_MESH_CORE_FEATURE_BIT_GATT_PROXY_SERVER    0x0008   /**< GATT Proxy support: 0 = False, 1 = True */
 #define WICED_BT_MESH_CORE_FEATURE_BIT_PB_GATT              0x0010   /**< PB_GATT support: 0 = False, 1 = True */
 #define WICED_BT_MESH_CORE_FEATURE_BIT_NO_ADV_BEARER        0x0020   /**< For GATT client mode: advert scanning but no advert sending and receiving: 0 = False, 1 = True */
+#define WICED_BT_MESH_CORE_FEATURE_BIT_DISABLE_NET_BEACON   0x0040   /**< Makes net beacon disabled by default: 0 = False, 1 = True  */
 /** @} BT_MESH_CORE_FEATURE */
 
  /**
@@ -246,24 +247,6 @@ max_lpn_num = (app_available_memory - MSG_OFFSET) / (FRIEND_LPN_STATE  + max_lpn
 // For example, if max_lpn_msg_num = 4, and app_available_memory = 6K, then max_lpn_num =  (6k - MSG_OFFSET) / (FRIEND_LPN_STATE + max_lpn_msg_num * MSG_QUE_SIZE) = 22
 */
 
-/* Transmit Extended Address flag for NINFO messages */
-#define WICED_BT_MESH_CORE_CONFIG_DIRECTED_FORWARDING_FLAG_NINFO_EA                 0x01
-/* Transmit Extended Address flag for PREQ messages */
-#define WICED_BT_MESH_CORE_CONFIG_DIRECTED_FORWARDING_FLAG_PREQ_EA                  0x02
-/* Transmit Extended Address flag for PREP messages */
-#define WICED_BT_MESH_CORE_CONFIG_DIRECTED_FORWARDING_FLAG_PREP_EA                  0x04
-/* Transmit power in PREQ messages */
-#define WICED_BT_MESH_CORE_CONFIG_DIRECTED_FORWARDING_FLAG_PREQ_WP                  0x08
-/* Start timer ptreq_delay_timer_sec periodicly. If not set then start that timer just once */
-#define WICED_BT_MESH_CORE_CONFIG_DIRECTED_FORWARDING_FLAG_PTREQ_DELAY_PERIODIC     0x10
-
-typedef PACKED struct
-{
-    uint16_t        ptreq_delay_timer_sec;  /**< Value of Path Tracing Delay timer. Path originator start path tracing with that delay after path is established. Default value is 0 - no path tracing. Minimum value is 600 (10 minutes) */
-    uint8_t         flags;                  /**< Any combinations of WICED_BT_MESH_CORE_CONFIG_DIRECTED_FORWARDING_FLAG_XXX */
-    int8_t          wanted_rssi;            /**< The minimum RSSI that the Directed Forwarding node requires at its antenna. 0 means use default value -127  */
-} wiced_bt_mesh_core_config_directed_forwarding_t;
-
 /**
  * Defines mesh device configuration data
  */
@@ -278,7 +261,6 @@ typedef PACKED struct
     const char                              *uri;               /**< Optional URI (can be NULL) for advertising along with the Unprovisioned Device beacon. Can start from "HTTP://" or "HTTPS://"*/
     wiced_bt_mesh_core_config_friend_t      friend_cfg;         /**< Friend feature configuration. It is ignored if Friend feature isn't supported (no FRIEND bit in the features).*/
     wiced_bt_mesh_core_config_low_power_t   low_power;          /**< Low Power configuration. It is ignored if Low Power feature isn't supported (no LOW_POWER bit in the features).*/
-    wiced_bt_mesh_core_config_directed_forwarding_t directed_forward;         /**< Directed Forwarding configuration */
     wiced_bool_t                            gatt_client_only;   /**< If TRUE, the device only connects to mesh over GATT proxy. */
     uint8_t                                 elements_num;       /**< Number of elements in the following array elements */
     wiced_bt_mesh_core_config_element_t     *elements;          /**< Array of elements defined by tFND_ELEMENT with size elements_num */

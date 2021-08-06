@@ -223,6 +223,12 @@ uint8_t wiced_bt_spp_port_purge(uint16_t handle, uint8_t purge_flags);
  */
 uint16_t wiced_bt_spp_rfcomm_get_peer_mtu(uint16_t handle);
 
+/**
+ * SPP application may use this function to get the connection state when rfcomm connection made
+ *
+ * @return         connection state
+ */
+uint8_t wiced_bt_spp_get_connection_state(BD_ADDR bd_addr);
 
 /**@} wiced_bt_spp_api_functions */
 

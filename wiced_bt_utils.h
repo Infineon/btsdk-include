@@ -83,6 +83,20 @@ uint8_t utl_itoa(uint16_t i, char *p_s);
 typedef void (wiced_bt_read_raw_rssi_command_complete_cback_t) (wiced_bt_dev_vendor_specific_command_complete_params_t *p_command_complete_params);
 wiced_bt_dev_status_t wiced_bt_read_raw_rssi(uint16_t connection_handle, wiced_bt_read_raw_rssi_command_complete_cback_t *p_callback_in);
 
+/*******************************************************************
+ * Function         wiced_hal_get_pseudo_rand_number_array
+ *
+ *                  Fills a given array with pseudo random 32-bit integers.
+ *                  Uses the function rbg_get_psrng() from ROM.
+ *
+ * @param[in]       randNumberArrayPtr  : Pointer to an array to be populated with
+ *                                        the random numbers.
+ * @param[in]       length              : Length of the array pointed to by
+ *                                        randNumberArrayPtr.
+ *
+ * @return          void
+*******************************************************************/
+void wiced_hal_get_pseudo_rand_number_array(uint32_t* randNumberArrayPtr, uint32_t length);
 
 #if defined (CYW20706A2) || defined (CYW43012C0)
 // strchr defined in ROM for most chips, define here for the missing ones

@@ -33,7 +33,7 @@
 
 /*****************************************************************************
 **
-**  Name:           wiced_bt_ma_def.h
+**  Name:           wiced_bt_map_def.h
 **
 **  Description:    This file contains the common definitions for the Message Access
 **                  profile (MA) related SW modules
@@ -53,7 +53,7 @@
 
 typedef UINT8  wiced_bt_ma_msg_handle_t[WICED_BT_MA_HANDLE_SIZE];
 
-#define WICED_BT_MA_DEFAULT_SUPPORTED_FEATURES   0x0000001F
+#define WICED_BT_MA_DEFAULT_SUPPORTED_FEATURES   0x0000005F
 
 typedef UINT32 wiced_bt_ma_supported_features_t;
 
@@ -69,9 +69,7 @@ typedef wiced_bt_obex_handle_t wiced_bt_ma_sess_handle_t;
 #ifndef WICED_BT_MA_INS_INFO_MAX_LEN
 #define WICED_BT_MA_INS_INFO_MAX_LEN    200  /* Instance info cannot be longer than 200 according to spec (including NULL termination) */
 #endif
-#if (defined(WICED_BT_MAP_1_2_SUPPORTED) && WICED_BT_MAP_1_2_SUPPORTED == TRUE)
 typedef char wiced_bt_ma_mas_ins_info_t[WICED_BT_MA_INS_INFO_MAX_LEN];
-#endif
 
 typedef UINT8 wiced_bt_ma_inst_id_t;
 
@@ -346,9 +344,7 @@ typedef UINT8 wiced_bt_ma_attach_type_t;
 #define WICED_BT_MA_HDR_TYPE_MSG             "x-bt/message"
 #define WICED_BT_MA_HDR_TYPE_MSG_STATUS      "x-bt/messageStatus"
 #define WICED_BT_MA_HDR_TYPE_FOLDER_LIST     "x-obex/folder-listing"
-#if (defined(WICED_BT_MAP_1_2_SUPPORTED) && WICED_BT_MAP_1_2_SUPPORTED == TRUE)
 #define WICED_BT_MA_HDR_TYPE_MAS_INS_INFO    "x-bt/MASInstanceInformation"
-#endif
 
 #define WICED_BT_MAS_MESSAGE_ACCESS_TARGET_UUID       "\xBB\x58\x2B\x40\x42\x0C\x11\xDB\xB0\xDE\x08\x00\x20\x0C\x9A\x66"
 #define WICED_BT_MAS_MESSAGE_NOTIFICATION_TARGET_UUID "\xBB\x58\x2B\x41\x42\x0C\x11\xDB\xB0\xDE\x08\x00\x20\x0C\x9A\x66"

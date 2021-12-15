@@ -2,7 +2,7 @@
 * \file <wiced_bt_serial_gatt.h>
 *
 * \brief
-* 	WICED Serial GATT Service
+* 	AIROC Serial GATT Service
 * 	Provides definitions that can be used by a peer Serial GATT
 *        applications to send and receive data from a peer device.
 *//*****************************************************************************
@@ -39,10 +39,10 @@
 *******************************************************************************/
 
 /******************************************************************************
-* \defgroup wiced_serial_gatt   WICED Serial GATT Service
+* \defgroup wiced_serial_gatt   AIROC Serial GATT Service
 * \ingroup     wicedbt_gatt
 *
-*  WICED serial over GATT service provides a method to use a serial pipe between
+*  AIROC serial over GATT service provides a method to use a serial pipe between
 *  an embedded application and application on a peer device.
 *
 * @{

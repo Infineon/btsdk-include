@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * \file <wiced_bt_ota_firmware_upgrade.h>
 *
-* WICED OTA Firmware Upgrade Service over GATT
+* AIROC OTA Firmware Upgrade Service over GATT
 *
 * \brief Provides definitions and APIs that exposes an OTA Firmware Upgrade
 * GATT service and managed by the OTA Firmware Upgrade library, e.g.
@@ -46,14 +46,14 @@
 #include "wiced_bt_gatt.h"
 
 /**
-* \defgroup    wicedsys                             WICED System
+* \defgroup    wicedsys                             AIROC System
 *
-* \addtogroup  group_ota_wiced_firmware_upgrade     WICED OTA Firmware Upgrade
+* \addtogroup  group_ota_wiced_firmware_upgrade     AIROC OTA Firmware Upgrade
 * \ingroup     wicedsys
 * @{
 *
-*  The WICED OTA Firmware Upgrade Service is used by peer applications to
-*  upgrade firmware on WICED Bluetooth devices over a GATT connection.
+*  The AIROC OTA Firmware Upgrade Service is used by peer applications to
+*  upgrade firmware on AIROC Bluetooth devices over a GATT connection.
 *
 * \defgroup group_ota_fw_upgrade_macros Macros
 * \defgroup group_ota_fw_upgrade_cback_functions Callback Functions
@@ -201,7 +201,7 @@ typedef void (wiced_ota_firmware_event_callback_t)(uint16_t event, void *p_data)
 /******************************************************************************
 * Function Name: wiced_ota_fw_upgrade_init
 ***************************************************************************//**
-* \brief Initializes the WICED OTA Firmware Upgrade Service module.
+* \brief Initializes the AIROC OTA Firmware Upgrade Service module.
 *
 * \details The application calls this function during initialization.
 *          The none-zero pointer to the public key indicates to the library
@@ -211,9 +211,9 @@ typedef void (wiced_ota_firmware_event_callback_t)(uint16_t event, void *p_data)
 * \param p_status_callback      Optional callback to be executed when the Firmware Upgrade state changes. NULL if not used.
 * \param p_send_data_callback   Optional callback to be executed to before sending data over the air. NULL if not used.
 *
-* \note  WICED BT platforms that use external flash(i.e not on chip flash) must define the flash size, sector size
+* \note  AIROC BTSDK platforms that use external flash(i.e not on chip flash) must define the flash size, sector size
 *        before calling this API. For example see the wiced_platform.h, for default flash configuration
-*        exists on WICED eval kits.
+*        exists on AIROC eval kits.
 *
 ******************************************************************************/
 wiced_bool_t wiced_ota_fw_upgrade_init(void *public_key, wiced_ota_firmware_upgrade_status_callback_t *p_status_callback, wiced_ota_firmware_upgrade_send_data_callback_t *p_send_data_callback);

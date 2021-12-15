@@ -2,7 +2,7 @@
 * \file <wiced_firmware_upgrade.h>
 *
 * \brief Provides definitions and function prototypes for the common
-*        functionality used during the WICED firmware upgrade procedure.
+*        functionality used during the AIROC firmware upgrade procedure.
 *        Primarily, the functionality provided is for managing, storing,
 *        and retrieving information to/from memory.The data being stored
 *        are the DS portions of the memory map.
@@ -45,7 +45,7 @@
 
 /**
 *
-* \addtogroup group_wiced_firmware_upgrade   WICED Firmware Upgrade
+* \addtogroup group_wiced_firmware_upgrade   AIROC Firmware Upgrade
 * \ingroup    wicedsys
 * @{
 *
@@ -88,7 +88,7 @@ typedef struct
 /******************************************************************************
 * Function Name: wiced_firmware_upgrade_init
 ***************************************************************************//**
-* \brief Initializes the WICED Firmware Upgrade module.
+* \brief Initializes the AIROC Firmware Upgrade module.
 *
 * \details Called by the application during initialization
 *          to initialize the upgrade module with serial flash offsets.

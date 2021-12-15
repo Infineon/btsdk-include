@@ -51,7 +51,7 @@ extern "C" {
 * \ingroup     wicedbt
 * @{
 *
-* The ANS library of the WICED SDK provide a simple method for an application to integrate the ANS
+* The ANS library of the AIROC BTSDK provide a simple method for an application to integrate the ANS
 * service functionality. The application calls the library APIs to configure supported alerts,
 * to process alert notification client GATT read, write requests for enable/disable/control the alerts.
 *
@@ -90,7 +90,7 @@ typedef struct
 *
 ***************************************************************************//**
 *
-* The application calls this API on an application start to initialize the WICED BT ANS server library.
+* The application calls this API on an application start to initialize the AIROC BTSDK ANS server library.
 * The ANS GATT Handles are defined in the application. These handles must be passed to
 * the ANS library t initialization time.
 *

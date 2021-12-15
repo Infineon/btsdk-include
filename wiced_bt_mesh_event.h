@@ -68,7 +68,7 @@ extern "C"
  * @addtogroup  wiced_bt_mesh_core          Mesh Core Library API
  * @ingroup     wiced_bt_mesh
  *
- * Mesh Core library of the WICED SDK provide a simple method for an application to integrate
+ * Mesh Core library of the AIROC BTSDK provide a simple method for an application to integrate
  * Bluetooth Mesh functionality.
  *
  * @{

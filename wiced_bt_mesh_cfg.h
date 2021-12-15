@@ -51,7 +51,7 @@ extern "C"
  * @addtogroup  wiced_bt_mesh_core          Mesh Core Library API
  * @ingroup     wiced_bt_mesh
  *
- * Mesh Core library of the WICED SDK provide a simple method for an application to integrate
+ * Mesh Core library of the AIROC BTSDK provide a simple method for an application to integrate
  * Bluetooth Mesh functionality.
  *
  * @{
@@ -85,8 +85,8 @@ extern "C"
 #define WICED_BT_MESH_CORE_OOB_BIT_NFC                  0x0010  /**< Near Field Communication (NFC) */
 #define WICED_BT_MESH_CORE_OOB_BIT_NUMBER               0x0020  /**< Number */
 #define WICED_BT_MESH_CORE_OOB_BIT_STRING               0x0040  /**< String */
-#define WICED_BT_MESH_CORE_OOB_BIT_RFU1                 0x0080  /**< Reserved for Future Use */
-#define WICED_BT_MESH_CORE_OOB_BIT_RFU2                 0x0100  /**< Reserved for Future Use */
+#define WICED_BT_MESH_CORE_OOB_BIT_CERTIFICATE          0x0080  /**< Certificate-based provisioning */
+#define WICED_BT_MESH_CORE_OOB_BIT_RECORD               0x0100  /**< Provisioning records */
 #define WICED_BT_MESH_CORE_OOB_BIT_RFU3                 0x0200  /**< Reserved for Future Use */
 #define WICED_BT_MESH_CORE_OOB_BIT_RFU4                 0x0400  /**< Reserved for Future Use */
 #define WICED_BT_MESH_CORE_OOB_BIT_ON_BOX               0x0800  /**< On box */

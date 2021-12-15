@@ -693,7 +693,7 @@ extern "C"
  * @ingroup     wiced_bt_mesh
  * @{
  * @page wiced_bt_mesh_application_structure Mesh Application Structure
- * Each WICED Mesh Application shall contain a @ref wiced_bt_mesh_core_config_t "device configuration" and
+ * Each AIROC Mesh Application shall contain a @ref wiced_bt_mesh_core_config_t "device configuration" and
  * application callbacks. The device configuration provides to the mesh stack the information about
  * the device which is supported. For example it can be a color bulb, or a dimmer, or a dimmable light
  * with additional vendor specific functionality.  The callbacks are used by the mesh stack to notify
@@ -707,7 +707,7 @@ extern "C"
  * @addtogroup  wiced_bt_mesh_models        Mesh Models Library API
  * @ingroup     wiced_bt_mesh
  *
- * Mesh Models library of the WICED SDK provide a simple method for an application to use various Mesh models
+ * Mesh Models library of the AIROC BTSDK provide a simple method for an application to use various Mesh models
  * defined in the Bluetooth Mesh Model specification.
  *
  * @{
@@ -804,6 +804,7 @@ extern wiced_bool_t wiced_bt_mesh_remote_provisioning_server_message_handler(wic
  * server (WICED_BT_MESH_MODEL_LIGHT_CTL_TEMPERATURE_SERVER) on the consecutive elements.
  * The time and scheduler models are optional and can be commented out to reduce memory footprint.
  */
+#ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_LIGHT_HSL_CTL_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
@@ -822,6 +823,22 @@ extern wiced_bool_t wiced_bt_mesh_remote_provisioning_server_message_handler(wic
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_HSL_SETUP_SRV, wiced_bt_mesh_model_light_hsl_setup_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SRV, wiced_bt_mesh_model_light_ctl_server_message_handler, wiced_bt_mesh_model_light_ctl_server_scene_store_handler, wiced_bt_mesh_model_light_ctl_server_scene_recall_handler }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SETUP_SRV, wiced_bt_mesh_model_light_ctl_setup_server_message_handler, NULL, NULL  }
+#else
+#define WICED_BT_MESH_MODEL_LIGHT_HSL_CTL_SERVER \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SRV, wiced_bt_mesh_model_power_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SETUP_SRV, wiced_bt_mesh_model_power_onoff_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SRV, wiced_bt_mesh_model_light_lightness_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SETUP_SRV,  wiced_bt_mesh_model_light_lightness_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_HSL_SRV, wiced_bt_mesh_model_light_hsl_server_message_handler, wiced_bt_mesh_model_light_hsl_server_scene_store_handler, wiced_bt_mesh_model_light_hsl_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_HSL_SETUP_SRV, wiced_bt_mesh_model_light_hsl_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SRV, wiced_bt_mesh_model_light_ctl_server_message_handler, wiced_bt_mesh_model_light_ctl_server_scene_store_handler, wiced_bt_mesh_model_light_ctl_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SETUP_SRV, wiced_bt_mesh_model_light_ctl_setup_server_message_handler, NULL, NULL  }
+#endif
 
 /**
  * Mesh Light HSL/CTL/XYL Server Device.
@@ -833,6 +850,7 @@ extern wiced_bool_t wiced_bt_mesh_remote_provisioning_server_message_handler(wic
  * server (WICED_BT_MESH_MODEL_LIGHT_CTL_TEMPERATURE_SERVER) on the consecutive elements.
  * The time and scheduler models are optional and can be commented out to reduce memory footprint.
  */
+#ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_LIGHT_HSL_CTL_XYL_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
@@ -853,6 +871,24 @@ extern wiced_bool_t wiced_bt_mesh_remote_provisioning_server_message_handler(wic
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SETUP_SRV, wiced_bt_mesh_model_light_ctl_setup_server_message_handler, NULL, NULL  }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_XYL_SRV, wiced_bt_mesh_model_light_xyl_server_message_handler, wiced_bt_mesh_model_light_xyl_server_scene_store_handler, wiced_bt_mesh_model_light_xyl_server_scene_recall_handler }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_XYL_SETUP_SRV, wiced_bt_mesh_model_light_xyl_setup_server_message_handler, NULL, NULL  }
+#else
+#define WICED_BT_MESH_MODEL_LIGHT_HSL_CTL_XYL_SERVER \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SRV, wiced_bt_mesh_model_power_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SETUP_SRV, wiced_bt_mesh_model_power_onoff_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SRV, wiced_bt_mesh_model_light_lightness_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SETUP_SRV,  wiced_bt_mesh_model_light_lightness_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_HSL_SRV, wiced_bt_mesh_model_light_hsl_server_message_handler, wiced_bt_mesh_model_light_hsl_server_scene_store_handler, wiced_bt_mesh_model_light_hsl_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_HSL_SETUP_SRV, wiced_bt_mesh_model_light_hsl_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SRV, wiced_bt_mesh_model_light_ctl_server_message_handler, wiced_bt_mesh_model_light_ctl_server_scene_store_handler, wiced_bt_mesh_model_light_ctl_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SETUP_SRV, wiced_bt_mesh_model_light_ctl_setup_server_message_handler, NULL, NULL  }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_XYL_SRV, wiced_bt_mesh_model_light_xyl_server_message_handler, wiced_bt_mesh_model_light_xyl_server_scene_store_handler, wiced_bt_mesh_model_light_xyl_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_XYL_SETUP_SRV, wiced_bt_mesh_model_light_xyl_setup_server_message_handler, NULL, NULL  }
+#endif
 
 /**
  * Mesh Light Controller Device.
@@ -861,13 +897,6 @@ extern wiced_bool_t wiced_bt_mesh_remote_provisioning_server_message_handler(wic
  * The time and scheduler models are optional and can be commented out to reduce memory footprint.
  */
 #define WICED_BT_MESH_MODEL_LIGHT_LC_SERVER \
-    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
-    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
-    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
-    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCHEDULER_SRV, wiced_bt_mesh_model_scheduler_server_message_handler, NULL, NULL }, \
-    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCHEDULER_SETUP_SRV, wiced_bt_mesh_model_scheduler_setup_server_message_handler, NULL, NULL }, \
-    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_TIME_SRV, wiced_bt_mesh_model_time_server_message_handler, NULL, NULL }, \
-    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_TIME_SETUP_SRV, wiced_bt_mesh_model_time_setup_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LC_SRV, wiced_bt_mesh_model_light_lc_server_message_handler, wiced_bt_mesh_model_light_lc_server_scene_store_handler, wiced_bt_mesh_model_light_lc_server_scene_recall_handler }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LC_SETUP_SRV, wiced_bt_mesh_model_light_lc_setup_server_message_handler, NULL, NULL }
@@ -1175,8 +1204,10 @@ typedef struct
 {
     uint16_t lightness_actual_present;              /**< The present value of the Light Lightness Actual state */
     uint16_t lightness_linear_present;              /**< The present value of the Light Lightness Linear state */
+    uint32_t lux_level_present;                     /**< The present value of the Lux Level to be produce by the device, only valid if used in LC */
     uint16_t lightness_actual_target;               /**< The target value of the Light Lightness Actual state */
     uint16_t lightness_linear_target;               /**< The target value of the Light Lightness Linear state */
+    uint32_t lux_level_target;                      /**< The target value of the Lux Level to be produce by the device, only valid if used in LC */
     uint32_t remaining_time;                        /**< Remaining time for transition */
 } wiced_bt_mesh_light_lightness_status_t;
 
@@ -1725,7 +1756,7 @@ typedef uint16_t (*wiced_model_scene_recall_handler_t)(uint8_t element_idx, uint
  * @addtogroup  wiced_bt_mesh_battery_server        Mesh Battery Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Battery Server module provides a way for a client to retrieve the Battery status of this device. The Server Model
+ * The AIROC Mesh Battery Server module provides a way for a client to retrieve the Battery status of this device. The Server Model
  * can also be configured by a Provisioner to allow sending the Status message to a specific node or group of nodes.
  *
  * On startup the application should call wiced_bt_mesh_model_battery_server_init function providing the callback that
@@ -1796,7 +1827,7 @@ wiced_result_t wiced_bt_mesh_battery_server_send_status(wiced_bt_mesh_event_t *p
  * @addtogroup  wiced_bt_mesh_battery_client        Mesh Battery Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Battery Client module provides a way for an application to retrieve the battery status of a mesh node. The module
+ * The AIROC Mesh Battery Client module provides a way for an application to retrieve the battery status of a mesh node. The module
  * can also process unsolicited status messages from mesh nodes.
  *
  * On startup the application should call wiced_bt_mesh_model_battery_client_init function providing the callback that
@@ -1860,7 +1891,7 @@ wiced_result_t wiced_bt_mesh_battery_client_send_get(wiced_bt_mesh_event_t *p_ev
  * @addtogroup  wiced_bt_mesh_location_server        Mesh Location Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Location Server module provides a way for a client to set the Global and Local location for a mesh device.
+ * The AIROC Mesh Location Server module provides a way for a client to set the Global and Local location for a mesh device.
  * Setup location can be retrieved by the same or different clients. The Location Server may also be configured to
  * publish unsolicited messages with the location information to a specific node or to a group of nodes.
  *
@@ -1948,7 +1979,7 @@ wiced_result_t wiced_bt_mesh_model_location_server_send(uint16_t type, wiced_bt_
  * @addtogroup  wiced_bt_mesh_location_client        Mesh Location Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Location Client module provides a way for an application to configure the device with a Global or a Local Location
+ * The AIROC Mesh Location Client module provides a way for an application to configure the device with a Global or a Local Location
  * data or to retrieve this data. The module can also process unsolicited status messages from mesh nodes.
  *
  * On startup the application should call wiced_bt_mesh_model_location_client_init function providing the callback that
@@ -2050,7 +2081,7 @@ wiced_result_t wiced_bt_mesh_model_location_client_send_local_set(wiced_bt_mesh_
  * @addtogroup  wiced_bt_mesh_onoff_server        Mesh OnOff Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh OnOff Server module of the Mesh Models library provides a way to implement functionality for the
+ * The AIROC Mesh OnOff Server module of the Mesh Models library provides a way to implement functionality for the
  * devices that can be controlled using a simple On/Off switch, aka On/Off client.
  *
  * The OnOff Server module is typically not used by a target applications. It is used by other modules that
@@ -2075,13 +2106,23 @@ wiced_result_t wiced_bt_mesh_model_location_client_send_local_set(wiced_bt_mesh_
  * The model is used as a base for multiple other models.  This device is typically not used standalone.  The closest
  * is Power OnOff Device which adds on power up behavior to the device and then can be used standalone.
  */
+#ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_ONOFF_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCHEDULER_SRV, wiced_bt_mesh_model_scheduler_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCHEDULER_SETUP_SRV, wiced_bt_mesh_model_scheduler_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_TIME_SRV, wiced_bt_mesh_model_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_TIME_SETUP_SRV, wiced_bt_mesh_model_time_setup_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, wiced_bt_mesh_model_onoff_server_scene_store_handler, wiced_bt_mesh_model_onoff_server_scene_recall_handler }
+#else
+#define WICED_BT_MESH_MODEL_ONOFF_SERVER \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, wiced_bt_mesh_model_onoff_server_scene_store_handler, wiced_bt_mesh_model_onoff_server_scene_recall_handler }
+#endif
 
 /**
  * \brief Generic On/Off Server callback
@@ -2176,7 +2217,7 @@ void wiced_bt_mesh_model_onoff_changed(uint8_t element_idx, uint8_t onoff);
  * @addtogroup  wiced_bt_mesh_onoff_client        Mesh OnOff Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh On/Off Client module of the Mesh Models library provides a way for an application to send OnOff
+ * The AIROC Mesh On/Off Client module of the Mesh Models library provides a way for an application to send OnOff
  * commands to the server and optionally receive status information.
  *
  * To include On/Off functionality, the device description shall contain @ref WICED_BT_MESH_MODEL_ONOFF_CLIENT. To
@@ -2309,7 +2350,7 @@ wiced_result_t wiced_bt_mesh_model_onoff_client_send_set(wiced_bt_mesh_event_t *
  * @addtogroup  wiced_bt_mesh_level_server        Mesh Level Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Level Server module of the Mesh Models library provides a way to implement functionality for the
+ * The AIROC Mesh Level Server module of the Mesh Models library provides a way to implement functionality for the
  * devices that can be controlled using a simple level slider, aka Level client.
  *
  * The Level Server module is typically not used by a target applications. It is used by other modules that
@@ -2337,13 +2378,23 @@ wiced_result_t wiced_bt_mesh_model_onoff_client_send_set(wiced_bt_mesh_event_t *
  * The model is used as a base for multiple other models.  It is typically not used standalone.  The closest
  * is Power Level Device which adds on power up behavior to the device and then can be used standalone.
  */
+#ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_LEVEL_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCHEDULER_SRV, wiced_bt_mesh_model_scheduler_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCHEDULER_SETUP_SRV, wiced_bt_mesh_model_scheduler_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_TIME_SRV, wiced_bt_mesh_model_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_TIME_SETUP_SRV, wiced_bt_mesh_model_time_setup_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, wiced_bt_mesh_model_level_server_scene_store_handler, wiced_bt_mesh_model_level_server_scene_recall_handler }
+#else
+#define WICED_BT_MESH_MODEL_LEVEL_SERVER \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, wiced_bt_mesh_model_level_server_scene_store_handler, wiced_bt_mesh_model_level_server_scene_recall_handler }
+#endif
 
 /**
  * \brief Generic Level Server callback is called by the Mesh Models library when the level needs
@@ -2427,7 +2478,7 @@ void wiced_bt_mesh_model_level_changed(uint8_t element_idx, int16_t value);
  * @addtogroup  wiced_bt_mesh_level_client        Mesh Level Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Level Client module of the Mesh Models library provides a way for an application to send Level
+ * The AIROC Mesh Level Client module of the Mesh Models library provides a way for an application to send Level
  * commands (set, delta and move) to the server and optionally receive status information. The module can be
  * used in an implementation of a simple slider device.
  *
@@ -2557,7 +2608,7 @@ wiced_result_t wiced_bt_mesh_model_level_client_send_move_set(wiced_bt_mesh_even
  * @addtogroup  wiced_bt_mesh_default_transition_time_server        Mesh Default Transition Time Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Default Transition Time Server module of the Mesh Models library provides implementation of the Default Transition
+ * The AIROC Mesh Default Transition Time Server module of the Mesh Models library provides implementation of the Default Transition
  * Time model. The module cannot be used as a standalone device.  But it is required to be included in the definition of various
  * other devices.
  *
@@ -2618,7 +2669,7 @@ wiced_bool_t wiced_bt_mesh_model_default_transition_time_server_message_handler(
  * @addtogroup  wiced_bt_mesh_default_transition_time_client        Mesh Default Transition Time Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Default Transition Time Client module of the Mesh Models library provides a way for a controlling device
+ * The AIROC Mesh Default Transition Time Client module of the Mesh Models library provides a way for a controlling device
  * to set default transition time for the devices in the mesh network.
  *
  * @{
@@ -2684,7 +2735,7 @@ wiced_result_t wiced_bt_mesh_model_default_transition_time_client_send_set(wiced
  * @addtogroup  wiced_bt_mesh_power_onoff_server        Mesh Power OnOff Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Power OnOff Server module of the Mesh Models library provides a way to implement functionality for the
+ * The AIROC Mesh Power OnOff Server module of the Mesh Models library provides a way to implement functionality for the
  * devices that can be controlled using a simple On/Off switch, aka On/Off client.  In addition to that
  * the device would support a default transition time server functionality and application can specify On Power Up behavior.
  * The default transition time and behavior of the device on power up is managed by the Mesh Models library
@@ -2709,6 +2760,7 @@ wiced_result_t wiced_bt_mesh_model_default_transition_time_client_send_set(wiced
  * The model can be used standalone, for example, to implement a power plug.
  * The time and scheduler models are optional and can be commented out to reduce memory footprint.
  */
+#ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_POWER_ONOFF_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
@@ -2720,6 +2772,15 @@ wiced_result_t wiced_bt_mesh_model_default_transition_time_client_send_set(wiced
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, wiced_bt_mesh_model_onoff_server_scene_store_handler, wiced_bt_mesh_model_onoff_server_scene_recall_handler }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SRV, wiced_bt_mesh_model_power_onoff_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SETUP_SRV, wiced_bt_mesh_model_power_onoff_setup_server_message_handler, NULL, NULL }
+#else
+#define WICED_BT_MESH_MODEL_POWER_ONOFF_SERVER \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, wiced_bt_mesh_model_onoff_server_scene_store_handler, wiced_bt_mesh_model_onoff_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SRV, wiced_bt_mesh_model_power_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SETUP_SRV, wiced_bt_mesh_model_power_onoff_setup_server_message_handler, NULL, NULL }
+#endif
 
 /**
  * \brief Generic Power On/Off Server callback
@@ -2797,7 +2858,7 @@ void wiced_bt_mesh_model_power_onoff_server_onoff_changed(uint8_t element_idx, u
  * @addtogroup  wiced_bt_mesh_power_onoff_client        Mesh Power OnOff Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Power On/Off Client module of the Mesh Models library provides a way for an application to
+ * The AIROC Mesh Power On/Off Client module of the Mesh Models library provides a way for an application to
  * manage the On Power Up behavior of other mesh devices. It is typicallly used by the applications running on
  * devices which performs mesh network configuration.
  *
@@ -2877,7 +2938,7 @@ wiced_result_t wiced_bt_mesh_model_power_onoff_client_send_onpowerup_set(wiced_b
  * @addtogroup  wiced_bt_mesh_power_level_server        Mesh Power Level Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Power Level Server module of the Mesh Models library provides a way to implement functionality of
+ * The AIROC Mesh Power Level Server module of the Mesh Models library provides a way to implement functionality of
  * a power plug type of a device that can be controlled using a Level slider (Generic Level client) and On/Off
  * switch (Generic On/Off client). In addition to that the device supports a default transition time server
  * functionality and the application can specify on power up behavior.
@@ -2917,6 +2978,7 @@ wiced_result_t wiced_bt_mesh_model_power_onoff_client_send_onpowerup_set(wiced_b
  * The model can be used standalone, for example, to implement a power plug with adjustible level.
  * The time and scheduler models are optional and can be commented out to reduce memory footprint.
  */
+#ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_POWER_LEVEL_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
@@ -2931,6 +2993,18 @@ wiced_result_t wiced_bt_mesh_model_power_onoff_client_send_onpowerup_set(wiced_b
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_LEVEL_SRV, wiced_bt_mesh_model_power_level_server_message_handler, wiced_bt_mesh_model_power_level_server_scene_store_handler, wiced_bt_mesh_model_power_level_server_scene_recall_handler }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_LEVEL_SETUP_SRV, wiced_bt_mesh_model_power_level_setup_server_message_handler, NULL, NULL }
+#else
+#define WICED_BT_MESH_MODEL_POWER_LEVEL_SERVER \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SRV, wiced_bt_mesh_model_power_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SETUP_SRV, wiced_bt_mesh_model_power_onoff_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_LEVEL_SRV, wiced_bt_mesh_model_power_level_server_message_handler, wiced_bt_mesh_model_power_level_server_scene_store_handler, wiced_bt_mesh_model_power_level_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_LEVEL_SETUP_SRV, wiced_bt_mesh_model_power_level_setup_server_message_handler, NULL, NULL }
+#endif
 
 /**
  * \brief Generic Power Level Server callback.
@@ -3042,7 +3116,7 @@ uint16_t wiced_bt_mesh_model_power_level_server_scene_recall_handler(uint8_t ele
  * @addtogroup  wiced_bt_mesh_power_level_client        Mesh Power Level Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Power Level Client module of the Mesh Models library provides a way for an application to control
+ * The AIROC Mesh Power Level Client module of the Mesh Models library provides a way for an application to control
  * power level of the Power Level Servers in the mesh network optionally receive status information.
  *
  * To include Power Level Client functionality, the device description shall contain @ref WICED_BT_MESH_MODEL_POWER_LEVEL_CLIENT.
@@ -3316,7 +3390,7 @@ wiced_result_t wiced_bt_mesh_model_property_client_send_property_set(wiced_bt_me
  * @addtogroup  wiced_bt_mesh_light_lightness_server   Mesh Light Lightness Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Light Lightness Server module provides a way for an application to implement a dimmable light device which
+ * The AIROC Mesh Light Lightness Server module provides a way for an application to implement a dimmable light device which
  * can be controlled specifically by setting the brightness, but also can be can be controlled using a Level slider (Generic
  * Level client) and On/Off switch (Generic On/Off client). In addition to that the device supports a default transition time
  * server functionality and the application can specify on power up behavior.
@@ -3363,6 +3437,7 @@ wiced_result_t wiced_bt_mesh_model_property_client_send_property_set(wiced_bt_me
  * \details The Mesh Light Lightness Server Device device implements all required models for a dimmable bulb.
  * The time and scheduler models are optional and can be commented out to reduce memory footprint.
  */
+#ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_LIGHT_LIGHTNESS_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
@@ -3377,6 +3452,18 @@ wiced_result_t wiced_bt_mesh_model_property_client_send_property_set(wiced_bt_me
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SRV, wiced_bt_mesh_model_light_lightness_server_message_handler, wiced_bt_mesh_model_light_lightness_server_scene_store_handler, wiced_bt_mesh_model_light_lightness_server_scene_recall_handler }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SETUP_SRV, wiced_bt_mesh_model_light_lightness_setup_server_message_handler, NULL, NULL }
+#else
+#define WICED_BT_MESH_MODEL_LIGHT_LIGHTNESS_SERVER \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SRV, wiced_bt_mesh_model_power_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SETUP_SRV, wiced_bt_mesh_model_power_onoff_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SRV, wiced_bt_mesh_model_light_lightness_server_message_handler, wiced_bt_mesh_model_light_lightness_server_scene_store_handler, wiced_bt_mesh_model_light_lightness_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SETUP_SRV, wiced_bt_mesh_model_light_lightness_setup_server_message_handler, NULL, NULL }
+#endif
 
 /**
  * \brief Light Lightness Server callback
@@ -3527,7 +3614,7 @@ uint16_t wiced_bt_mesh_model_light_lightness_server_scene_recall_handler(uint8_t
  * @addtogroup  wiced_bt_mesh_light_lightness_client        Mesh Light Lightness Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Light Lightness Client module of the Mesh Models library provides a way for an application to control
+ * The AIROC Mesh Light Lightness Client module of the Mesh Models library provides a way for an application to control
  * brightness level of the Light Lightness Servers in the mesh network optionally receive status information.
  *
  * To include Light Lightness Client functionality, the device description shall contain @ref WICED_BT_MESH_MODEL_LIGHT_LIGHTNESS_CLIENT.
@@ -3663,7 +3750,7 @@ wiced_result_t wiced_bt_mesh_model_light_lightness_client_send_range_set(wiced_b
  * @addtogroup  wiced_bt_mesh_light_ctl_server   Mesh Light CTL Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Color Temperature Lightness (CTL) Server module provides a way for an application to implement a dimmable light
+ * The AIROC Mesh Color Temperature Lightness (CTL) Server module provides a way for an application to implement a dimmable light
  * device with color temperature support. The device can be controlled by setting the brightness, color temperature and delta UV,
  * but also can be can be controlled using a Level slider (Generic Level client) applied to the brightness or color
  * temperature and by a On/Off switch (Generic On/Off client). The device also supports a default transition time
@@ -3711,6 +3798,7 @@ wiced_result_t wiced_bt_mesh_model_light_lightness_client_send_range_set(wiced_b
  * WICED_BT_MESH_MODEL_LIGHT_CTL_SERVER, WICED_BT_MESH_MODEL_LIGHT_CTL_SERVER, WICED_BT_MESH_MODEL_LIGHT_CTL_SERVER.
  * The time and scheduler models are optional and can be commented out to reduce memory footprint.
  */
+#ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_LIGHT_CTL_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
@@ -3727,10 +3815,24 @@ wiced_result_t wiced_bt_mesh_model_light_lightness_client_send_range_set(wiced_b
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SETUP_SRV,  wiced_bt_mesh_model_light_lightness_setup_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SRV, wiced_bt_mesh_model_light_ctl_server_message_handler, wiced_bt_mesh_model_light_ctl_server_scene_store_handler, wiced_bt_mesh_model_light_ctl_server_scene_recall_handler }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SETUP_SRV, wiced_bt_mesh_model_light_ctl_setup_server_message_handler, NULL, NULL  }
+#else
+#define WICED_BT_MESH_MODEL_LIGHT_CTL_SERVER \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SRV, wiced_bt_mesh_model_power_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SETUP_SRV, wiced_bt_mesh_model_power_onoff_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SRV, wiced_bt_mesh_model_light_lightness_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SETUP_SRV,  wiced_bt_mesh_model_light_lightness_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SRV, wiced_bt_mesh_model_light_ctl_server_message_handler, wiced_bt_mesh_model_light_ctl_server_scene_store_handler, wiced_bt_mesh_model_light_ctl_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_SETUP_SRV, wiced_bt_mesh_model_light_ctl_setup_server_message_handler, NULL, NULL  }
+#endif
 
 #define WICED_BT_MESH_MODEL_LIGHT_CTL_TEMPERATURE_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
-    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_TEMPERATURE_SRV, wiced_bt_mesh_model_light_ctl_temperature_server_message_handler, NULL, NULL }
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_CTL_TEMPERATURE_SRV, wiced_bt_mesh_model_light_ctl_temperature_server_message_handler, wiced_bt_mesh_model_light_ctl_temperature_server_scene_store_handler, wiced_bt_mesh_model_light_ctl_temperature_server_scene_recall_handler }
 
  /**
  * \brief Light CTL Server callback
@@ -3834,7 +3936,7 @@ wiced_bool_t wiced_bt_mesh_model_light_ctl_temperature_server_message_handler(wi
  * \brief Light CTL Server Scene Store Handler
  * \details The Light CTL Scene Store Server Message Handler is an internal Mesh Models library function and
  * does not need to be implemented or called by the application, unless application wants to replace the library functionality.
- * \details The mesh Scene Server calls this function so that the module can store required data for the scene.
+ * The mesh Scene Server calls this function so that the module can store required data for the scene.
  *
  * @param       element_idx Element index for which scene information is being stored
  * @param       p_buffer Pointer to a buffer where data should be stored
@@ -3843,6 +3945,22 @@ wiced_bool_t wiced_bt_mesh_model_light_ctl_temperature_server_message_handler(wi
  * @return      Number of bytes the model wrote into the provided buffer
  */
 uint16_t wiced_bt_mesh_model_light_ctl_server_scene_store_handler(uint8_t element_idx, uint8_t *p_buffer, uint16_t buffer_len);
+
+/**
+ * \brief Light CTL Temperature Server Scene Store Handler
+ * \details The Light CTL Scene Store Server Message Handler is an internal Mesh Models library function and
+ * does not need to be implemented or called by the application, unless application wants to replace the library functionality.
+ * The mesh Scene Server calls this function so that the module can store required data for the scene.
+ * Note that if Scene Server is not present on CTL Temperature Server, this function will be called by the internally by the
+ * CTL Server
+ *
+ * @param       element_idx Element index for which scene information is being stored
+ * @param       p_buffer Pointer to a buffer where data should be stored
+ * @param       buf_size Maximum amount of data a model can store
+ *
+ * @return      Number of bytes the model wrote into the provided buffer
+ */
+uint16_t wiced_bt_mesh_model_light_ctl_temperature_server_scene_store_handler(uint8_t element_idx, uint8_t* p_buffer, uint16_t buffer_len);
 
 /**
  * \brief Light CTL Server Scene Restore Handler
@@ -3859,6 +3977,24 @@ uint16_t wiced_bt_mesh_model_light_ctl_server_scene_store_handler(uint8_t elemen
  * @return      Number of bytes the model read from the provided buffer
  */
 uint16_t wiced_bt_mesh_model_light_ctl_server_scene_recall_handler(uint8_t element_idx, uint8_t *p_buffer, uint16_t buffer_len, uint32_t transition_time, uint32_t delay);
+
+/**
+ * \brief Light Temperature Server Scene Restore Handler
+ * \details The Light Temperature Scene Restore Server Message Handler is an internal Mesh Models library function and
+ * does not need to be implemented or called by the application, unless application wants to replace the library functionality.
+ * When Scene Server receives Scene Recall message it calls this function with data previously stored in the NVRAM.
+ * Note that if SCENE_SERVER is not implemented on the Light Temperature element, this function will be call internally by the
+ * parent Light Ctl Server
+ *
+ * @param       element_idx Element index for which scene information is being recalled
+ * @param       p_buffer Pointer to a buffer where model's data is located
+ * @param       buf_size Maximum amount of data a model can get from the buffer
+ * @param       transition_time Specified time in milliseconds to transition to the target state
+ * @param       delay Specifies time in milliseconds before starting to transition to the target state
+ *
+ * @return      Number of bytes the model read from the provided buffer
+ */
+uint16_t wiced_bt_mesh_model_light_ctl_temperature_server_scene_recall_handler(uint8_t element_idx, uint8_t* p_buffer, uint16_t buffer_len, uint32_t transition_time, uint32_t delay);
 
 /**
  * \brief Set Light CTL Model as a startup controller
@@ -3881,7 +4017,7 @@ void wiced_bt_mesh_model_light_ctl_server_set_startup_controller(uint8_t element
  * @addtogroup  wiced_bt_mesh_light_ctl_client        Mesh Light CTL Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Light CTL Client module of the Mesh Models library provides a way for an application to configure and control
+ * The AIROC Mesh Light CTL Client module of the Mesh Models library provides a way for an application to configure and control
  * color lights that support Color Temperature adjustments.
  *
  * To include Light CTL Client functionality, the device description shall contain @ref WICED_BT_MESH_MODEL_LIGHT_CTL_CLIENT.
@@ -4010,7 +4146,7 @@ wiced_result_t wiced_bt_mesh_model_light_ctl_client_send_temperature_range_set(w
  * @addtogroup  wiced_bt_mesh_light_hsl_server   Mesh Light HSL Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Hue Saturation Lightness (HSL) Server module provides a way for an application to implement a dimmable light
+ * The AIROC Mesh Hue Saturation Lightness (HSL) Server module provides a way for an application to implement a dimmable light
  * device with hue/saturation support. The device can be controlled by a device with rich UI which can control the brightness,
  * hue and saturation, but also the device can be can be controlled using a Level sliders (Generic Level client) applied to the
  * brightness, hue or saturation and by a On/Off switch (Generic On/Off client). The device also supports a default transition time
@@ -4059,6 +4195,7 @@ wiced_result_t wiced_bt_mesh_model_light_ctl_client_send_temperature_range_set(w
  * WICED_BT_MESH_MODEL_LIGHT_LIGHTNESS_SERVER.
  * The time and scheduler models are optional and can be commented out to reduce memory footprint.
  */
+#ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_LIGHT_HSL_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
@@ -4075,6 +4212,20 @@ wiced_result_t wiced_bt_mesh_model_light_ctl_client_send_temperature_range_set(w
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SETUP_SRV,  wiced_bt_mesh_model_light_lightness_setup_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_HSL_SRV, wiced_bt_mesh_model_light_hsl_server_message_handler, wiced_bt_mesh_model_light_hsl_server_scene_store_handler, wiced_bt_mesh_model_light_hsl_server_scene_recall_handler }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_HSL_SETUP_SRV, wiced_bt_mesh_model_light_hsl_setup_server_message_handler, NULL, NULL }
+#else
+#define WICED_BT_MESH_MODEL_LIGHT_HSL_SERVER \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SRV, wiced_bt_mesh_model_power_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SETUP_SRV, wiced_bt_mesh_model_power_onoff_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SRV, wiced_bt_mesh_model_light_lightness_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SETUP_SRV,  wiced_bt_mesh_model_light_lightness_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_HSL_SRV, wiced_bt_mesh_model_light_hsl_server_message_handler, wiced_bt_mesh_model_light_hsl_server_scene_store_handler, wiced_bt_mesh_model_light_hsl_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_HSL_SETUP_SRV, wiced_bt_mesh_model_light_hsl_setup_server_message_handler, NULL, NULL }
+#endif
 
 #define WICED_BT_MESH_MODEL_LIGHT_HSL_HUE_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
@@ -4248,7 +4399,7 @@ void wiced_bt_mesh_model_light_hsl_server_set_startup_controller(uint8_t element
  * @addtogroup  wiced_bt_mesh_light_hsl_client        Mesh Light HSL Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Light HSL Client module of the Mesh Models library provides a way for an application to configure and control
+ * The AIROC Mesh Light HSL Client module of the Mesh Models library provides a way for an application to configure and control
  * color lights that support Hue/Saturation control.
  *
  * To include Light HSL Client functionality, the device description shall contain @ref WICED_BT_MESH_MODEL_LIGHT_HSL_CLIENT.
@@ -4406,7 +4557,7 @@ wiced_result_t wiced_bt_mesh_model_light_hsl_client_send_range_set(wiced_bt_mesh
  * @addtogroup  wiced_bt_mesh_light_xyl_server   Mesh Light xyL Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Light xyL Server module provides a way for an application to implement a dimmable light
+ * The AIROC Mesh Light xyL Server module provides a way for an application to implement a dimmable light
  * device with x and y chromaticity coordinates support. The device can be controlled by a device with rich UI which can control the brightness,
  * x and y states, but also the device can be can be controlled using a Level sliders (Generic Level client) applied to the
  * brightness and by a On/Off switch (Generic On/Off client). The device also supports a default transition time
@@ -4447,6 +4598,7 @@ wiced_result_t wiced_bt_mesh_model_light_hsl_client_send_range_set(wiced_bt_mesh
  * brightness and xyL color control.
  * The time and scheduler models are optional and can be commented out to reduce memory footprint.
  */
+#ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_LIGHT_XYL_SERVER \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
@@ -4463,6 +4615,20 @@ wiced_result_t wiced_bt_mesh_model_light_hsl_client_send_range_set(wiced_bt_mesh
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SETUP_SRV,  wiced_bt_mesh_model_light_lightness_setup_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_XYL_SRV, wiced_bt_mesh_model_light_xyl_server_message_handler, wiced_bt_mesh_model_light_xyl_server_scene_store_handler, wiced_bt_mesh_model_light_xyl_server_scene_recall_handler }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_XYL_SETUP_SRV, wiced_bt_mesh_model_light_xyl_setup_server_message_handler, NULL, NULL }
+#else
+#define WICED_BT_MESH_MODEL_LIGHT_XYL_SERVER \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_DEFTT_SRV, wiced_bt_mesh_model_default_transition_time_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SRV, wiced_bt_mesh_model_scene_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCENE_SETUP_SRV, wiced_bt_mesh_model_scene_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SRV, wiced_bt_mesh_model_power_onoff_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_POWER_ONOFF_SETUP_SRV, wiced_bt_mesh_model_power_onoff_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_LEVEL_SRV, wiced_bt_mesh_model_level_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SRV, wiced_bt_mesh_model_light_lightness_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LIGHTNESS_SETUP_SRV,  wiced_bt_mesh_model_light_lightness_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_XYL_SRV, wiced_bt_mesh_model_light_xyl_server_message_handler, wiced_bt_mesh_model_light_xyl_server_scene_store_handler, wiced_bt_mesh_model_light_xyl_server_scene_recall_handler }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_XYL_SETUP_SRV, wiced_bt_mesh_model_light_xyl_setup_server_message_handler, NULL, NULL }
+#endif
 
 /**
  * \brief Light XYL Server callback
@@ -4596,7 +4762,7 @@ void wiced_bt_mesh_model_light_xyl_server_set_startup_controller(uint8_t element
  * @addtogroup  wiced_bt_mesh_light_xyl_client        Mesh Light xyL Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Light XYL Client module of the Mesh Models library provides a way for an application to configure and control
+ * The AIROC Mesh Light XYL Client module of the Mesh Models library provides a way for an application to configure and control
  * color lights that support xyL control.
  *
  * To include Light XYL Client functionality, the device description shall contain @ref WICED_BT_MESH_MODEL_LIGHT_XYL_CLIENT.
@@ -4715,7 +4881,7 @@ wiced_result_t wiced_bt_mesh_model_light_xyl_client_send_range_set(wiced_bt_mesh
  * @addtogroup  wiced_bt_mesh_model_light_lc_server Mesh Light LC Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Light LC Server module provides a way for an application to implement a Light Control Server
+ * The AIROC Mesh Light LC Server module provides a way for an application to implement a Light Control Server
  * device which can be a client to a Sensor Server model and controls the Light Lightness Actual state via defined state bindings.
  *
  * To include the Mesh Models support for the LC Server module the application shall contain the @ref WICED_BT_MESH_MODEL_LIGHT_LC_SERVER
@@ -4869,7 +5035,7 @@ void wiced_bt_mesh_model_light_lc_server_init(uint8_t element_idx, wiced_bt_mesh
  * @addtogroup  wiced_bt_mesh_light_lc_client        Mesh Light LC Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Light LC Client module of the Mesh Models library provides a way for an application to configure and control
+ * The AIROC Mesh Light LC Client module of the Mesh Models library provides a way for an application to configure and control
  * lights that support LC control.
  *
  * To include Light LC Client functionality, the device description shall contain @ref WICED_BT_MESH_MODEL_LIGHT_LC_CLIENT.
@@ -4994,7 +5160,7 @@ wiced_result_t wiced_bt_mesh_model_light_lc_client_send_property_set(wiced_bt_me
  * @addtogroup  wiced_bt_mesh_sensor_server   Mesh Sensor Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Sensor Server module provides a way for an application to implement a functionality for the devices that can be controlled using sensor.
+ * The AIROC Mesh Sensor Server module provides a way for an application to implement a functionality for the devices that can be controlled using sensor.
  *
  * To include the Mesh Models support for the Sensor Server module the application shall contain the @ref WICED_BT_MESH_MODEL_SENSOR_SERVER
  *
@@ -5088,6 +5254,20 @@ wiced_result_t wiced_bt_mesh_model_sensor_server_series_status_send(wiced_bt_mes
 wiced_result_t wiced_bt_mesh_model_sensor_server_column_status_send(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_sensor_column_status_data_t *column_status_data);
 
 /**
+ * \brief Format Sensor Data
+ * \details An Application can call this function to format sensor data to be sent out. Function returns length of the data filled in the buffer.
+ * Property_id 0 means that we need to send data for all sensors of the element.
+ *
+ * @param       element_idx Element Index where the sensor is located
+ * @param       property_id Property ID of the sensor for which sensor data shall be used.  If Property ID is zero, the data will include all sensors of the element.
+ * @param       p_buffer Buffer to be filled with information
+ * @param       buffer_len size of the buffer
+ *
+ * @return      number of bytess filled in the buffer.
+ */
+uint16_t wiced_bt_mesh_model_format_sensor_server_data(uint8_t element_idx, uint16_t property_id, uint8_t* p_buffer, uint16_t buffer_len);
+
+/**
  * \brief Sensor Status send
  *
  * @param       element_idx Element Index where the sensor is located
@@ -5115,7 +5295,7 @@ wiced_result_t wiced_bt_mesh_model_sensor_server_setting_status_send(wiced_bt_me
  * @addtogroup  wiced_bt_mesh_sensor_client   Mesh Sensor Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Sensor Client module provides a way for an application to control Sensor Servers in the mesh network
+ * The AIROC Mesh Sensor Client module provides a way for an application to control Sensor Servers in the mesh network
  *
  * To include the Mesh Models support for the Sensor Client module the application shall contain the @ref WICED_BT_MESH_MODEL_SENSOR_CLIENT
  *
@@ -5126,14 +5306,13 @@ wiced_result_t wiced_bt_mesh_model_sensor_server_setting_status_send(wiced_bt_me
 /**
  * \brief Sensor Client callback is called by the Mesh Models library on receiving a message from the peer
  *
- * @param       element_idx Element Index of the model
- * @param       addr source address of the message.
- * @param       event The event that the application should process
- * @param       p_data Pointer to the sensor data
+ * @param       event The event that the application should process (see @ref LIGHT_LC_EVENT "Mesh Light LC Events")
+ * @param       p_event information about the message received.  The same pointer should be used in the reply if required.
+ * @param       p_data Pointer to the data to send
  *
  * @return      None
  */
-typedef void(wiced_bt_mesh_sensor_client_callback_t)(uint8_t element_idx, uint16_t addr, uint16_t event, void *p_data);
+typedef void(wiced_bt_mesh_sensor_client_callback_t)(uint16_t event, wiced_bt_mesh_event_t* p_event, void* p_data);
 
 /**
  * \brief Sensor Client Module initialization
@@ -5255,7 +5434,7 @@ wiced_result_t wiced_bt_mesh_model_sensor_client_sensor_cadence_send_set(wiced_b
  * @addtogroup  wiced_bt_mesh_scene_server   Mesh Scene Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Scene Server module provides a way for an application to implement a functionality for the devices that support scene state.
+ * The AIROC Mesh Scene Server module provides a way for an application to implement a functionality for the devices that support scene state.
  *
  * To include the Mesh Models support for the Scene Server module the application shall contain the @ref WICED_BT_MESH_MODEL_SCENE_SERVER
  *
@@ -5322,7 +5501,7 @@ void wiced_bt_mesh_model_scene_data_changed(uint8_t element_idx);
  * @addtogroup  wiced_bt_mesh_scene_client   Mesh Scene Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Scene Client module provides a way for an application to control Scene Servers in the mesh network
+ * The AIROC Mesh Scene Client module provides a way for an application to control Scene Servers in the mesh network
  *
  * To include the Mesh Models support for the Scene Client module the application shall contain the @ref WICED_BT_MESH_MODEL_SCENE_CLIENT
  *
@@ -5403,7 +5582,7 @@ wiced_result_t wiced_bt_mesh_model_scene_client_send_register_get(wiced_bt_mesh_
  * @addtogroup  wiced_bt_mesh_time_server   Mesh Time Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Time Server module provides a way for an application to implement a functionality for the devices that support time state.
+ * The AIROC Mesh Time Server module provides a way for an application to implement a functionality for the devices that support time state.
  *
  * To include the Mesh Models support for the Time Server module the application shall contain the @ref WICED_BT_MESH_MODEL_TIME_SERVER
  *
@@ -5492,7 +5671,7 @@ wiced_result_t wiced_bt_mesh_model_time_server_tai_utc_delta_status_send(wiced_b
  * @addtogroup  wiced_bt_mesh_time_client   Mesh Time Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Time Client module provides a way for an application to control Time Servers in the mesh network
+ * The AIROC Mesh Time Client module provides a way for an application to control Time Servers in the mesh network
  *
  * To include the Mesh Models support for the Time Client module the application shall contain the @ref WICED_BT_MESH_MODEL_TIME_CLIENT
  *
@@ -5616,7 +5795,7 @@ wiced_result_t wiced_bt_mesh_model_time_client_time_role_set_send(wiced_bt_mesh_
  * @addtogroup  wiced_bt_mesh_scheduler_server   Mesh Scheduler Server
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Scheduler Server module provides a way for an application to implement a functionality for the devices that support Scheduler.
+ * The AIROC Mesh Scheduler Server module provides a way for an application to implement a functionality for the devices that support Scheduler.
  *
  * TBD
  *
@@ -5675,7 +5854,7 @@ wiced_bool_t wiced_bt_mesh_model_scheduler_setup_server_message_handler(wiced_bt
  * @addtogroup  wiced_bt_mesh_scheduler_client   Mesh Scheduler Client
  * @ingroup     wiced_bt_mesh_models
  *
- * The WICED Mesh Scheduler Client module provides a way for an application to control Scheduler Servers in the mesh network
+ * The AIROC Mesh Scheduler Client module provides a way for an application to control Scheduler Servers in the mesh network
  *
  * TBD
  *
@@ -5803,6 +5982,14 @@ wiced_bool_t wiced_bt_mesh_remote_provisioning_nonconnectable_adv_packet(wiced_b
  */
 void wiced_bt_mesh_models_set_trace_level(uint8_t level);
 
+/**
+ * \brief Find model in the node configuration starting with specified element index
+ *
+ * @param[in]   company_id   Company ID of the model
+ * @param[in]   model_id     Model ID of the model
+ * @param[in]   start_idx    Starting element index
+ */
+int wiced_bt_mesh_model_find_element_idx(uint16_t company_id, uint16_t model_id, uint8_t start_idx);
 
 /* @} wiced_bt_mesh_models */
 

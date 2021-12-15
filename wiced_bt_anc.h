@@ -50,7 +50,7 @@ extern "C" {
 * \addtogroup  wiced_bt_anc_api_functions        ANC Library API
 * \ingroup     wicedbt
 * @{
-* ANC library of the WICED SDK provide a simple method for an application to integrate ANC
+* ANC library of the AIROC BTSDK provide a simple method for an application to integrate ANC
 * service functionality. Application calls the library APIs to discover/enable/disable/control/read
 * the alerts.
 */
@@ -192,7 +192,7 @@ typedef void (wiced_bt_anc_callback_t)(wiced_bt_anc_event_t event, wiced_bt_anc_
 * Function Name: wiced_bt_anc_init
 *
 ***************************************************************************//**
-* The application calls this API on an application start to initialize the WICED BT ANS server
+* The application calls this API on an application start to initialize the AIROC BTSDK ANS server
 * library.
 * Application registered callbacks gets called when requested operations completed.
 * Once connection success, Application does ANS service discovery.

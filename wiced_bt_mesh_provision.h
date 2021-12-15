@@ -70,7 +70,7 @@ extern "C"
  * devices and allows a provisioner to add this device to a mesh network.  It
  * is implemented in the Mesh application library so that each mesh application
  * can easily link this functionality in.  The client part is implemented in
- * the Mesh Provisioning library of the WICED SDK which provide a simple method for
+ * the Mesh Provisioning library of the AIROC BTSDK which provide a simple method for
  * an application to integrate functionality to add other devices to the
  * mesh network.
  *

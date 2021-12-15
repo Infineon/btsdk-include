@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * \file <wiced_bt_hci_firmware_upgrade.h>
 *
-* WICED HCI Firmware Upgrade
+* AIROC HCI Firmware Upgrade
 *
 * \brief Provides definitions and APIs that exposes HCI Firmware Upgrade
 * managed by the Firmware Upgrade library, e.g.
@@ -47,14 +47,14 @@
 #include "wiced_bt_ota_firmware_upgrade.h"
 
 /**
-* \defgroup    wicedsys                             WICED System
+* \defgroup    wicedsys                             AIROC System
 *
-* \addtogroup  group_hci_wiced_firmware_upgrade     WICED HCI Firmware Upgrade
+* \addtogroup  group_hci_wiced_firmware_upgrade     AIROC HCI Firmware Upgrade
 * \ingroup     wicedsys
 * @{
 *
-*  The WICED HCI Firmware Upgrade Service is used by peer applications to
-*  upgrade firmware on WICED Bluetooth devices over an HCI connection.
+*  The AIROC HCI Firmware Upgrade Service is used by peer applications to
+*  upgrade firmware on AIROC Bluetooth devices over an HCI connection.
 *
 * \defgroup group_hci_fw_upgrade_macros Macros
 * \defgroup group_hci_fw_upgrade_cback_functions Callback Functions

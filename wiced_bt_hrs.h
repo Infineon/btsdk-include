@@ -54,7 +54,7 @@ extern "C" {
 * @addtogroup  wiced_bt_hrs_api_functions        HRS Library API
 * @ingroup     wicedbt
 * @{
-* HRS library of the WICED SDK provide a simple method for an application to integrate Heart Rate
+* HRS library of the AIROC BTSDK provides a simple method for an application to integrate Heart Rate
 * server functionality. Application calls library APIs to process Heart Rate Client(HRC)
 * GATT read, write requests to configure Heart Rate services. Application notified with
 * simple events to start or stop Heart rate notification based on client configuration.

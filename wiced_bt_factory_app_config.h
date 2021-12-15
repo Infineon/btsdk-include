@@ -59,7 +59,7 @@ extern "C" {
 * \ingroup     wicedsys
 * @{
 *
-* The Factory Config library of the WICED SDK provides a simple method for an application to read
+* The Factory Config library of the AIROC BTSDK provides a simple method for an application to read
 * from the static section of the flash items that has been typically programmed in the factory.
 */
 
@@ -70,6 +70,27 @@ extern "C" {
  * @{
  */
 #define WICED_BT_FACTORY_CONFIG_ITEM_FIRST              0x80
+
+#define WICED_BT_FACTORY_CONFIG_ITEM_BASE_URI           0xC0
+#define WICED_BT_FACTORY_CONFIG_ITEM_DEVICE_CERTIFICATE 0xC1
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_1     0xC2
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_2     0xC3
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_3     0xC4
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_4     0xC5
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_5     0xC6
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_6     0xC7
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_7     0xC8
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_8     0xC9
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_9     0xCA
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_A     0xC8
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_B     0xCC
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_C     0xCD
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_D     0xCE
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_E     0xCF
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_F     0xD0
+#define WICED_BT_FACTORY_CONFIG_ITEM_LOCAL_NAME         0xD1
+#define WICED_BT_FACTORY_CONFIG_ITEM_APPEARANCE         0xD2
+
 #define WICED_BT_FACTORY_CONFIG_ITEM_UUID               0xE0
 #define WICED_BT_FACTORY_CONFIG_ITEM_OOB_STATIC_DATA    0xE1
 #define WICED_BT_FACTORY_CONFIG_ITEM_HOMEKIT_TOKEN      0xE2
@@ -85,17 +106,19 @@ extern "C" {
 *
 * \details The application calls this API to retrieve data programmed in the static
 * section of flash. If entry with specified type is stored in the static section,
-* the function copies data from the flash into the application buffer and returns
-* number of bytes that has been copied. If entry with specified type does not
-* exist in the static section of the flash, the function returns zero.
+* the function copies data or requested chunk of it from the flash into the
+* application buffer and returns number of bytes that has been copied. If entry
+* with specified type does not exist in the static section of the flash, the
+* function returns zero.
 *
 * \param    type : one of the @ref WICED_BT_FACTORY_CONFIG_IDS types
 * \param    buffer : application buffer to return
-* \param    buffer_size : size of the application buffer
+* \param    read_size : number of bytes to read
+* \param    read_offset : read offset from the start of the record
 * \return   number of bytes copied from the flash, or zero if item not found.
 *
 ******************************************************************************/
-uint16_t wiced_bt_factory_config_read(uint8_t item_type, uint8_t* buffer, uint16_t buffer_size);
+uint16_t wiced_bt_factory_config_read(uint8_t item_type, uint8_t* buffer, uint16_t read_size, uint16_t read_offset);
 
 #ifdef __cplusplus
 }

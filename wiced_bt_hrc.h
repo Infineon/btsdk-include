@@ -52,7 +52,7 @@ extern "C" {
 * \addtogroup  wiced_bt_hrc_api_functions        HRC Library API
 * \ingroup     wicedbt
 * @{
-* HRC library of the WICED SDK provides a simple method for an application to integrate Heart Rate
+* HRC library of the AIROC BTSDK provides a simple method for an application to integrate Heart Rate
 * Client functionality. Application Calls the Library APIs to:
 *    Discover Heart Rate Service characteristics and descriptors whenever it finds Heart Rate Service in the connected device.
 *    Start or Stop Heart Rate Notifications.

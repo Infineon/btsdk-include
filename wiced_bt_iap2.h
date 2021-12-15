@@ -33,7 +33,7 @@
 
 /** @file
  *
- * This file provides definitions of the IAP2 implementation
+ * This file provides definitions of the iAP2 implementation
  */
 
 #ifndef __IAP2_API_H
@@ -44,10 +44,10 @@ extern "C" {
 #endif
 
 /**
- * @addtogroup  wiced_bt_iap2_api_functions        IAP2 Protocol Library API
+ * @addtogroup  wiced_bt_iap2_api_functions        iAP2 Protocol Library API
  * @ingroup     wicedbt
  *
- * iAP2 library of the WICED SDK provide a simple method for an application to integrate iAP2
+ * iAP2 library of the AIROC BTSDK provides a simple method for an application to integrate iAP2
  * functionality.  A single External Accessory session is supported in the current version.
  * Application just needs to call API to connect/disconnect and send data.  Library in turn
  * indicates status of the connection and passes to the application received data.

@@ -755,8 +755,73 @@ extern "C"
 #define WICED_BT_MESH_PROPERTY_TOTAL_DEVICE_RUNTIME                                     0x006E
 #define WICED_BT_MESH_PROPERTY_TOTAL_LIGHT_EXPOSURE_TIME                                0x006F
 #define WICED_BT_MESH_PROPERTY_TOTAL_LUMINOUS_ENERGY                                    0x0070
+#define WICED_BT_MESH_PROPERTY_DESIRED_AMBIENT_TEMPERATURE                              0x0071
+#define WICED_BT_MESH_PROPERTY_PRECISE_TOTAL_DEVICE_ENERGY_USE                          0x0072
+#define WICED_BT_MESH_PROPERTY_POWER_FACTOR                                             0x0073
+#define WICED_BT_MESH_PROPERTY_SENSOR_GAIN                                              0x0074
+#define WICED_BT_MESH_PROPERTY_PRECISE_PRESENT_AMBIENT_TEMPERATURE                      0x0075
+#define WICED_BT_MESH_PROPERTY_PRESENT_AMBIENT_RELATIVE_HUMIDITY                        0x0076
+#define WICED_BT_MESH_PROPERTY_PRESENT_AMBIENT_CO2_CONCENTRAION                         0x0077
+#define WICED_BT_MESH_PROPERTY_PRESENT_AMBIENT_ORGRANIC_COMPOUNDS_CONCENTRATION         0x0078
+#define WICED_BT_MESH_PROPERTY_PRESENT_AMBIENT_NOISE                                    0x0079
+#define WICED_BT_MESH_PROPERTY_ACTIVE_ENERGY_LOADSIDE                                   0x0080
+#define WICED_BT_MESH_PROPERTY_ACTOVE_POWER_LOADSIDE                                    0x0081
+#define WICED_BT_MESH_PROPERTY_ACTOVE_AIR_PRESSURE                                      0x0082
+#define WICED_BT_MESH_PROPERTY_APPARENT_ENERGY                                          0x0083
+#define WICED_BT_MESH_PROPERTY_APPARENT_POWER                                           0x0084
+#define WICED_BT_MESH_PROPERTY_APPARENT_WIND_DIRECTION                                  0x0085
+#define WICED_BT_MESH_PROPERTY_APPARENT_WIND_SPEED                                      0x0086
+#define WICED_BT_MESH_PROPERTY_DEW_POINT                                                0x0087
+#define WICED_BT_MESH_PROPERTY_EXTERNAL_SUPPLY_VOLTAGE                                  0x0088
+#define WICED_BT_MESH_PROPERTY_EXTERNAL_SUPPLY_VOLTAGE_FREQUENCY                        0x0089
+#define WICED_BT_MESH_PROPERTY_GUST_FACTOR                                              0x008A
+#define WICED_BT_MESH_PROPERTY_HEAT_INDEX                                               0x008B
+#define WICED_BT_MESH_PROPERTY_LIGHT_DISTRIBUTION                                       0x008C
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_CURRENT                                     0x008D
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_ON_TIME_NOT_RESETTABLE                      0x008E
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_ON_TIME_RESETTABLE                          0x008F
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_OPEN_CIRCUIT_STATISTICS                     0x0090
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_OVERALL_FAILURE_STATISTICS                  0x0091
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_SHORT_CIRCUIT_STATISTICS                    0x0092
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_START_COUNTER_RESETTABLE                    0x0093
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_TEMPERATURE                                 0x0094
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_THERMAL_DERATING_STATISTICS                 0x0095
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_THERMAL_DERATING_SHUTDOWN_STATISTICS        0x0096
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_TOTAL_POWER_ON_CYCLES                       0x0097
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_VOLTAGE                                     0x0098
+#define WICED_BT_MESH_PROPERTY_LUMINAIRE_COLOR                                          0x0099
+#define WICED_BT_MESH_PROPERTY_LUMINAIRE_IDENTIFICATION_NUMBER                          0x009A
+#define WICED_BT_MESH_PROPERTY_LUMINAIRE_MANUFACTURER_GTIN                              0x009B
+#define WICED_BT_MESH_PROPERTY_LUMINAIRE_NOMINAL_INPUT_POWER                            0x009C
+#define WICED_BT_MESH_PROPERTY_LUMINAIRE_NOMINAL_MAXIMUM_AC_MAINS_VOLTAGE               0x009D
+#define WICED_BT_MESH_PROPERTY_LUMINAIRE_NOMINAL_MINIMUM_AC_MAINS_VOLTAGE               0x009E
+#define WICED_BT_MESH_PROPERTY_LUMINAIRE_POWER_AT_MINIMUM_DIM_LEVEL                     0x009F
+#define WICED_BT_MESH_PROPERTY_LUMINAIRE_TIME_OF_MANUFACTURE                            0x00A0
+#define WICED_BT_MESH_PROPERTY_MAGNETIC_DECLINATION                                     0x00A1
+#define WICED_BT_MESH_PROPERTY_MAGNETIC_FLUX_DENSITY_2D                                 0x00A2
+#define WICED_BT_MESH_PROPERTY_MAGNETIC_FLUX_DENSITY_3D                                 0x00A3
+#define WICED_BT_MESH_PROPERTY_NOMINAL_LIGHT_OUTPUT                                     0x00A4
+#define WICED_BT_MESH_PROPERTY_OVERALL_FAILURE_CONDITION                                0x00A5
+#define WICED_BT_MESH_PROPERTY_POLLEN_CONCENTRATION                                     0x00A6
+#define WICED_BT_MESH_PROPERTY_PRESENT_INDOOR_RELATIVE_HUMIDITY                         0x00A7
+#define WICED_BT_MESH_PROPERTY_PRESENT_OUTDOOR_RELATIVE_HUMIDITY                        0x00A8
+#define WICED_BT_MESH_PROPERTY_PRESSURE                                                 0x00A9
+#define WICED_BT_MESH_PROPERTY_RAINFALL                                                 0x00AA
+#define WICED_BT_MESH_PROPERTY_RATED_MEDIAN_USEFUL_LIFE_OF_LUMINAIRE                    0x00AB
+#define WICED_BT_MESH_PROPERTY_RATED_MEDIAN_USEFUL_LIGHT_SOURCE_STARTS                  0x00AC
+#define WICED_BT_MESH_PROPERTY_REFERENCE_TEMPERATURE                                    0x00AD
+#define WICED_BT_MESH_PROPERTY_TOTAL_DEVICE_STARTS                                      0x00AE
+#define WICED_BT_MESH_PROPERTY_TRUE_WIND_DIRECTION                                      0x00AF
+#define WICED_BT_MESH_PROPERTY_TRUE_WIND_SPEED                                          0x00B0
+#define WICED_BT_MESH_PROPERTY_UV_INDEX                                                 0x00B1
+#define WICED_BT_MESH_PROPERTY_WIND_CHILL                                               0x00B2
+#define WICED_BT_MESH_PROPERTY_LIGHT_SOURCE_TYPE                                        0x00B3
+#define WICED_BT_MESH_PROPERTY_LUMINAIRE_IDENTIFICATION_STRING                          0x00B4
+#define WICED_BT_MESH_PROPERTY_OUTPUT_POWER_LIMITATION                                  0x00B5
+#define WICED_BT_MESH_PROPERTY_THERMAL_DERATING                                         0x00B6
+#define WICED_BT_MESH_PROPERTY_OUTPUT_CURRENT_PERCENT                                   0x00B7
 
-#define WICED_BT_MESH_MAX_PROPERTY_ID                                                   WICED_BT_MESH_PROPERTY_TOTAL_LUMINOUS_ENERGY
+#define WICED_BT_MESH_MAX_PROPERTY_ID                                                   WICED_BT_MESH_PROPERTY_OUTPUT_CURRENT_PERCENT
 
 /* TBD need to replace 0s with real numbers */
 #define WICED_BT_MESH_PROPERTY_LEN_UNKNOWN                                                  0
@@ -841,7 +906,7 @@ extern "C"
 #define WICED_BT_MESH_PROPERTY_LEN_PRESENT_AMBIENT_TEMPERATURE                              1
 #define WICED_BT_MESH_PROPERTY_LEN_PRESENT_CIE_CHROMATICITY_COORDINATES                     0
 #define WICED_BT_MESH_PROPERTY_LEN_PRESENT_CORRELATED_COLOR_TEMPERATURE                     0
-#define WICED_BT_MESH_PROPERTY_LEN_PRESENT_DEVICE_INPUT_POWER                               0
+#define WICED_BT_MESH_PROPERTY_LEN_PRESENT_DEVICE_INPUT_POWER                               3
 #define WICED_BT_MESH_PROPERTY_LEN_PRESENT_DEVICE_OPERATING_EFFICIENCY                      0
 #define WICED_BT_MESH_PROPERTY_LEN_PRESENT_DEVICE_OPERATING_TEMPERATURE                     0
 #define WICED_BT_MESH_PROPERTY_LEN_PRESENT_ILLUMINANCE                                      3
@@ -872,6 +937,71 @@ extern "C"
 #define WICED_BT_MESH_PROPERTY_LEN_TOTAL_DEVICE_RUNTIME                                     3
 #define WICED_BT_MESH_PROPERTY_LEN_TOTAL_LIGHT_EXPOSURE_TIME                                3
 #define WICED_BT_MESH_PROPERTY_LEN_TOTAL_LUMINOUS_ENERGY                                    0
+#define WICED_BT_MESH_PROPERTY_LEN_DESIRED_AMBIENT_TEMPERATURE                              0
+#define WICED_BT_MESH_PROPERTY_LEN_PRECISE_TOTAL_DEVICE_ENERGY_USE                          4
+#define WICED_BT_MESH_PROPERTY_LEN_POWER_FACTOR                                             0
+#define WICED_BT_MESH_PROPERTY_LEN_SENSOR_GAIN                                              4
+#define WICED_BT_MESH_PROPERTY_LEN_PRECISE_PRESENT_AMBIENT_TEMPERATURE                      0
+#define WICED_BT_MESH_PROPERTY_LEN_PRESENT_AMBIENT_RELATIVE_HUMIDITY                        0
+#define WICED_BT_MESH_PROPERTY_LEN_PRESENT_AMBIENT_CO2_CONCENTRAION                         0
+#define WICED_BT_MESH_PROPERTY_LEN_PRESENT_AMBIENT_ORGRANIC_COMPOUNDS_CONCENTRATION         0
+#define WICED_BT_MESH_PROPERTY_LEN_PRESENT_AMBIENT_NOISE                                    0
+#define WICED_BT_MESH_PROPERTY_LEN_ACTIVE_ENERGY_LOADSIDE                                   0
+#define WICED_BT_MESH_PROPERTY_LEN_ACTOVE_POWER_LOADSIDE                                    0
+#define WICED_BT_MESH_PROPERTY_LEN_ACTOVE_AIR_PRESSURE                                      0
+#define WICED_BT_MESH_PROPERTY_LEN_APPARENT_ENERGY                                          0
+#define WICED_BT_MESH_PROPERTY_LEN_APPARENT_POWER                                           0
+#define WICED_BT_MESH_PROPERTY_LEN_APPARENT_WIND_DIRECTION                                  0
+#define WICED_BT_MESH_PROPERTY_LEN_APPARENT_WIND_SPEED                                      0
+#define WICED_BT_MESH_PROPERTY_LEN_DEW_POINT                                                0
+#define WICED_BT_MESH_PROPERTY_LEN_EXTERNAL_SUPPLY_VOLTAGE                                  0
+#define WICED_BT_MESH_PROPERTY_LEN_EXTERNAL_SUPPLY_VOLTAGE_FREQUENCY                        0
+#define WICED_BT_MESH_PROPERTY_LEN_GUST_FACTOR                                              0
+#define WICED_BT_MESH_PROPERTY_LEN_HEAT_INDEX                                               0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_DISTRIBUTION                                       0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_CURRENT                                     0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_ON_TIME_NOT_RESETTABLE                      0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_ON_TIME_RESETTABLE                          0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_OPEN_CIRCUIT_STATISTICS                     0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_OVERALL_FAILURE_STATISTICS                  0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_SHORT_CIRCUIT_STATISTICS                    0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_START_COUNTER_RESETTABLE                    0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_TEMPERATURE                                 0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_THERMAL_DERATING_STATISTICS                 0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_THERMAL_DERATING_SHUTDOWN_STATISTICS        0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_TOTAL_POWER_ON_CYCLES                       0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_VOLTAGE                                     0
+#define WICED_BT_MESH_PROPERTY_LEN_LUMINAIRE_COLOR                                          0
+#define WICED_BT_MESH_PROPERTY_LEN_LUMINAIRE_IDENTIFICATION_NUMBER                          0
+#define WICED_BT_MESH_PROPERTY_LEN_LUMINAIRE_MANUFACTURER_GTIN                              0
+#define WICED_BT_MESH_PROPERTY_LEN_LUMINAIRE_NOMINAL_INPUT_POWER                            0
+#define WICED_BT_MESH_PROPERTY_LEN_LUMINAIRE_NOMINAL_MAXIMUM_AC_MAINS_VOLTAGE               0
+#define WICED_BT_MESH_PROPERTY_LEN_LUMINAIRE_NOMINAL_MINIMUM_AC_MAINS_VOLTAGE               0
+#define WICED_BT_MESH_PROPERTY_LEN_LUMINAIRE_POWER_AT_MINIMUM_DIM_LEVEL                     0
+#define WICED_BT_MESH_PROPERTY_LEN_LUMINAIRE_TIME_OF_MANUFACTURE                            0
+#define WICED_BT_MESH_PROPERTY_LEN_MAGNETIC_DECLINATION                                     0
+#define WICED_BT_MESH_PROPERTY_LEN_MAGNETIC_FLUX_DENSITY_2D                                 0
+#define WICED_BT_MESH_PROPERTY_LEN_MAGNETIC_FLUX_DENSITY_3D                                 0
+#define WICED_BT_MESH_PROPERTY_LEN_NOMINAL_LIGHT_OUTPUT                                     0
+#define WICED_BT_MESH_PROPERTY_LEN_OVERALL_FAILURE_CONDITION                                0
+#define WICED_BT_MESH_PROPERTY_LEN_POLLEN_CONCENTRATION                                     0
+#define WICED_BT_MESH_PROPERTY_LEN_PRESENT_INDOOR_RELATIVE_HUMIDITY                         0
+#define WICED_BT_MESH_PROPERTY_LEN_PRESENT_OUTDOOR_RELATIVE_HUMIDITY                        0
+#define WICED_BT_MESH_PROPERTY_LEN_PRESSURE                                                 0
+#define WICED_BT_MESH_PROPERTY_LEN_RAINFALL                                                 0
+#define WICED_BT_MESH_PROPERTY_LEN_RATED_MEDIAN_USEFUL_LIFE_OF_LUMINAIRE                    0
+#define WICED_BT_MESH_PROPERTY_LEN_RATED_MEDIAN_USEFUL_LIGHT_SOURCE_STARTS                  0
+#define WICED_BT_MESH_PROPERTY_LEN_REFERENCE_TEMPERATURE                                    0
+#define WICED_BT_MESH_PROPERTY_LEN_TOTAL_DEVICE_STARTS                                      0
+#define WICED_BT_MESH_PROPERTY_LEN_TRUE_WIND_DIRECTION                                      0
+#define WICED_BT_MESH_PROPERTY_LEN_TRUE_WIND_SPEED                                          0
+#define WICED_BT_MESH_PROPERTY_LEN_UV_INDEX                                                 0
+#define WICED_BT_MESH_PROPERTY_LEN_WIND_CHILL                                               0
+#define WICED_BT_MESH_PROPERTY_LEN_LIGHT_SOURCE_TYPE                                        0
+#define WICED_BT_MESH_PROPERTY_LEN_LUMINAIRE_IDENTIFICATION_STRING                          0
+#define WICED_BT_MESH_PROPERTY_LEN_OUTPUT_POWER_LIMITATION                                  0
+#define WICED_BT_MESH_PROPERTY_LEN_THERMAL_DERATING                                         0
+#define WICED_BT_MESH_PROPERTY_LEN_OUTPUT_CURRENT_PERCENT                                   0
 /** @} WICED_BT_MESH_PROPERTY */
 
 /* Define the format of the Status Trigger Type */
@@ -879,26 +1009,28 @@ extern "C"
 #define WICED_BT_MESH_SENSOR_STATUS_TRIGGER_TYPE_FORMAT_PERCENTAGE                          1
 #define WICED_BT_MESH_SENSOR_MAX_SAMPLING_FUNCTION                                          7
 
-#define WICED_BT_MESH_SENSOR_TOLERANCE_UNSPECIFIED                          0
+#define WICED_BT_MESH_SENSOR_TOLERANCE_UNSPECIFIED                                          0
 
 /* Define sensor sampling function types */
-#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_UNKNOWN                      0
-#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_INSTANTANEOUS                1
-#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_ARITHMATIC_MEAN              2
-#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_RMS                          3
-#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_MAXIMUM                      4
-#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_MINIMUM                      5
-#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_ACCUMULATED                  6
-#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_COUNT                        7
+#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_UNKNOWN                                      0
+#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_INSTANTANEOUS                                1
+#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_ARITHMATIC_MEAN                              2
+#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_RMS                                          3
+#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_MAXIMUM                                      4
+#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_MINIMUM                                      5
+#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_ACCUMULATED                                  6
+#define WICED_BT_MESH_SENSOR_SAMPLING_FUNCTION_COUNT                                        7
 
-#define WICED_BT_MESH_SENSOR_VAL_UNKNOWN                                    0
+#define WICED_BT_MESH_SENSOR_VAL_UNKNOWN                                                    0
 
 
 // Only values of 0x00 through 0x3E shall be used to specify the value of the Transition Number of Steps field.
 #define WICED_BT_MESH_VALID_TRANSITION_TIME(x) (((x) & 0x3f) != 0x3f)
 
 /* Macros to convert light lightness linear to actual and actual to linear */
-#define LIGHT_LIGHTNESS_LINEAR_FROM_ACTUAL(x)         (((uint32_t)(x) * (x) + 32767) / 65535)
+/* actual = 65535 * sqrt (linear / 65535) */
+/* linear = Ceiling (65535 * square (actual / 65535) */
+#define LIGHT_LIGHTNESS_LINEAR_FROM_ACTUAL(x)         (((uint32_t)(x) * (x) + 65534) / 65535)
 #define LIGHT_LIGHTNESS_ACTUAL_FROM_LINEAR(x)         (utl_sqrt((uint32_t)65535 * (x)))
 
 /* Color Temperature range as defined in Light CTL model */
@@ -988,16 +1120,20 @@ extern "C"
  * @name Mesh Mesh Provisioning PDU Types
  * @{
  */
-#define WICED_BT_MESH_PROVISION_PDU_TYPE_INVITE                         0
-#define WICED_BT_MESH_PROVISION_PDU_TYPE_CAPABILITIES                   1
-#define WICED_BT_MESH_PROVISION_PDU_TYPE_START                          2
-#define WICED_BT_MESH_PROVISION_PDU_TYPE_PUBLIC_KEY                     3
-#define WICED_BT_MESH_PROVISION_PDU_TYPE_INPUT_COMPLETE                 4
-#define WICED_BT_MESH_PROVISION_PDU_TYPE_CONFIRMATION                   5
-#define WICED_BT_MESH_PROVISION_PDU_TYPE_RANDOM                         6
-#define WICED_BT_MESH_PROVISION_PDU_TYPE_DATA                           7
-#define WICED_BT_MESH_PROVISION_PDU_TYPE_COMPLETE                       8
-#define WICED_BT_MESH_PROVISION_PDU_TYPE_FAILED                         9
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_INVITE                         0x00
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_CAPABILITIES                   0x01
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_START                          0x02
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_PUBLIC_KEY                     0x03
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_INPUT_COMPLETE                 0x04
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_CONFIRMATION                   0x05
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_RANDOM                         0x06
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_DATA                           0x07
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_COMPLETE                       0x08
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_FAILED                         0x09
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_RECORD_REQUEST                 0x0A
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_RECORD_RESPONSE                0x0B
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_RECORDS_GET                    0x0C
+#define WICED_BT_MESH_PROVISION_PDU_TYPE_RECORDS_LIST                   0x0D
  /** @} MESH_PROVISIONING_PDUS */
 
 #define MESH_AUTH_VALUE_MAX_LEN                                         16  /**< static OOB max length is 128bits. For HMAC_SHA256_AES_CCM it two times longer(256 bits). input and output OOB max length is 8 bytes */
@@ -1014,7 +1150,8 @@ extern "C"
 #define WICED_BT_MESH_REMOTE_PROVISION_STATE_LINK_ACTIVE                0x02    /**< Link Active */
 #define WICED_BT_MESH_REMOTE_PROVISION_STATE_OUTBOUNT_PDU_TRANSFER      0x03    /**< Link Oubound PDU transfer */
 #define WICED_BT_MESH_REMOTE_PROVISION_STATE_LINK_CLOSING               0x04    /**< Link Closing */
-#define WICED_BT_MESH_REMOTE_PROVISION_STATUS_SUCCESS                           0x00    /**< success */
+
+#define WICED_BT_MESH_REMOTE_PROVISION_STATUS_SUCCESS                           0x00    /**< success */
 #define WICED_BT_MESH_REMOTE_PROVISION_STATUS_SCAN_CANNOT_START                 0x01    /**< Scanning Cannot Start  */
 #define WICED_BT_MESH_REMOTE_PROVISION_STATUS_INVALID_STATE                     0x02    /**< Invalid State */
 #define WICED_BT_MESH_REMOTE_PROVISION_STATUS_LIMITED_RESOURCES                 0x03    /**< Limited Resources */
@@ -1033,6 +1170,7 @@ extern "C"
 #define WICED_BT_MESH_REMOTE_PROVISIONING_CLOSE_REASON_FAIL             0x02    /**< Provisioning Failed */
 #define WICED_BT_MESH_REMOTE_PROVISION_EXT_SCAN_DURATION_MIN            1       /**< Min length of time (in seconds) to collect information about the unprovisioned device */
 #define WICED_BT_MESH_REMOTE_PROVISION_EXT_SCAN_DURATION_MAX            10      /**< Max length of time (in seconds) to collect information about the unprovisioned device */
+
 
 /*------------------ Provisioning fields length -------------------*/
 #define WICED_BT_MESH_PROVISION_PUBLIC_KEY_LEN    64

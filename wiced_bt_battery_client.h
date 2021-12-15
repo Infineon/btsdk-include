@@ -46,24 +46,38 @@
 extern "C" {
 #endif
 
+//      UUID_CHARACTERISTIC_BATTERY_LEVEL                     0x2A19  // alredy define in spec bas 1.0
+#define UUID_CHARACTERISTIC_BATTERY_LEVEL_STATUS              0xFF00  // Remove this when spec bas 1.1 is final and replace with correct uuid
+#define UUID_CHARACTERISTIC_BATTERY_ESTIMATED_SERVICE_DATE    0xFF01
+#define UUID_CHARACTERISTIC_BATTERY_CRITICAL_STATUS           0xFF02
+#define UUID_CHARACTERISTIC_BATTERY_ENERGY_STATUS             0xFF03
+#define UUID_CHARACTERISTIC_BATTERY_TIME_STATUS               0xFF04
+#define UUID_CHARACTERISTIC_BATTERY_HEALTH_STATUS             0xFF05
+#define UUID_CHARACTERISTIC_BATTERY_HEALTH_INFO               0xFF06
+#define UUID_CHARACTERISTIC_BATTERY_INFO                      0xFF07
+#define UUID_CHARACTERISTIC_BATTERY_MANUFACTURE_NAME          0xFF08
+#define UUID_CHARACTERISTIC_BATTERY_MANUFACTURE_NUMBER        0xFF09
+#define UUID_CHARACTERISTIC_BATTERY_SERIAL_NUMBER             0xFF0A
+
 /**
-* \addtogroup  wiced_bt_bac_api_functions        BAC Library API
+* \addtogroup  wiced_bt_battery_client_api_functions        BAC Library API
 * \ingroup     wicedbt
 * @{
-* The BAC library of the WICED SDK provide a simple method for an application to integrate the BAC
+* The BAC library of the AIROC BTSDK provide a simple method for an application to integrate the BAC
 * service functionality. The application calls the library APIs to control the Battery service of
 * a peer device using GATT.
 */
 
-/** BAC Events received by the applicaton's BAC callback (see \ref wiced_bt_bac_callback_t)
+/** BAC Events received by the applicaton's BAC callback (see \ref wiced_bt_battery_client_callback_t)
 *
 */
 typedef enum
 {
     WICED_BT_BAC_EVENT_DISCOVERY_COMPLETE = 1,      /**< GATT Discovery Complete */
-    WICED_BT_BAC_EVENT_BATTERY_LEVEL_RSP,           /**< Battery Level Read Response */
-    WICED_BT_BAC_EVENT_BATTERY_LEVEL_NOTIFICATION   /**< Battery Level Notification received */
-} wiced_bt_bac_event_t;
+    WICED_BT_BAC_EVENT_RSP,                         /**< Read Response */
+    WICED_BT_BAC_EVENT_NOTIFICATION,                /**< Notification received */
+    WICED_BT_BAC_EVENT_INDICATION,                  /**< Notification received */
+} wiced_bt_battery_client_event_t;
 
 
 /**
@@ -74,36 +88,26 @@ typedef enum
  */
 typedef struct
 {
-    uint16_t conn_id;                               /**< Connection Id */
-    wiced_bt_gatt_status_t status;                  /**< Discovery Status */
-    wiced_bool_t notification_supported;            /**< Indicate if Notification supported */
-} wiced_bt_bac_discovery_complete_t;
+    uint16_t conn_id;                                   /**< Connection Id */
+    wiced_bt_gatt_status_t status;                      /**< Discovery Status */
+} wiced_bt_battery_client_discovery_complete_t;
 
 /**
- * \brief Data associated with \ref WICED_BT_BAC_EVENT_BATTERY_LEVEL_RSP.
+ * \brief event Data
  *
- * This event is received when a Battery Level Response is Received.
+ * The data of read response, notification, or indication.
  *
  */
 typedef struct
 {
     uint16_t conn_id;
     wiced_bt_gatt_status_t status;
-    uint8_t battery_level;
-} wiced_bt_bac_battery_level_rsp_t;
-
-/**
- * \brief Data associated with \ref WICED_BT_BAC_EVENT_BATTERY_LEVEL_NOTIFICATION.
- *
- * This event is received when a Battery Level Notification is Received.
- *
- */
-typedef struct
-{
-    uint16_t conn_id;
-    uint8_t battery_level;
-} wiced_bt_bac_battery_level_notification_t;
-
+    uint16_t uuid;       /**< uuid */
+    uint16_t handle;     /**< handle */
+    uint16_t len;        /**< length of response data */
+    uint16_t offset;     /**< offset */
+    uint8_t  *p_data;    /**< attribute data */
+} wiced_bt_battery_client_data_t;
 
 /**
  * \brief Union of data associated with BAC events
@@ -111,31 +115,45 @@ typedef struct
  */
 typedef union
 {
-    wiced_bt_bac_discovery_complete_t           discovery;
-    wiced_bt_bac_battery_level_rsp_t            battery_level_rsp;
-    wiced_bt_bac_battery_level_notification_t   battery_level_notification;
-} wiced_bt_bac_event_data_t;
+    wiced_bt_battery_client_discovery_complete_t           discovery;
+    wiced_bt_battery_client_data_t                         data;
+} wiced_bt_battery_client_event_data_t;
 
 /**
-* BAC Callback function type wiced_bt_bac_callback_t
+* BAC Callback function type wiced_bt_battery_client_callback_t
 *
 *                  This function is called to send BAC events to the application.
-*                  This function is registered with the \ref wiced_bt_bac_initialize function.
+*                  This function is registered with the \ref wiced_bt_battery_client_initialize function.
 *
 * \param[in]       event  : BAC Event.
 * \param[in]       p_data : Data (pointer on union of structure) associated with the event.
 *
 * \return NONE.
 */
-typedef void (wiced_bt_bac_callback_t)(wiced_bt_bac_event_t event, wiced_bt_bac_event_data_t *p_data);
+typedef void (wiced_bt_battery_client_callback_t)(wiced_bt_battery_client_event_t event, wiced_bt_battery_client_event_data_t *p_data);
 
 /******************************************************************************
 *                         Function Prototypes
 ******************************************************************************/
 
 
+#ifdef WICED_BT_TRACE_ENABLE
 /******************************************************************************
-* Function Name: wiced_bt_bac_init
+* Function Name: wiced_bt_battery_client_uuid_to_str
+***************************************************************************//**
+*
+* This function returns supported BAS v1.1 characteristic service name by given uuid.
+*
+* \param          uuid : The uuid of BAS characteristic
+*
+* \return         characteristics service name if uuid is valid, else returns empty string
+*
+******************************************************************************/
+char * wiced_bt_battery_client_uuid_to_str(uint16_t uuid);
+#endif
+
+/******************************************************************************
+* Function Name: wiced_bt_battery_client_init
 ***************************************************************************//**
 *
 * The application calls this function to initialize the Battery Client profile.
@@ -149,11 +167,11 @@ typedef void (wiced_bt_bac_callback_t)(wiced_bt_bac_event_t event, wiced_bt_bac_
 * \return         WICED_SUCCESS if BAC initialized successfully, error otherwise.
 *
 ******************************************************************************/
-wiced_result_t wiced_bt_bac_init(wiced_bt_bac_callback_t *p_callback);
+wiced_result_t wiced_bt_battery_client_init(wiced_bt_battery_client_callback_t *p_callback);
 
 /******************************************************************************
 *
-* Function Name: wiced_bt_bac_discover
+* Function Name: wiced_bt_battery_client_discover
 *
 ***************************************************************************//**
 *
@@ -169,11 +187,11 @@ wiced_result_t wiced_bt_bac_init(wiced_bt_bac_callback_t *p_callback);
 * \return          Returns the status of the GATT operation.
 *
 ******************************************************************************/
-wiced_bt_gatt_status_t wiced_bt_bac_discover(uint16_t conn_id, uint16_t start_handle, uint16_t end_handle);
+wiced_bt_gatt_status_t wiced_bt_battery_client_discover(uint16_t conn_id, uint16_t start_handle, uint16_t end_handle);
 
 /******************************************************************************
 *
-* Function Name: wiced_bt_bac_discovery_result
+* Function Name: wiced_bt_battery_client_discovery_result
 *
 ***************************************************************************//**
 *
@@ -187,11 +205,11 @@ wiced_bt_gatt_status_t wiced_bt_bac_discover(uint16_t conn_id, uint16_t start_ha
 * \return          None.
 *
 ******************************************************************************/
-void wiced_bt_bac_discovery_result(wiced_bt_gatt_discovery_result_t *p_data);
+void wiced_bt_battery_client_discovery_result(wiced_bt_gatt_discovery_result_t *p_data);
 
 /******************************************************************************
 *
-* Function Name: wiced_bt_bac_client_discovery_complete
+* Function Name: wiced_bt_battery_client_discovery_complete
 *
 ***************************************************************************//**
 *
@@ -205,11 +223,11 @@ void wiced_bt_bac_discovery_result(wiced_bt_gatt_discovery_result_t *p_data);
 * \return          None.
 *
 ******************************************************************************/
-void wiced_bt_bac_client_discovery_complete(wiced_bt_gatt_discovery_complete_t *p_data);
+void wiced_bt_battery_client_discovery_complete(wiced_bt_gatt_discovery_complete_t *p_data);
 
 /******************************************************************************
 *
-* Function Name: wiced_bt_bac_read_battery_level
+* Function Name: wiced_bt_battery_client_read
 *
 ***************************************************************************//**
 *
@@ -221,11 +239,11 @@ void wiced_bt_bac_client_discovery_complete(wiced_bt_gatt_discovery_complete_t *
 * \return          Returns the status of the GATT operation.
 *
 ******************************************************************************/
-wiced_bt_gatt_status_t wiced_bt_bac_read_battery_level(uint16_t conn_id);
+wiced_bt_gatt_status_t wiced_bt_battery_client_read(uint16_t conn_id);
 
 /******************************************************************************
 *
-* Function Name: wiced_bt_bac_enable_notification
+* Function Name: wiced_bt_battery_client_enable_notification
 *
 ***************************************************************************//**
 *
@@ -237,11 +255,11 @@ wiced_bt_gatt_status_t wiced_bt_bac_read_battery_level(uint16_t conn_id);
 * \return         Returns the status of the GATT operation.
 *
 ******************************************************************************/
-wiced_bt_gatt_status_t wiced_bt_bac_enable_notification(uint16_t conn_id);
+void wiced_bt_battery_client_enable(uint16_t conn_id);
 
 /******************************************************************************
 *
-* Function Name: wiced_bt_bac_disable_notification
+* Function Name: wiced_bt_battery_client_disable_notification
 *
 ***************************************************************************//**
 *
@@ -253,11 +271,11 @@ wiced_bt_gatt_status_t wiced_bt_bac_enable_notification(uint16_t conn_id);
 * \return         Returns the status of the GATT operation.
 *
 ******************************************************************************/
-wiced_bt_gatt_status_t wiced_bt_bac_disable_notification(uint16_t conn_id);
+void wiced_bt_battery_client_disable(uint16_t conn_id);
 
 /******************************************************************************
 *
-* Function Name: wiced_bt_bac_read_rsp
+* Function Name: wiced_bt_battery_client_read_rsp
 *
 ***************************************************************************//**
 *
@@ -269,11 +287,11 @@ wiced_bt_gatt_status_t wiced_bt_bac_disable_notification(uint16_t conn_id);
 * \return          None.
 *
 ******************************************************************************/
-void wiced_bt_bac_read_rsp(wiced_bt_gatt_operation_complete_t *p_data);
+void wiced_bt_battery_client_read_rsp(wiced_bt_gatt_operation_complete_t *p_data);
 
 /******************************************************************************
 *
-* Function Name: wiced_bt_bac_process_notification
+* Function Name: wiced_bt_battery_client_process_notification
 *
 ***************************************************************************//**
 *
@@ -285,11 +303,27 @@ void wiced_bt_bac_read_rsp(wiced_bt_gatt_operation_complete_t *p_data);
 * \return         None.
 *
 ******************************************************************************/
-void wiced_bt_bac_process_notification(wiced_bt_gatt_operation_complete_t *p_data);
+void wiced_bt_battery_client_process_notification(wiced_bt_gatt_operation_complete_t *p_data);
 
 /******************************************************************************
 *
-* Function Name: wiced_bt_bac_client_connection_up
+* Function Name: wiced_bt_battery_client_process_indication
+*
+***************************************************************************//**
+*
+* The application calls this when it receives notification from the server.
+* The Profile processes the indication and sends it as a callback to the application.
+*
+* \param          p_data  : The pointer to a GATT operation complete data structure.
+*
+* \return         None.
+*
+******************************************************************************/
+void wiced_bt_battery_client_process_indication(wiced_bt_gatt_operation_complete_t *p_data);
+
+/******************************************************************************
+*
+* Function Name: wiced_bt_battery_client_connection_up
 *
 ***************************************************************************//**
 *
@@ -302,11 +336,11 @@ void wiced_bt_bac_process_notification(wiced_bt_gatt_operation_complete_t *p_dat
 * \return          None.
 *
 ******************************************************************************/
-void wiced_bt_bac_client_connection_up(wiced_bt_gatt_connection_status_t *p_conn_status);
+void wiced_bt_battery_client_connection_up(wiced_bt_gatt_connection_status_t *p_conn_status);
 
 /******************************************************************************
 *
-* Function Name: wiced_bt_bac_client_connection_down
+* Function Name: wiced_bt_battery_client_connection_down
 *
 ***************************************************************************//**
 *
@@ -319,7 +353,7 @@ void wiced_bt_bac_client_connection_up(wiced_bt_gatt_connection_status_t *p_conn
 * \return          None.
 *
 ******************************************************************************/
-void wiced_bt_bac_client_connection_down(wiced_bt_gatt_connection_status_t *p_conn_status);
+void wiced_bt_battery_client_connection_down(wiced_bt_gatt_connection_status_t *p_conn_status);
 
 #ifdef __cplusplus
 }

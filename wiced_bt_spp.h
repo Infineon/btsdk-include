@@ -52,7 +52,7 @@ extern "C" {
  * @addtogroup  wiced_bt_spp_api_functions        SPP Library API
  * @ingroup     wicedbt
  *
- * SPP library of the WICED SDK provide a simple method for an application to integrate SPP
+ * SPP library of the AIROC BTSDK provide a simple method for an application to integrate SPP
  * functionality.  Application just needs to call API to connect/disconnect and send data.
  * Library in turn indicates status of the connection and passes to the application received data.
  *
@@ -101,15 +101,6 @@ typedef void (*wiced_bt_spp_service_not_found_callback_t)(void);
  * @return          none
  */
 typedef void (*wiced_bt_spp_connection_down_callback_t)(uint16_t handle);
-
-/**
- * Transmission Complete callback indicates that application can send more data.
- *
- * @param[in]       handle   : Handle that identifies the external accessory session
- * @param[in]       result   : Result of tx operaion.  0 if success.
- * @return          none
- */
-typedef void (*wiced_bt_spp_tx_complete_callback_t)(uint16_t handle, wiced_result_t result);
 
 /**
  * Rx Data callback passed to the application data received over the SPP

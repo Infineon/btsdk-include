@@ -171,7 +171,7 @@ typedef void (*wiced_bt_mesh_app_attention_t)(uint8_t element, uint8_t time);
  * callback. If the device does not have sensors, support for this callback is optional.
  * Applications that do not want to handle the callback, should make sure that they report
  * changes to the local states to the Mesh Models library. For example, an application for a light
- * where the brightness can be adjusted both over BT and locally, may report local changes
+ * where the brightness can be adjusted both over Bluetooth and locally, may report local changes
  * every time something is adjusted locally.  The Mesh Models library will remember
  * all the status changes and will automatically send notifications as appropriate.
  *
@@ -185,13 +185,13 @@ typedef void (*wiced_bt_mesh_app_attention_t)(uint8_t element, uint8_t time);
 typedef wiced_bool_t (*wiced_bt_mesh_app_notify_period_set_t)(uint8_t element, uint16_t company_id, uint16_t model_id, uint32_t time);
 
 /**
- * \brief Processing of a WICED HCI Command from the MCU.
- * \details Application shall implement this function to process WICED HCI commands
- * received over the WICED UART or WICED SPI transport.
+ * \brief Processing of a AIROC HCI Command from the MCU.
+ * \details Application shall implement this function to process AIROC HCI commands
+ * received over the "WICED UART" or SPI transport.
  *
- * @param[in]   opcode WICED HCI Command Opcode
- * @param[in]   p_data WICED HCI Command parameters
- * @param[in]   length Length of the WICED HCI Command parameters
+ * @param[in]   opcode AIROC HCI Command Opcode
+ * @param[in]   p_data AIROC HCI Command parameters
+ * @param[in]   length Length of the AIROC HCI Command parameters
  *
  * @return      WICED_TRUE if application processed opcode.
  */
@@ -208,6 +208,18 @@ typedef uint32_t (*wiced_bt_mesh_app_proc_rx_cmd_t)(uint16_t opcode, uint8_t *p_
  */
 typedef void (*wiced_bt_mesh_app_lpn_sleep_t)(uint32_t duration);
 
+/**
+ * \brief Non-connectable adv packet application handler
+ * \details A customer application can implement this function to handle application
+ * specific non-connectable adv packets.
+ *
+ * @param[in]   rssi            Adv packet RSSI value
+ * @param[in]   p_adv_data      Adv packet data
+ * @param[in]   remote_bd_addr  Remote device address
+ *
+ * @return      WICED_TRUE if application processed adv and it does not need to be processed by the core
+ */
+typedef wiced_bool_t (*wiced_bt_mesh_app_non_conn_adv_handler_t)(int8_t rssi, const uint8_t *p_adv_data, const uint8_t* remote_bd_addr);
 
 /**
  * \brief Factory reset notification.
@@ -241,6 +253,12 @@ extern void mesh_application_hard_reset(uint8_t* uuid, uint8_t uuid_len);
  * Application can use the NVRAM IDs starting from returned value.
 **/
 extern uint16_t mesh_application_get_nvram_id_app_start(void);
+
+/**
+ *@brief Register an application dependent non-connectable adv packet handler
+ * Register an application dependent non-connectable adv packet handler
+**/
+extern void mesh_application_reg_non_conn_adv_handler(wiced_bt_mesh_app_non_conn_adv_handler_t handler);
 
 #ifdef HCI_CONTROL
 extern wiced_bt_mesh_hci_event_t *wiced_bt_mesh_create_hci_event(wiced_bt_mesh_event_t *p_event);

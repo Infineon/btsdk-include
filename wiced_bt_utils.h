@@ -30,7 +30,7 @@
  * of such system or application assumes all risk of such use and in doing
  * so agrees to indemnify Cypress against all liability.
  *
- * Bluetooth WICED Utility functions
+ * AIROC BTSDK Utility functions
  *
  */
 
@@ -41,7 +41,7 @@
 #include "wiced_bt_dev.h"
 
 /*******************************************************************
-** WICED BT related definitions and declarations
+** AIROC BTSDK related definitions and declarations
 *******************************************************************/
 extern void GKI_freebuf (void *memPtr);
 typedef wiced_bt_device_address_t BD_ADDR;
@@ -97,6 +97,34 @@ wiced_bt_dev_status_t wiced_bt_read_raw_rssi(uint16_t connection_handle, wiced_b
  * @return          void
 *******************************************************************/
 void wiced_hal_get_pseudo_rand_number_array(uint32_t* randNumberArrayPtr, uint32_t length);
+
+/*******************************************************************
+ * Function         wiced_transport_send_hci_trace
+ *
+ * Send the hci trace data over the transport.
+ * Note: This API is provided for BTSTACK backward compatibility
+ *
+ * @param[in]   hci_trans_pool  :Pass the pointer to the pool created by the application
+ *                               incase application  has created a dedicated trans pool for
+ *                               communicating to host. Pass NULL if the application wants the stack to
+ *                               take care of allocating the buffer for sending the data to host.
+ *                               Application should be able to use transport buffer pool that it allocates and trace the whole HCI packets.
+ *                               In case of stack allocation, the size of trace compromised according to buffer availability.
+ *
+ * @param[in]   type            :HCI trace type
+ * @param[in]   p_data          :Pointer to the data payload
+ * @param[in]   length          :Data payload length
+ *
+ * @return  wiced_result_t      WICED_SUCCESS, if success,
+ *                              WICED_NO_MEMORY if buffers not available to send,
+ *                              WICED_ERROR otherwise
+ ******************************************************************/
+#if BTSTACK_VER >= 0x03000001
+ #define wiced_bt_transport_send_hci_trace(hci_trans_pool, type, p_data, length )   wiced_transport_send_hci_trace(type, p_data, length)
+#else
+ #define wiced_bt_transport_send_hci_trace(hci_trans_pool, type, p_data, length )   wiced_transport_send_hci_trace(NULL, type, p_data, length)
+#endif
+
 
 #if defined (CYW20706A2) || defined (CYW43012C0)
 // strchr defined in ROM for most chips, define here for the missing ones

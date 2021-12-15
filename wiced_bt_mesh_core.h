@@ -57,10 +57,10 @@ extern "C"
 #define WICED_BT_MESH_PROXY_IDENTIFICATION_TYPE_PRIVATE_NODE_IDENTITY   3
 
 /**
- * @addtogroup  wiced_bt_mesh               BLE Mesh
+ * @addtogroup  wiced_bt_mesh               LE Mesh
  * @ingroup     wicedbt
  *
- * Mesh API provides a developer a simple way to incorporate BLE mesh functionality in a WICED application.
+ * Mesh API provides a developer a simple way to incorporate LE mesh functionality in an AIROC application.
  * Most application will only need access to @ref wiced_bt_mesh_models "Mesh Models" library. The applications that
  * supports adding new devices to the mesh network (provisioning) and network configuration may also use @ref wiced_bt_mesh_provisioning "Mesh Provisioning"
  * library.  Applications that use Vendor specific models in addition to standard Bluetooth SIG models, may also need to access
@@ -73,8 +73,8 @@ extern "C"
  * @addtogroup  wiced_bt_mesh_core          Mesh Core Library API
  * @ingroup     wiced_bt_mesh
  *
- * Mesh Core library of the WICED SDK provides access to the BLE Mesh Core.  Typically
- * application will not access BLE Mesh Core directly but through the BLE Mesh Models
+ * Mesh Core library of the AIROC BTSDK provides access to the LE Mesh Core.  Typically
+ * application will not access LE Mesh Core directly but through the LE Mesh Models
  * library functions.
  *
  * @{
@@ -179,7 +179,7 @@ typedef wiced_bool_t (*wiced_bt_mesh_core_received_msg_handler_t)(wiced_bt_mesh_
 
 /**
  * \brief Get message handler callback.
- * \details The WICED Mesh Application library implements that function to find and return the message handler corresponding to the opcode of received message.
+ * \details The AIROC Mesh Application library implements that function to find and return the message handler corresponding to the opcode of received message.
  * If opcode does not correspond to any supported model then the function returns NULL. Otherwise it returns the message handler.
  *
  * The 0xffff value of the comany_id means special case when message came from Network or Transport layer (see Special Commands
@@ -196,7 +196,7 @@ typedef wiced_bt_mesh_core_received_msg_handler_t (*wiced_bt_mesh_core_get_msg_h
 
 /**
  * \brief Publication request callback.
- * \details The WICED Mesh Application library implements that function to be notified when periodic publication configuration has changed or when a model need to publish its status.
+ * \details The AIROC Mesh Application library implements that function to be notified when periodic publication configuration has changed or when a model need to publish its status.
  * If period is set to 0, the publication needs to stop. Period between 1 and 0xFFFE indicates that Periodic Publication for the specified model is being changed.
  * Value 0xFFFF indicates that the value needs to be published now.
  *
@@ -413,6 +413,27 @@ typedef union
 typedef void(*wiced_bt_mesh_core_state_changed_callback_t)(wiced_bt_mesh_core_state_type_t type, wiced_bt_mesh_core_state_t *p_state);
 
 /**
+ * \brief Definition of the callback function to send advert messages or stop sending it or reset all adverts.
+ * \details Application implements that function.
+ *          0 instance means reset all adverts - then all other params should be ignored.
+ *          0 transmissions means stop specific instance then all other params except instance should be ignored.
+ *
+ * @param[in]   instance            Adv instance to send or stop. 0 instance means reset all adverts - then all other params should be ignored.
+ * @param[in]   transmissions       Number of transmissions. 0 means stop adv with that instance
+ * @param[in]   interval            Adv interval
+ * @param[in]   type                Adv type - see wiced_bt_ble_multi_advert_type_e in wiced_bt_ble.h
+ * @oaram[in]   own_bd_addr         Own LE address
+ * @param[in]   adv_data            Advertisement data to send
+ * @param[in]   adv_data_len        Length of the advertisement data to send
+ * @param[in]   scan_rsp_data       Scan response data to send
+ * @param[in]   scan_rsp_data_len   Length of the scan response data to send
+ *
+ * @return      WICED_TRUE on success; WICED_FALSE on error
+ */
+typedef wiced_bool_t(*wiced_bt_mesh_core_adv_send_cb_t)(uint8_t instance, uint8_t transmissions, uint32_t interval, uint8_t type, uint8_t* own_bd_addr,
+    const uint8_t* adv_data, uint8_t adv_data_len, const uint8_t* scan_rsp_data, uint8_t scan_rsp_data_len);
+
+/**
 * Data for wiced_bt_mesh_core_init
 */
 typedef struct
@@ -429,8 +450,123 @@ typedef struct
     wiced_bt_mesh_core_health_fault_test_cb_t fault_test_cb;    /**< Callback function to be called to invoke a self test procedure of an Element */
     wiced_bt_mesh_core_attention_cb_t attention_cb;             /**< Callback function to be called to attract human attention */
     wiced_bt_mesh_core_state_changed_callback_t state_changed_cb;   /**< Callback function to be called on any change in the mesh state */
+    wiced_bt_mesh_core_adv_send_cb_t adv_send_callback;         /**< Callback function to send adv packet */
 } wiced_bt_mesh_core_init_t;
 
+/**
+* \brief Fills a given array with randomly generated 32-bit integers.
+*
+* @param[out] randNumberArrayPtr    The pointer to an array to be populated with  random numbers.
+*
+* @param[in]  length                The length of the array pointed to by randNumberArrayPtr.
+*/
+typedef void (*wiced_bt_mesh_core_hal_rand_gen_num_array_t)(uint32_t* randNumberArrayPtr, uint32_t length);
+
+/**
+* \brief This functin returns a pseudo random number
+*
+* @return      A randomly generated 32-bit integer.
+*/
+typedef uint32_t(*wiced_bt_mesh_core_hal_get_pseudo_rand_number_t)(void);
+
+/**
+* \brief Generates and returns a random 32-bit integer. Internal functions check
+* that the generating hardware is warmed up and ready before returning
+* the random value. If the hardware is too "cold" at the time of use,
+* the function will instead use the BT clock as a "seed" and generate a
+* "soft" random number.
+*
+* @return      A randomly generated 32-bit integer.
+*/
+typedef uint32_t(*wiced_bt_mesh_core_hal_rand_gen_num_t)(void);
+
+/**
+* \brief Execute a soft reset of the system.
+*
+*/
+typedef void (*wiced_bt_mesh_core_hal_wdog_reset_system_t)(void);
+
+/**
+* \brief deletes data from NVRAM at specified VS id
+ *
+ * @param[in]  vs_id       : Volatile Section Identifier. Application can use
+ *                           the VS ids from WICED_NVRAM_VSID_START to
+ *                           WICED_NVRAM_VSID_END
+ *
+ * @param[out] p_status    : Pointer to location where status of the call
+ *                           is returned
+ *
+ * @return  void
+ */
+typedef void (*wiced_bt_mesh_core_hal_delete_nvram_t)(uint16_t vs_id, wiced_result_t* p_status);
+
+/**
+* \brief Writes the data to NVRAM,
+ * Application can write up to 255 bytes in one VS  id section
+ *
+ * @param[in] vs_id        : Volatile Section Identifier. Application can use
+ *                           the VS ids from WICED_NVRAM_VSID_START to
+ *                           WICED_NVRAM_VSID_END
+ *
+ * @param[in] data_length  : Length of the data to be written to the NVRAM,
+ *
+ * @param[in] p_data       : Pointer to the data to be written to the NVRAM
+ *
+ * @param[out] p_status    : Pointer to location where status of the call
+ *                           is returned
+ *
+ * @return  number of bytes written, 0 on error
+ */
+typedef uint16_t(*wiced_bt_mesh_core_hal_write_nvram_t)(uint16_t vs_id, uint16_t data_length, uint8_t* p_data, wiced_result_t* p_status);
+
+/**
+* \brief Reads the data from NVRAM
+ *
+ * @param[in]  vs_id       : Volatile Section Identifier. Application can use
+ *                           the VS ids from WICED_NVRAM_VSID_START to
+ *                           WICED_NVRAM_VSID_END
+ *
+ * @param[in]  data_length : Length of the data to be read from NVRAM
+ *
+ * @param[out] p_data      : Pointer to the buffer to which data will be copied
+ *
+ * @param[out] p_status    : Pointer to location where status of the call
+ *                           is returned
+ *
+ * @return  the number of bytes read, 0 on failure
+ */
+typedef uint16_t(*wiced_bt_mesh_core_hal_read_nvram_t)(uint16_t vs_id, uint16_t data_length, uint8_t* p_data, wiced_result_t* p_status);
+
+/**
+* hal api for wiced_bt_mesh_core_set_hal_api()
+* Application has to implement all these functions and call wiced_bt_mesh_core_set_hal_api() at the startup.
+*/
+typedef struct
+{
+    wiced_bt_mesh_core_hal_rand_gen_num_array_t     rand_gen_num_array;
+    wiced_bt_mesh_core_hal_get_pseudo_rand_number_t get_pseudo_rand_number;
+    wiced_bt_mesh_core_hal_rand_gen_num_t           rand_gen_num;
+    wiced_bt_mesh_core_hal_wdog_reset_system_t      wdog_reset_system;
+    wiced_bt_mesh_core_hal_delete_nvram_t           delete_nvram;
+    wiced_bt_mesh_core_hal_write_nvram_t            write_nvram;
+    wiced_bt_mesh_core_hal_read_nvram_t             read_nvram;
+}wiced_bt_mesh_core_hal_api_t;
+
+
+/**
+* \brief Sets hal api.
+* Application has to implement all these functions and call wiced_bt_mesh_core_set_hal_api() at the startup.
+*
+ * @param[in]  pointer to hal api
+*/
+void wiced_bt_mesh_core_set_hal_api(wiced_bt_mesh_core_hal_api_t* hal_api);
+
+/**
+* \brief Returns hal api.
+*
+ * @return      pointer to hal api
+*/
+wiced_bt_mesh_core_hal_api_t* wiced_bt_mesh_core_get_hal_api(void);
 
 /**
  * \brief Mesh Core initialization.
@@ -446,13 +582,23 @@ typedef struct
 wiced_result_t wiced_bt_mesh_core_init(wiced_bt_mesh_core_init_t *p_init);
 
 /**
+ * \brief Advertisement stopped notification.
+ * \details Application calls it when requested number of transmissions of the advertisement has been sent and it stopped.
+ *
+ * @param[in]   instance        Instance of the stopped advertisement
+ */
+void wiced_bt_mesh_core_adv_end(uint8_t instance);
+
+/**
  * \brief Mesh Core de-initialization.
  * \details The wiced_bt_mesh_core_deinit function can be called to reset device to unprovisioned state.
  * The function deletes main nvram item and restarts device.
  *
  * @param[in]   nvram_access_callback   Callback function to read/write from/to NVRAM
+ *
+ * @return      On FALSE caller shall reboot the node via wiced_hal_wdog_reset_system()
  */
-void wiced_bt_mesh_core_deinit(wiced_bt_core_nvram_access_t nvram_access_callback);
+wiced_bool_t wiced_bt_mesh_core_deinit(wiced_bt_core_nvram_access_t nvram_access_callback);
 
 /**
  * \brief Mesh Core Start.
@@ -830,6 +976,76 @@ typedef struct
 } mesh_core_provision_cb_t;
 
 
+/**
+ * @anchor MESH_PROVISIONING_RECORD_IDs
+ * @name Mesh Provisioning Record IDs
+ * @{
+ */
+typedef enum
+{
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_CBP_BASE_URI                 =  0X0000,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_DEVICE_CERTIFICATE           =  0X0001,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_1   =  0X0002,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_2   =  0X0003,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_3   =  0X0004,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_4   =  0X0005,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_5   =  0X0006,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_6   =  0X0007,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_7   =  0X0008,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_8   =  0X0009,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_9   =  0X000A,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_10  =  0X000B,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_11  =  0X000C,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_12  =  0X000D,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_13  =  0X000E,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_14  =  0X000F,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_15  =  0X0010,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_COMPLETE_LOCAL_NAME          =  0X0011,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_APPEARANCE                   =  0x0012
+} wiced_bt_mesh_provisioning_record_id_t;
+
+
+/** @} MESH_PROVISIONING_RECORD_IDs */
+
+/**
+ * @brief Provisioning Record Request PDU parameters format
+ *
+ */
+typedef struct
+{
+    uint8_t     record_id[2];             /**< Identifies the provisioning record for which the request is made */
+    uint8_t     fragment_offset[2];       /**< The starting offset of the requested fragment in the provisioning record data */
+    uint8_t     fragment_max_size[2];     /**< The maximum size of the provisioning record fragment that the provisioner can receive */
+} wiced_bt_mesh_provisioning_record_request_t;
+
+/**
+ * @brief  Provisioning Record Response PDU parameters format
+ *
+ */
+typedef struct
+{
+    uint8_t     status;                 /**< Indicates whether or not the request was handled successfully */
+    uint8_t     record_id[2];           /**< Identifies the provisioning record whose data fragment is sent in the response */
+    uint8_t     fragment_offset[2];     /**< The starting offset of the data fragment in the provisioning record data */
+    uint8_t     total_length[2];        /**< Total length of the provisioning record data stored on the device */
+    uint8_t     data[1];                /**< Provisioning record data fragment (Optional) */
+} wiced_bt_mesh_provisioning_record_response_t;
+
+
+/**
+* @anchor WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS
+* @name Status codes for the Provisioning Record Response PDU
+*
+* @{
+*/
+typedef enum
+{
+    WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS_SUCCESS         =    0x00,
+    WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS_NOT_PRESENT     =    0x01,
+    WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS_OUT_OF_BOUNDS   =    0x02
+} wiced_bt_mesh_provisioning_record_status_t;
+/** @}  WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS */
+
 /*------------------- API for provisioner and provisioning node -------------------------------------*/
 
 /**
@@ -885,9 +1101,9 @@ typedef void (*wiced_bt_mesh_core_provision_end_cb_t)(
  */
 #define WICED_BT_MESH_PROVISION_GET_OOB_TYPE_NONE            0   /**< Provisioner: OOB not used */
 #define WICED_BT_MESH_PROVISION_GET_OOB_TYPE_ENTER_PUB_KEY   1   /**< Provisioner: Enter public key() */
-#define WICED_BT_MESH_PROVISION_GET_OOB_TYPE_ENTER_OUTPUT    2   /**< Provisioner: Enter output OOB value(size, action) displaied on provisioning node */
+#define WICED_BT_MESH_PROVISION_GET_OOB_TYPE_ENTER_OUTPUT    2   /**< Provisioner: Enter output OOB value(size, action) displayed on provisioning node */
 #define WICED_BT_MESH_PROVISION_GET_OOB_TYPE_ENTER_STATIC    3   /**< Provisioner: Enter static OOB value(size)*/
-#define WICED_BT_MESH_PROVISION_GET_OOB_TYPE_ENTER_INPUT     4   /**< Provisioning node: Enter input OOB value(size, action) displaied on provisioner */
+#define WICED_BT_MESH_PROVISION_GET_OOB_TYPE_ENTER_INPUT     4   /**< Provisioning node: Enter input OOB value(size, action) displayed on provisioner */
 #define WICED_BT_MESH_PROVISION_GET_OOB_TYPE_DISPLAY_INPUT   5   /**< Provisioner: Select and display input OOB value(size, action)*/
 #define WICED_BT_MESH_PROVISION_GET_OOB_TYPE_DISPLAY_OUTPUT  6   /**< Provisioning node: Select and display output OOB value(size, action) */
 #define WICED_BT_MESH_PROVISION_GET_OOB_TYPE_DISPLAY_STOP    7   /**< Provisioner and Provisioning node: Stop displaying OOB value */
@@ -1060,7 +1276,7 @@ uint16_t wiced_bt_mesh_get_node_config_size(wiced_bt_mesh_core_config_t *config)
 void wiced_bt_mesh_core_stop_advert(void);
 
 /**
-* Reperesents statistics of messages receiving, sending and handling by network and bearers layers.
+* Represents statistics of messages receiving, sending and handling by network and bearers layers.
 */
 typedef struct
 {
@@ -1073,7 +1289,7 @@ typedef struct
 
     uint32_t    dropped_invalid_msg_cnt;            /**< Number of dropped invalid messages (too short, 0 or own SRC, not from friend, invalid proxy config, 0 DST */
     uint32_t    dropped_by_nid_msg_cnt;             /**< Number of the messages with unsupported NID */
-    uint32_t    dropped_not_decrypted_msg_cnt;      /**< Number of the messages failed to be decryptd */
+    uint32_t    dropped_not_decrypted_msg_cnt;      /**< Number of the messages failed to be decrypted */
     uint32_t    dropped_by_net_cache_msg_cnt;       /**< Number of the messages dropped by network cache */
     uint32_t    not_relayed_by_ttl_msg_cnt;         /**< Number of the messages not relayed because TTL <= 1 */
     uint32_t    dropped_group_msg_cnt;              /**< Number of the dropped group messages (no subscriptions) */
@@ -1089,7 +1305,7 @@ typedef struct
 } wiced_bt_mesh_core_statistics_t;
 
 /**
-* Reperesents statistics of messages receiving, sending and handling by transport layers.
+* Represents statistics of messages receiving, sending and handling by transport layers.
 */
 typedef struct
 {
@@ -1322,6 +1538,16 @@ wiced_bool_t wiced_bt_mesh_core_del_last_element(void);
  * @return      WICED_TRUE if Node Composition Refresh Procedure is needed.
 */
 wiced_bool_t wiced_bt_mesh_core_needs_composition_refresh(void);
+
+/**
+ * \brief Resets node to unprovisioned state without restarting.
+ * \details It is quick synchronous function. Node is in the unprovisioned state on return from the function.
+ *
+ * @param       None
+ *
+ * @return      None
+*/
+void wiced_bt_mesh_core_reset(void);
 
 /**
 * \brief Advertising interval of the unprovisioned beacon in units 0.5 sec. Default value: 8000 (5 sec)

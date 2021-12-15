@@ -520,7 +520,7 @@ void mesh_light_lightness_server_linear_last_set(uint8_t element_idx, uint16_t v
 /*
  * Process command from the light controller to transition to new target linear lightness
  */
-void mesh_light_lightness_server_lc_transition_start(uint8_t element_idx, uint16_t actual_target, uint16_t linear_target, uint32_t transition_time, uint32_t delay);
+void mesh_light_lightness_server_lc_transition_start(uint8_t element_idx, uint16_t actual_target, uint16_t linear_target, uint32_t lux_level_current, uint32_t lux_level_target, uint32_t transition_time, uint32_t delay);
 
 /*
  * Return current Light Lightness Default value
@@ -592,11 +592,6 @@ int16_t mesh_level_server_level_get(uint8_t element_idx);
  * Get current time
  */
 wiced_bool_t mesh_time_server_get(wiced_bt_mesh_time_t *p_current_time);
-
-/*
- * Find index of an element that contains specified model ID on the device
- */
-int mesh_model_find_element_idx(uint16_t model_id, uint8_t start_idx);
 
 // definitions from mesh_core.h. Otherwise models uses these function without definition
 extern uint32_t mesh_read_node_info(int id, uint8_t* data, uint16_t len, wiced_result_t *p_result);

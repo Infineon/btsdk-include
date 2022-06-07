@@ -7,7 +7,7 @@
 *        and retrieving information to/from memory.The data being stored
 *        are the DS portions of the memory map.
 *//*****************************************************************************
-* Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
 * This software, including source code, documentation and related

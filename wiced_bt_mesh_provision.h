@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -84,12 +84,14 @@ extern "C"
  * @name Definition for messages exchanged between the Provisioner Library and the Provisioner Client Application
  * @{ */
 #define WICED_BT_MESH_COMMAND_STATUS                        200   /**< Local device processed command from the MCU */
-#define WICED_BT_MESH_PROVISION_CONNECT_STATUS              202   /**< Provision Linke established or dropped */
+#define WICED_BT_MESH_PROVISION_CONNECT_STATUS              202   /**< Provision Link established or dropped */
 #define WICED_BT_MESH_PROVISION_STARTED                     203   /**< Provisioning started */
 #define WICED_BT_MESH_PROVISION_END                         204   /**< Provisioning completed */
 #define WICED_BT_MESH_PROVISION_DEVICE_CAPABILITIES         205   /**< Provisioning device capabilities */
 #define WICED_BT_MESH_PROVISION_GET_OOB_DATA                206   /**< Provisioning get out of band data request */
 #define WICED_BT_MESH_PROXY_DEVICE                          207   /**< Proxy device info */
+#define WICED_BT_MESH_DEVICE_PROVISIONING_RECORD_LIST       208   /**< List of provisioning record */
+#define WICED_BT_MESH_DEVICE_PROVISIONING_RECORD_RESP       209   /**< Provisioning record response */
 /** @} PROVISIONER_EVENT */
 
 /**
@@ -398,6 +400,14 @@ typedef struct
     uint8_t  input_oob_size;            /**< Maximum size in octets of Input OOB supported */
     uint16_t input_oob_action;          /**< Supported Input OOB Actions (see @ref BT_MESH_IN_OOB_ACT "Input OOB Action field values") */
 } wiced_bt_mesh_provision_device_capabilities_data_t;
+
+/* This structure contains fragment of the device's provisioning record sent to the provisioner application from the provisioner library */
+typedef struct
+{
+    uint16_t    record_id;              /**< Identifies the provisioning record whose data fragment is sent in the response */
+    uint16_t    fragment_offset;        /**< The starting offset of the data fragment in the provisioning record data */
+    uint16_t    total_length;           /**< Total length of the provisioning record data stored on the device */
+} wiced_bt_mesh_provision_device_record_fragment_data_t;
 
 /* This structure contains information sent to the provisioner application from the provisioner library with out of band data request */
 typedef struct
@@ -912,7 +922,7 @@ void wiced_bt_mesh_app_provision_server_configure(wiced_bt_mesh_provision_capabi
 
 /**
  * \brief Provision Set Out of Band data
- * \details Application should call this function to setup OOB data used during provisioing of the local device
+ * \details Application should call this function to setup OOB data used during provisioning of the local device
  *
  * @param    p_oob Out of band data
  * @param    len   Out of band data length
@@ -923,7 +933,7 @@ wiced_bool_t wiced_bt_mesh_provision_set_oob(uint8_t *p_oob, uint8_t len);
 
 /**
  * \brief Provision Set Out of Band data
- * \details Application should call this function to setup OOB data used during provisioing
+ * \details Application should call this function to setup OOB data used during provisioning
  *
  * @param    p_event Pointer to the mesh event which identifies remote provisioning server
  * @param    p_oob Out of band data
@@ -1059,8 +1069,8 @@ wiced_bool_t wiced_bt_mesh_provision_start(wiced_bt_mesh_event_t *p_event, wiced
 wiced_bool_t wiced_bt_mesh_client_proxy_connect(wiced_bt_mesh_proxy_connect_data_t *p_data);
 
 /**
- * \brief Proxy Disonnect.
- * \details The application can call this function to terminat GATT Proxy connection.
+ * \brief Proxy Disconnect.
+ * \details The application can call this function to terminate GATT Proxy connection.
  *
  * @param  None
  *
@@ -1323,7 +1333,7 @@ wiced_bool_t wiced_bt_mesh_config_model_publication_set(wiced_bt_mesh_event_t *p
 
 /**
  * \brief Change Model Subscription.
- * \details The application can call this function to change a model subcription data by sending
+ * \details The application can call this function to change a model subscription data by sending
  * a Config Model Subscription Add, Virtual Address Add, Delete, Virtual Address Delete, Overwrite, Virtual Address Overwrite, or Delete All message to a peer device.
  *
  * @param[in]  p_event Mesh event with information about received message which contain the address of the peer device.
@@ -1335,7 +1345,7 @@ wiced_bool_t wiced_bt_mesh_config_model_subscription_change(wiced_bt_mesh_event_
 
 /**
  * \brief Get Model Subscription.
- * \details The application can call this function to get current model subcription list by sending
+ * \details The application can call this function to get current model subscription list by sending
  * a Config Model Subscription Get message to a peer device.
  *
  * @param[in]  p_event Mesh event with information about received message which contain the address of the peer device.
@@ -1765,6 +1775,23 @@ wiced_bool_t wiced_bt_mesh_provision_scan_extended_start(wiced_bt_mesh_event_t *
  * @return   WICED_TRUE/WICED_FALSE - success/failed.
  */
 wiced_bool_t wiced_bt_mesh_provision_scan_stop(wiced_bt_mesh_event_t *p_event);
+
+/**
+ * @brief Retrieve fragment of the provisioning record from the peer device
+ *
+ * @param p_event   mesh event
+ * @param p_data    pointer to the fragment descriptor to get
+ * @return wiced_bool_t WICED_TRUE/WICED_FALSE - success/failed.
+ */
+wiced_bool_t wiced_bt_mesh_provision_retrieve_record(wiced_bt_mesh_event_t *p_event, wiced_bt_mesh_provision_device_record_fragment_data_t *p_data);
+
+/**
+ * @brief The function can be called by application triggering Remote Provisioning Server to send invite PDU to device
+ *
+ * @param p_event   mesh event
+ * @return wiced_bool_t WICED_TRUE/WICED_FALSE - success/failed.
+ */
+wiced_bool_t wiced_bt_mesh_provision_send_invite(wiced_bt_mesh_event_t *p_event);
 
 #ifdef __cplusplus
 }

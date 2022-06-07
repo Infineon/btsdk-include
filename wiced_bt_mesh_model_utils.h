@@ -1,5 +1,5 @@
 /*
-* Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
 * This software, including source code, documentation and related
@@ -279,8 +279,6 @@ typedef PACKED struct
     uint8_t hour;
     uint8_t minute;
     uint8_t second;
-    uint8_t days_in_month;
-    uint8_t day_of_week;
 } wiced_bt_mesh_time_t;
 
 //Insert given multi octet value into given buffer in LITTLE ENDIEN FORMAT
@@ -592,6 +590,11 @@ int16_t mesh_level_server_level_get(uint8_t element_idx);
  * Get current time
  */
 wiced_bool_t mesh_time_server_get(wiced_bt_mesh_time_t *p_current_time);
+
+/*
+ * Notifies the scheduler about time change - it should be called by time server or by application on every time change
+ */
+void mesh_scheduler_on_time_changed(void);
 
 // definitions from mesh_core.h. Otherwise models uses these function without definition
 extern uint32_t mesh_read_node_info(int id, uint8_t* data, uint16_t len, wiced_result_t *p_result);

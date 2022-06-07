@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -628,7 +628,7 @@ typedef struct
 #define WICED_BT_MESH_SCHEDULER_ACTION_NONE         0x0f    /**< Scheduler action None */
  /* @} */
 
-#define WICED_BT_MESH_SCHEDULER_EVERY_YEAR          0x00    /**< Scheduled event should happen every year */
+#define WICED_BT_MESH_SCHEDULER_EVERY_YEAR          0x64    /**< Scheduled event should happen every year */
 #define WICED_BT_MESH_SCHEDULER_EVERY_DAY           0x00    /**< Scheduled event should happen every day */
 
  /**
@@ -676,11 +676,6 @@ typedef struct
     uint32_t transition_time;                               /**< Transition time to turn on/off or to transition to a scene */
     uint16_t scene_number;                                  /**< Scene number to transition to */
 } wiced_bt_mesh_scheduler_action_data_t;
-
-/**
- * Firmware Update Start Data structure exchanged between the application and Firmware Update Models
- */
-#define WICED_BT_MESH_BLOB_TRANSFER_BLOB_ID_LEN         8
 
 #ifdef __cplusplus
 extern "C"

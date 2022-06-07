@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -71,32 +71,38 @@ extern "C" {
  */
 #define WICED_BT_FACTORY_CONFIG_ITEM_FIRST              0x80
 
-#define WICED_BT_FACTORY_CONFIG_ITEM_BASE_URI           0xC0
-#define WICED_BT_FACTORY_CONFIG_ITEM_DEVICE_CERTIFICATE 0xC1
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_1     0xC2
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_2     0xC3
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_3     0xC4
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_4     0xC5
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_5     0xC6
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_6     0xC7
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_7     0xC8
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_8     0xC9
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_9     0xCA
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_A     0xC8
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_B     0xCC
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_C     0xCD
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_D     0xCE
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_E     0xCF
-#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_F     0xD0
-#define WICED_BT_FACTORY_CONFIG_ITEM_LOCAL_NAME         0xD1
-#define WICED_BT_FACTORY_CONFIG_ITEM_APPEARANCE         0xD2
+/* Definition of te provisioning records IDs
+   Corresponding standard definitions are in wiced_bt_mesh_core.h file */
+#define WICED_BT_FACTORY_CONFIG_ITEM_BASE_URI                     0xC0
+#define WICED_BT_FACTORY_CONFIG_ITEM_DEVICE_CERTIFICATE           0xC1
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_1   0xC2
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_2   0xC3
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_3   0xC4
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_4   0xC5
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_5   0xC6
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_6   0xC7
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_7   0xC8
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_8   0xC9
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_9   0xCA
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_A   0xC8
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_B   0xCC
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_C   0xCD
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_D   0xCE
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_E   0xCF
+#define WICED_BT_FACTORY_CONFIG_ITEM_INTERMEDIATE_CERTIFICATE_F   0xD0
+#define WICED_BT_FACTORY_CONFIG_ITEM_LOCAL_NAME                   0xD1
+#define WICED_BT_FACTORY_CONFIG_ITEM_APPEARANCE                   0xD2
+/* End of provisioning records IDs */
 
-#define WICED_BT_FACTORY_CONFIG_ITEM_UUID               0xE0
-#define WICED_BT_FACTORY_CONFIG_ITEM_OOB_STATIC_DATA    0xE1
-#define WICED_BT_FACTORY_CONFIG_ITEM_HOMEKIT_TOKEN      0xE2
-#define WICED_BT_FACTORY_CONFIG_ITEM_PRIVATE_KEY        0xE3
-#define WICED_BT_FACTORY_CONFIG_ITEM_LAST               0xEF
+#define WICED_BT_FACTORY_CONFIG_ITEM_UUID                         0xE0
+#define WICED_BT_FACTORY_CONFIG_ITEM_OOB_STATIC_DATA              0xE1
+#define WICED_BT_FACTORY_CONFIG_ITEM_HOMEKIT_TOKEN                0xE2
+#define WICED_BT_FACTORY_CONFIG_ITEM_PRIVATE_KEY                  0xE3
+#define WICED_BT_FACTORY_CONFIG_ITEM_LAST                         0xEF
 /** @} WICED_BT_FACTORY_CONFIG_IDS */
+
+#define WICED_BT_FACTORY_PROVISIONING_RECORD_OFFSET     WICED_BT_FACTORY_CONFIG_ITEM_BASE_URI
+#define WICED_BT_FACTORY_PROVISIONING_RECORD_SIZE       WICED_BT_FACTORY_CONFIG_ITEM_APPEARANCE - WICED_BT_FACTORY_CONFIG_ITEM_BASE_URI + 1
 
 /******************************************************************************
 *
@@ -115,10 +121,46 @@ extern "C" {
 * \param    buffer : application buffer to return
 * \param    read_size : number of bytes to read
 * \param    read_offset : read offset from the start of the record
+* \param    record_size : output parameter indicating total size of the record
 * \return   number of bytes copied from the flash, or zero if item not found.
 *
 ******************************************************************************/
-uint16_t wiced_bt_factory_config_read(uint8_t item_type, uint8_t* buffer, uint16_t read_size, uint16_t read_offset);
+uint16_t wiced_bt_factory_config_read(uint8_t item_type, uint8_t* buffer, uint16_t read_size, uint16_t read_offset , uint16_t * record_size);
+
+/******************************************************************************
+*
+* Function Name: wiced_bt_factory_config_provisioning_records_list
+*
+***************************************************************************//**
+*
+* \details The application calls this API to get list of IDs of the provisioning records
+* programmed in the static section of flash.
+*
+* \param    buffer : pointer to the memory buffer to store the record list of IDs
+* \return   number of provisioning record IDs found
+*
+******************************************************************************/
+uint16_t wiced_bt_factory_config_provisioning_records_get(uint16_t* buffer);
+
+
+/******************************************************************************
+*
+* Function Name: wiced_bt_factry_config_provisioning_record_get
+*
+***************************************************************************//**
+*
+* \details The application calls this API to get list of IDs of the provisioning records
+* programmed in the static section of flash.
+*
+* \param    record_id : record list of IDs
+* \param    buffer : pointer to the memory buffer to store the record fragment
+* \param    fragment_length : length of the record fragment to read
+* \param    fragment_offset : start offset of the record fragment
+* \param    record_size : pointer to output parameter to save the total record size
+* \return   number of provisioning record IDs found
+*
+******************************************************************************/
+uint16_t wiced_bt_factory_config_provisioning_record_req(uint16_t record_id, uint8_t* buffer, uint16_t fragment_length, uint16_t fragment_offset, uint16_t * record_size);
 
 #ifdef __cplusplus
 }

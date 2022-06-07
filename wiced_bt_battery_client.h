@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -46,18 +46,21 @@
 extern "C" {
 #endif
 
-//      UUID_CHARACTERISTIC_BATTERY_LEVEL                     0x2A19  // alredy define in spec bas 1.0
-#define UUID_CHARACTERISTIC_BATTERY_LEVEL_STATUS              0xFF00  // Remove this when spec bas 1.1 is final and replace with correct uuid
-#define UUID_CHARACTERISTIC_BATTERY_ESTIMATED_SERVICE_DATE    0xFF01
-#define UUID_CHARACTERISTIC_BATTERY_CRITICAL_STATUS           0xFF02
-#define UUID_CHARACTERISTIC_BATTERY_ENERGY_STATUS             0xFF03
-#define UUID_CHARACTERISTIC_BATTERY_TIME_STATUS               0xFF04
-#define UUID_CHARACTERISTIC_BATTERY_HEALTH_STATUS             0xFF05
-#define UUID_CHARACTERISTIC_BATTERY_HEALTH_INFO               0xFF06
-#define UUID_CHARACTERISTIC_BATTERY_INFO                      0xFF07
-#define UUID_CHARACTERISTIC_BATTERY_MANUFACTURE_NAME          0xFF08
-#define UUID_CHARACTERISTIC_BATTERY_MANUFACTURE_NUMBER        0xFF09
-#define UUID_CHARACTERISTIC_BATTERY_SERIAL_NUMBER             0xFF0A
+//      UUID_CHARACTERISTIC_BATTERY_LEVEL                     0x2A19  // already defined in spec bas 1.0
+#define UUID_CHARACTERISTIC_BATTERY_LEVEL_STATUS              0x7F90  // Remove this when spec bas 1.1 is final and replace with correct uuid
+#define UUID_CHARACTERISTIC_BATTERY_ESTIMATED_SERVICE_DATE    0x7F91
+#define UUID_CHARACTERISTIC_BATTERY_CRITICAL_STATUS           0x7F92
+#define UUID_CHARACTERISTIC_BATTERY_ENERGY_STATUS             0x7F93
+#define UUID_CHARACTERISTIC_BATTERY_TIME_STATUS               0x7F94
+#define UUID_CHARACTERISTIC_BATTERY_HEALTH_STATUS             0x7F95
+#define UUID_CHARACTERISTIC_BATTERY_HEALTH_INFO               0x7F96
+#define UUID_CHARACTERISTIC_BATTERY_INFO                      0x7F97
+#define UUID_CHARACTERISTIC_BATTERY_MANUFACTURE_NAME          0x2A29
+#define UUID_CHARACTERISTIC_BATTERY_MANUFACTURE_NUMBER        0x2A24
+#define UUID_CHARACTERISTIC_BATTERY_SERIAL_NUMBER             0x2A25
+#define UUID_CHARACTERISTIC_BATTERY_FORMAT_PRESENTATION       0x2904
+
+
 
 /**
 * \addtogroup  wiced_bt_battery_client_api_functions        BAC Library API
@@ -90,6 +93,9 @@ typedef struct
 {
     uint16_t conn_id;                                   /**< Connection Id */
     wiced_bt_gatt_status_t status;                      /**< Discovery Status */
+#ifndef ENABLE_BAC_LIB_320
+    wiced_bool_t notification_supported;                /** This field is kept for BWC */
+#endif
 } wiced_bt_battery_client_discovery_complete_t;
 
 /**
@@ -107,6 +113,9 @@ typedef struct
     uint16_t len;        /**< length of response data */
     uint16_t offset;     /**< offset */
     uint8_t  *p_data;    /**< attribute data */
+#ifndef ENABLE_BAC_LIB_320
+    uint8_t  battery_level;  /* This field is kept for BWC */
+#endif
 } wiced_bt_battery_client_data_t;
 
 /**

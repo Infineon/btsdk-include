@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -255,7 +255,7 @@ void wiced_hal_puart_set_baudrate(uint32_t baudrate)__attribute__ ((deprecated("
 /// Read in a set of bytes sequentially.
 ///
 /// \param buffer - Destination buffer to hold incoming bytes.
-/// \param lenth  - Number of bytes to read from the RX FIFO.
+/// \param length - Number of bytes to read from the RX FIFO.
 ///
 /// \return none
 ///////////////////////////////////////////////////////////////////////////////
@@ -266,7 +266,7 @@ void wiced_hal_puart_synchronous_read(uint8_t* buffer, uint32_t length);
 /// Write a set of bytes sequentially.
 ///
 /// \param buffer - Source buffer to hold outgoing bytes.
-/// \param lenth  - Number of bytes to write to the TX FIFO.
+/// \param length - Number of bytes to write to the TX FIFO.
 ///
 /// \return none
 ///////////////////////////////////////////////////////////////////////////////

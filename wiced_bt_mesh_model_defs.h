@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -1107,10 +1107,11 @@ extern "C"
  * @name Mesh Device Key Refresh Procedures
  * @{
  */
-#define WICED_BT_MESH_PROVISION_PROCEDURE_DEV_KEY_REFRESH               0
-#define WICED_BT_MESH_PROVISION_PROCEDURE_NODE_ADDRESS_REFRESH          1
-#define WICED_BT_MESH_PROVISION_PROCEDURE_NODE_COMPOSITION_REFRESH      2
+#define WICED_BT_MESH_PROVISION_PROCEDURE_DEV_KEY_REFRESH               0x00
+#define WICED_BT_MESH_PROVISION_PROCEDURE_NODE_ADDRESS_REFRESH          0x01
+#define WICED_BT_MESH_PROVISION_PROCEDURE_NODE_COMPOSITION_REFRESH      0x02
 
+#define WICED_BT_MESH_PROVISION_PROCEDURE_RECORD_RETRIEVAL              0xFE
 #define WICED_BT_MESH_PROVISION_PROCEDURE_PROVISION                     0xFF
  /** @} MESH_PROVISIONING_DEVICE_KEY_REFRESH_PROCEDURES */
 
@@ -1148,7 +1149,7 @@ extern "C"
 #define WICED_BT_MESH_REMOTE_PROVISION_STATE_IDLE                       0x00    /**< Idle */
 #define WICED_BT_MESH_REMOTE_PROVISION_STATE_LINK_OPENING               0x01    /**< Link Opening */
 #define WICED_BT_MESH_REMOTE_PROVISION_STATE_LINK_ACTIVE                0x02    /**< Link Active */
-#define WICED_BT_MESH_REMOTE_PROVISION_STATE_OUTBOUNT_PDU_TRANSFER      0x03    /**< Link Oubound PDU transfer */
+#define WICED_BT_MESH_REMOTE_PROVISION_STATE_OUTBOUND_PDU_TRANSFER      0x03    /**< Link Outbound PDU transfer */
 #define WICED_BT_MESH_REMOTE_PROVISION_STATE_LINK_CLOSING               0x04    /**< Link Closing */
 
 #define WICED_BT_MESH_REMOTE_PROVISION_STATUS_SUCCESS                           0x00    /**< success */

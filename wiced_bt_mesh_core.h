@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -603,7 +603,7 @@ wiced_bool_t wiced_bt_mesh_core_deinit(wiced_bt_core_nvram_access_t nvram_access
 /**
  * \brief Mesh Core Start.
  * \details The wiced_bt_mesh_core_start function should be called at device startup after calling wiced_bt_mesh_core_init().
- * The function starts beacons and service advertisments. It is usually called by application from mesh_app_init().
+ * The function starts beacons and service advertisements. It is usually called by application from mesh_app_init().
  */
 void wiced_bt_mesh_core_start(void);
 
@@ -611,7 +611,7 @@ void wiced_bt_mesh_core_start(void);
  * \brief Sets GATT MTU for the provisioning or proxy connection.
  * \details Called by the app to set max sending packet length in the core and provisioning layer.
  *
- * @param[in]   gatt_mtu       Maximum sizeo of the packet to be used over GATT. 0 means default value (20).
+ * @param[in]   gatt_mtu       Maximum size of the packet to be used over GATT. 0 means default value (20).
  */
 void wiced_bt_mesh_core_set_gatt_mtu(uint16_t gatt_mtu);
 
@@ -796,7 +796,7 @@ wiced_bool_t wiced_bt_mesh_core_proc_rx_cmd(uint16_t opcode, const uint8_t* p_da
 wiced_bool_t wiced_bt_mesh_core_test_mode_signal(uint16_t opcode, const uint8_t *p_data, uint16_t data_len);
 
 /*
- * \breaf Calculates URI hash URI Hash: s1(URI Data)[0-3]
+ * \brief Calculates URI hash URI Hash: s1(URI Data)[0-3]
  *
  * @param[in]   uri         URI data: <scheme(1byte: 0x16-"http:" or 0x17-"https:")><uri with removed scheme(max 29bytes)>
  * @param[in]   uri_len     Length of the URI data <= 29
@@ -942,10 +942,114 @@ typedef struct
 */
 #define WICED_BT_MESH_PROVISION_TYPE_PROVISIONING_NODE  0   // it is a provisioning node
 #define WICED_BT_MESH_PROVISION_TYPE_PROVISIONER        1   // this is the provisioner side
-#define WICED_BT_MESH_PROVISION_TYPE_SELF_PROVISIONER_DEVKEY_CANDIDATE  2   // it is self provisioner side (both privisioner side and provisioning node) in devkey candidate mode
-#define WICED_BT_MESH_PROVISION_TYPE_SELF_PROVISIONER_NODE_ID           3   // it is self provisioner side (both privisioner side and provisioning node) in set node id mode
-#define WICED_BT_MESH_PROVISION_TYPE_SELF_PROVISIONER_COMPOSITION       4   // it is self provisioner side (both privisioner side and provisioning node) in composition refresh mode
+#define WICED_BT_MESH_PROVISION_TYPE_SELF_PROVISIONER_DEVKEY_CANDIDATE  2   // it is self provisioner side (both provisioner side and provisioning node) in devkey candidate mode
+#define WICED_BT_MESH_PROVISION_TYPE_SELF_PROVISIONER_NODE_ID           3   // it is self provisioner side (both provisioner side and provisioning node) in set node id mode
+#define WICED_BT_MESH_PROVISION_TYPE_SELF_PROVISIONER_COMPOSITION       4   // it is self provisioner side (both provisioner side and provisioning node) in composition refresh mode
 /** @} WICED_BT_MESH_PROVISION_TYPE */
+
+
+
+/**
+ * @anchor MESH_PROVISIONING_RECORD_IDs
+ * @name Mesh Provisioning Record IDs
+ * @{
+ */
+typedef enum
+{
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_CBP_BASE_URI                   = 0X0000,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_DEVICE_CERTIFICATE             = 0X0001,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_1     = 0X0002,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_2     = 0X0003,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_3     = 0X0004,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_4     = 0X0005,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_5     = 0X0006,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_6     = 0X0007,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_7     = 0X0008,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_8     = 0X0009,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_9     = 0X000A,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_10    = 0X000B,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_11    = 0X000C,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_12    = 0X000D,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_13    = 0X000E,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_14    = 0X000F,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_15    = 0X0010,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_COMPLETE_LOCAL_NAME            = 0X0011,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_APPEARANCE                     = 0x0012,
+    WICED_BT_MESH_PROVISIONING_RECORD_ID_MAX_SIZE                       = 0x0013
+} wiced_bt_mesh_provisioning_record_id_t;
+/** @} MESH_PROVISIONING_RECORD_IDs */
+
+/**
+* @anchor WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS
+* @name Status codes for the Provisioning Record Response PDU
+*
+* @{
+*/
+typedef enum
+{
+    WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS_SUCCESS           = 0x00,
+    WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS_NOT_PRESENT       = 0x01,
+    WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS_OUT_OF_BOUNDS     = 0x02
+} wiced_bt_mesh_provisioning_record_response_status_t;
+/** @}WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS */
+
+
+typedef PACKED struct
+{
+    uint16_t    extensions;                                             /**< Bitmask indicating the provisioning extensions supported by the device */
+    uint16_t    list[WICED_BT_MESH_PROVISIONING_RECORD_ID_MAX_SIZE];    /**< Lists the Record IDs of the provisioning records stored on the device */
+    uint16_t    list_size;                                              /**< sizes of the record data in the list */
+} wiced_bt_mesh_core_provisioning_list_t;
+
+
+/**
+ * @brief Provisioning Record Request PDU parameters format
+ *
+ */
+typedef PACKED struct
+{
+    uint16_t     record_id;             /**< Identifies the provisioning record for which the request is made */
+    uint16_t     fragment_offset;       /**< The starting offset of the requested fragment in the provisioning record data */
+    uint16_t     fragment_max_size;     /**< The maximum size of the provisioning record fragment that the provisioner can receive */
+} wiced_bt_mesh_core_provisioning_record_request_t;
+
+
+typedef PACKED struct
+{
+    uint16_t    record_id;              /**< Identifies the provisioning record whose data fragment is sent in the response */
+    uint16_t    fragment_offset;        /**< The starting offset of the data fragment in the provisioning record data */
+    uint16_t    total_length;           /**< Total length of the provisioning record data stored on the device */
+} wiced_bt_mesh_core_provisioning_record_response_t;
+
+/* Choose the maximum size of the record fragment buffer to be size of the public key. The intermediate buffers (HCI) are allocated to hold that */
+#define WICED_BT_MESH_PROVISIONING_RECORD_BUFF_MAX_SIZE     WICED_BT_MESH_PROVISION_PUBLIC_KEY_LEN
+/**
+ * @brief  Provisioning Record Response PDU parameters format
+ *
+ */
+#pragma pack(push, 1)
+typedef PACKED struct
+{
+    uint8_t     status;                                                 /**< Indicates whether or not the request was handled successfully */
+    union
+    {
+        wiced_bt_mesh_core_provisioning_record_request_t    request;
+        wiced_bt_mesh_core_provisioning_record_response_t   response;
+    } u;
+    uint8_t     data[WICED_BT_MESH_PROVISIONING_RECORD_BUFF_MAX_SIZE];  /**< Provisioning record data fragment (Optional) */
+    uint16_t    size;                                                   /**< Size of valid data in the record fragment */
+} wiced_bt_mesh_core_provisioning_record_t;
+#pragma pack(pop)
+
+/**
+ *  @brief  Provisioning Records Handler Descriptor
+ */
+typedef struct
+{
+    wiced_bt_mesh_core_provisioning_record_t    record;
+    wiced_bt_mesh_core_provisioning_list_t      list;
+} wiced_bt_mesh_core_precord_descriptor_t;
+
 
 /**
  * Mesh Core Provisioning Control Block
@@ -956,7 +1060,7 @@ typedef struct
     uint8_t   pb_public_key[WICED_BT_MESH_PROVISION_PUBLIC_KEY_LEN];    /**< private key of the node for ECDH authentication */
     uint32_t  conn_id;            /**< link id (connection id) for PB_ADV */
     uint8_t   state;              /**< one of the BP_ADV_TRANSPORT_STATE_XXX */
-    uint8_t   client_pdu_sent;    /**< TRUE(>0) during the time when RPR client is senfing PDU to the provisioning node */
+    uint8_t   client_pdu_sent;    /**< TRUE(>0) during the time when RPR client is sending PDU to the provisioning node */
     uint8_t   pb_type;            /**< type of the provisioning. one of the PB_TYPE_XXX */
     uint16_t  node_id;            /**< address of the provisioning node */
     uint32_t  timeout;            /**< end timeout between PDUs in seconds - disconnect after that */
@@ -967,84 +1071,15 @@ typedef struct
     uint8_t   peer_public_key_or_ecdh_secret[WICED_BT_MESH_PROVISION_PUBLIC_KEY_LEN];  /**< we will use it for ECDH secret too */
     uint8_t   conf_key_or_dev_key[WICED_BT_MESH_KEY_LEN * 2];   // ConformationKey can be 128 bit or 256 bit
     uint8_t   confirmation[WICED_BT_MESH_PROVISION_CONFIRMATION_LEN * 2];  // Conformation can be 128 bit or 256 bit
-    uint8_t   prov_salt[WICED_BT_MESH_KEY_LEN * 2]; // It can keep 128 or 256 ConformationSalt or 128 bit ProvisionongSalt
+    uint8_t   prov_salt[WICED_BT_MESH_KEY_LEN * 2]; // It can keep 128 or 256 ConformationSalt or 128 bit ProvisioningSalt
     uint8_t   session_key[WICED_BT_MESH_KEY_LEN];
     uint8_t   random[WICED_BT_MESH_PROVISION_RANDOM_LEN * 2]; // Random can be 128 bit or 256 bit
     uint8_t   oob_value[16];    /**< max static OOB value len is 256 bits(16bytes). Max input and output OOB value length is 8 bytes */
     uint8_t   oob_value_len;    /**< length of the OOB value */
     uint16_t  net_key_idx;      /**< NetKeyIdx provisioned */
+    wiced_bt_mesh_core_precord_descriptor_t* p_prov_record_descriptor;
 } mesh_core_provision_cb_t;
 
-
-/**
- * @anchor MESH_PROVISIONING_RECORD_IDs
- * @name Mesh Provisioning Record IDs
- * @{
- */
-typedef enum
-{
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_CBP_BASE_URI                 =  0X0000,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_DEVICE_CERTIFICATE           =  0X0001,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_1   =  0X0002,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_2   =  0X0003,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_3   =  0X0004,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_4   =  0X0005,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_5   =  0X0006,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_6   =  0X0007,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_7   =  0X0008,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_8   =  0X0009,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_9   =  0X000A,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_10  =  0X000B,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_11  =  0X000C,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_12  =  0X000D,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_13  =  0X000E,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_14  =  0X000F,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_INTERMEDIATE_CERTIFICATE_15  =  0X0010,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_COMPLETE_LOCAL_NAME          =  0X0011,
-    WICED_BT_MESH_PROVISIONING_RECORD_ID_APPEARANCE                   =  0x0012
-} wiced_bt_mesh_provisioning_record_id_t;
-
-
-/** @} MESH_PROVISIONING_RECORD_IDs */
-
-/**
- * @brief Provisioning Record Request PDU parameters format
- *
- */
-typedef struct
-{
-    uint8_t     record_id[2];             /**< Identifies the provisioning record for which the request is made */
-    uint8_t     fragment_offset[2];       /**< The starting offset of the requested fragment in the provisioning record data */
-    uint8_t     fragment_max_size[2];     /**< The maximum size of the provisioning record fragment that the provisioner can receive */
-} wiced_bt_mesh_provisioning_record_request_t;
-
-/**
- * @brief  Provisioning Record Response PDU parameters format
- *
- */
-typedef struct
-{
-    uint8_t     status;                 /**< Indicates whether or not the request was handled successfully */
-    uint8_t     record_id[2];           /**< Identifies the provisioning record whose data fragment is sent in the response */
-    uint8_t     fragment_offset[2];     /**< The starting offset of the data fragment in the provisioning record data */
-    uint8_t     total_length[2];        /**< Total length of the provisioning record data stored on the device */
-    uint8_t     data[1];                /**< Provisioning record data fragment (Optional) */
-} wiced_bt_mesh_provisioning_record_response_t;
-
-
-/**
-* @anchor WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS
-* @name Status codes for the Provisioning Record Response PDU
-*
-* @{
-*/
-typedef enum
-{
-    WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS_SUCCESS         =    0x00,
-    WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS_NOT_PRESENT     =    0x01,
-    WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS_OUT_OF_BOUNDS   =    0x02
-} wiced_bt_mesh_provisioning_record_status_t;
-/** @}  WICED_BT_MESH_PROVISIONING_RECORD_RESPONSE_STATUS */
 
 /*------------------- API for provisioner and provisioning node -------------------------------------*/
 
@@ -1159,15 +1194,47 @@ typedef wiced_bool_t (*wiced_bt_mesh_core_provision_get_capabilities_cb_t)(
     uint32_t                              conn_id);
 
 /**
+ * \brief Definition of the callback function on get provisioning records list.
+ * \details
+ *
+ * @param[in]   buffer     Pointer to save list of provisioning records IDs
+ *
+ * @return   Number of the provisioning records IDs in the list.
+ */
+typedef uint16_t (*wiced_bt_mesh_core_provision_records_get_cb_t)(
+    uint16_t* buffer);
+
+/**
+ * \brief Definition of the callback function on get fragment of the provisioning record.
+ * \details
+ *
+ * @param[in]  item_type        - record designated tag
+ * @param[out] buffer           - pointer to the memory buffer to store the record
+ * @param[in]  fragment_length  - number of bytes to read
+ * @param[in]  fragment_offset  - start offset to read the record
+ * @param[out] record_size      - pointer to the output parameter to store total record size
+ *
+ * @return uint16_t             - number of bytes that was actually read to the buffer
+ */
+typedef uint16_t (*wiced_bt_mesh_core_provision_record_req_cb_t)(
+    uint16_t record_id,
+    uint8_t* buffer,
+    uint16_t fragment_length,
+    uint16_t fragment_offset,
+    uint16_t* record_size);
+
+/**
  * \brief Initializes provisioning layer for the node(server side).
  * \details Called by provisioning app to initialize provisioning layer for both PB_ADV and PB_GATT.
  *
- * @param[in]   priv_key                Private key(32 bytes) to use for ECDH authentication. It should be same is both client and server are initialized
+ * @param[in]   priv_key                Private key(32 bytes) to use for ECDH authentication. It should be same if both client and server are initialized
  * @param[in]   started_cb              Callback function to be called on provisioning start.
  * @param[in]   end_cb                  Callback function to be called on provisioning end, or error.
  * @param[in]   get_capabilities_cb     Callback function to be called on Capabilities get
  * @param[in]   get_oob_cb              Callback function to be called on OOB get
- * @param[in]   gatt_send_cb            Callback function to send provisioning packet ofer GATT
+ * @param[in]   gatt_send_cb            Callback function to send provisioning packet over GATT
+ * @param[in]   get_precords_cb         Callback function to get list of provisioning records
+ * @param[in]   request_precord_cb      Callback function to request fragment of the provisioning record
  *
  * @return   WICED_TRUE/WICED_FALSE - success/failed.
  */
@@ -1177,7 +1244,9 @@ wiced_bool_t wiced_bt_mesh_core_provision_server_init(
     wiced_bt_mesh_core_provision_end_cb_t                end_cb,
     wiced_bt_mesh_core_provision_get_capabilities_cb_t   get_capabilities_cb,
     wiced_bt_mesh_core_provision_get_oob_cb_t            get_oob_cb,
-    wiced_bt_mesh_core_provision_gatt_send_cb_t          gatt_send_cb);
+    wiced_bt_mesh_core_provision_gatt_send_cb_t          gatt_send_cb,
+    wiced_bt_mesh_core_provision_records_get_cb_t        get_precords_cb,
+    wiced_bt_mesh_core_provision_record_req_cb_t         request_precord_cb);
 
 /**
  * \brief Sets OOB in response on wiced_bt_mesh_provision_get_oob_cb.

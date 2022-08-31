@@ -265,7 +265,7 @@ typedef struct
     wiced_bt_ble_advert_type_t advert_type;         /* Advertisement data type */
 }wiced_bt_beacon_ble_advert_elem_t;
 
-#if defined(CYW20735B1) || defined(CYW20819A1) || defined(CYW20719B2) || defined(CYW20721B2) || defined (WICEDX) || defined(CYW20835B1)
+#if defined(CYW20819A1) || defined(CYW20719B2) || defined(CYW20721B2) || defined (WICEDX) || defined(CYW20835B1)
 #else
 /* Structure to hold multi-adv data */
 typedef struct

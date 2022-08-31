@@ -300,7 +300,7 @@
 #define HCI_CONTROL_AG_COMMAND_SET_CIND                     ( ( HCI_CONTROL_GROUP_AG << 8 ) | 0x05 )    /* Set CIND */
 #define HCI_CONTROL_AG_COMMAND_STR                          ( ( HCI_CONTROL_GROUP_AG << 8 ) | 0x06 )    /* Send AT Command */
 
-/* BT Serial over GATT service commands */
+/* Bluetooth Serial over GATT service commands */
 #define HCI_CONTROL_BSG_COMMAND_DATA                        ( ( HCI_CONTROL_GROUP_BSG << 8 ) | 0x03 )    /* Send data */
 
 
@@ -638,6 +638,7 @@
 #define HCI_CONTROL_MESH_COMMAND_PROVISION_SEND_INVITE                      ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x90 )  /* Send provisioning invite PDU to the device */
 #define HCI_CONTROL_MESH_COMMAND_PROVISION_RETRIEVE_RECORD                  ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x91 )  /* Request fragment of the provisioning record from the device */
 
+#define HCI_CONTROL_MESH_COMMAND_CORE_DELAY_STATS_GET                       ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x92 )  /* Get delay statistics */
 
 /* Battery Client Profile commands */
 #define HCI_CONTROL_BATT_CLIENT_COMMAND_CONNECT             ( ( HCI_CONTROL_GROUP_BATT_CLIENT << 8 ) | 0x00 )    /* Battery Client connect */
@@ -721,7 +722,7 @@
 #define HCI_CONTROL_HCI_AUDIO_COMMAND_SET                   ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x01 ) /* Generic Set command */
 #define HCI_CONTROL_HCI_AUDIO_COMMAND_MIC_DATA              ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x02 ) /* Record data from MIC */
 #define HCI_CONTROL_HCI_AUDIO_COMMAND_PUSH_NVRAM_DATA       ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x03 ) /* Push NVRAM data by ID */
-#define HCI_CONTROL_HCI_AUDIO_COMMAND_BT_START              ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x04 ) /* Start BT stack */
+#define HCI_CONTROL_HCI_AUDIO_COMMAND_BT_START              ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x04 ) /* Start Bluetooth stack */
 #define HCI_CONTROL_HCI_AUDIO_COMMAND_BUTTON                ( ( HCI_CONTROL_GROUP_HCI_AUDIO << 8 ) | 0x30 ) /* Button event */
 
 /* HCI DFU */
@@ -746,6 +747,11 @@
 #define HCI_CONTROL_CONN_MESH_COMMAND_GET_STATS				( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0A )  /* Collect stats */
 #define HCI_CONTROL_CONN_MESH_COMMAND_IDENTIFY				( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0B )  /* Identify node */
 #define HCI_CONTROL_CONN_MESH_COMMAND_GET_RSSI 				( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0C )  /* Collect RSSI values */
+#define HCI_CONTROL_CONN_MESH_COMMAND_APP_INFO_GET          ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0D )  /* Get node application info (FW ID) */
+#define HCI_CONTROL_CONN_MESH_COMMAND_OTA_START             ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0E )  /* Firmware update start */
+#define HCI_CONTROL_CONN_MESH_COMMAND_OTA_DATA              ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0F )  /* Firmware image data */
+#define HCI_CONTROL_CONN_MESH_COMMAND_OTA_APPLY             ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x10 )  /* Apply new firmware image */
+#define HCI_CONTROL_CONN_MESH_COMMAND_OTA_CANCEL            ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x11 )  /* Cancel firmware update */
 
 #define HCI_CONTROL_PANU_COMMAND_CONNECT                    ( ( HCI_CONTROL_GROUP_PANU << 8 ) | 0x01 )
 #define HCI_CONTROL_PANU_COMMAND_DISCONNECT                 ( ( HCI_CONTROL_GROUP_PANU << 8 ) | 0x02 )
@@ -813,7 +819,7 @@
 #define HCI_CONTROL_HF_AT_EVENT_UNAT                        0x14
 #define HCI_CONTROL_HF_AT_EVENT_MAX                         0x14    /* Maximum AT event value */
 
-/* LE events for the BLE GATT/GAP profile */
+/* LE events for the LE GATT/GAP profile */
 #define HCI_CONTROL_LE_EVENT_COMMAND_STATUS                 ( ( HCI_CONTROL_GROUP_LE << 8 ) | 0x01 )    /* Command status event for the requested operation */
 #define HCI_CONTROL_LE_EVENT_SCAN_STATUS                    ( ( HCI_CONTROL_GROUP_LE << 8 ) | 0x02 )    /* LE scanning state change notification */
 #define HCI_CONTROL_LE_EVENT_ADVERTISEMENT_REPORT           ( ( HCI_CONTROL_GROUP_LE << 8 ) | 0x03 )    /* Advertisement report */
@@ -822,7 +828,7 @@
 #define HCI_CONTROL_LE_EVENT_DISCONNECTED                   ( ( HCI_CONTROL_GROUP_LE << 8 ) | 0x06 )    /* Le Connection Terminated */
 #define HCI_CONTROL_LE_EVENT_IDENTITY_ADDRESS               ( ( HCI_CONTROL_GROUP_LE << 8 ) | 0x07 )    /* Identity address */
 #define HCI_CONTROL_LE_EVENT_PEER_MTU                       ( ( HCI_CONTROL_GROUP_LE << 8 ) | 0x08 )    /* Client MTU Request */
-#define HCI_CONTROL_LE_EVENT_CONN_PARAMS                    ( ( HCI_CONTROL_GROUP_LE << 8 ) | 0x09 )    /* BLE connection parameter update event */
+#define HCI_CONTROL_LE_EVENT_CONN_PARAMS                    ( ( HCI_CONTROL_GROUP_LE << 8 ) | 0x09 )    /* LE connection parameter update event */
 
 /* GATT events */
 #define HCI_CONTROL_GATT_EVENT_COMMAND_STATUS               ( ( HCI_CONTROL_GROUP_GATT << 8 ) | 0x01 )    /* Command status event for the requested operation */
@@ -1210,6 +1216,8 @@
 
 #define HCI_CONTROL_MESH_EVENT_PROVISION_DEVICE_CAPABITIES   HCI_CONTROL_MESH_EVENT_PROVISION_DEVICE_CAPABILITIES           /* Deprecated, retained for backward compatibility */
 
+#define HCI_CONTROL_MESH_EVENT_CORE_DELAY_STATS_STATUS                      ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x4c )      /* Delay statistics Status event */
+
 /* Events for the Battery Client profile */
 #define HCI_CONTROL_BATT_CLIENT_EVENT_CONNECTED             ( ( HCI_CONTROL_GROUP_BATT_CLIENT << 8 ) | 0x00 )    /* Battery Client connected */
 #define HCI_CONTROL_BATT_CLIENT_EVENT_DISCONNECTED          ( ( HCI_CONTROL_GROUP_BATT_CLIENT << 8 ) | 0x01 )    /* Battery Client disconnected */
@@ -1313,6 +1321,8 @@
 #define HCI_CONTROL_CONN_MESH_EVENT_OP_STATE_CHANGED        ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0a )  /* Node addr */
 #define HCI_CONTROL_CONN_MESH_EVENT_RESET_COMPLETE          ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0b )  /* Node addr */
 #define HCI_CONTROL_CONN_MESH_EVENT_RSSI_VALUES             ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0c )  /* [Src Node] [Peer addr][RSSI] ... */
+#define HCI_CONTROL_CONN_MESH_EVENT_APP_INFO                ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0d )  /* Node application info (FW ID) */
+#define HCI_CONTROL_CONN_MESH_EVENT_OTA_STATUS              ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0e )  /* Firmware update command status */
 
 #define HCI_CONTROL_PANU_EVENT_OPEN                         ( ( HCI_CONTROL_GROUP_PANU << 8 ) | 0x01 )
 #define HCI_CONTROL_PANU_EVENT_CLOSE                        ( ( HCI_CONTROL_GROUP_PANU << 8 ) | 0x02 )
@@ -1335,8 +1345,14 @@
 #define HCI_CONTROL_LE_AUDIO_COMMAND_UNMUTE_VOL_DOWN        ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0B )
 #define HCI_CONTROL_LE_AUDIO_COMMAND_CALL                   ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0C )
 #define HCI_CONTROL_LE_AUDIO_COMMAND_ACCEPT_CALL            ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0D )
-#define HCI_CONTROL_LE_AUDIO_COMMAND_REJECT_CALL            ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0E )
-#define HCI_CONTROL_LE_AUDIO_COMMAND_TERMIANTE_CALL         ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0F )
+#define HCI_CONTROL_LE_AUDIO_COMMAND_TERMIANTE_CALL         ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0E )
+
+#define HCI_CONTROL_LE_AUDIO_COMMAND_BROADCAST_SOURCE_START_STREAMIMG       ((HCI_CONTROL_GROUP_LE_AUDIO << 8) | 0x0F)
+#define HCI_CONTROL_LE_AUDIO_COMMAND_BROADCAST_ASSISTANT_SCAN_SOURCE        ((HCI_CONTROL_GROUP_LE_AUDIO << 8) | 0x11)
+#define HCI_CONTROL_LE_AUDIO_COMMAND_BROADCAST_ASSISTANT_SELECT_SOURCE      ((HCI_CONTROL_GROUP_LE_AUDIO << 8) | 0x14)
+#define HCI_CONTROL_LE_AUDIO_COMMAND_BROADCAST_SINK_FIND_SOURCES            ((HCI_CONTROL_GROUP_LE_AUDIO << 8) | 0x15)
+#define HCI_CONTROL_LE_AUDIO_COMMAND_BROADCAST_SINK_SYNC_TO_SOURCES         ((HCI_CONTROL_GROUP_LE_AUDIO << 8) | 0x16)
+#define HCI_CONTROL_LE_AUDIO_COMMAND_BROADCAST_SINK_LISTEN_TO_BROADCAST     ((HCI_CONTROL_GROUP_LE_AUDIO << 8) | 0x18)
 
 /* LE Audio Events */
 #define HCI_CONTROL_LE_AUDIO_MEDIA_PLAYER_EVT               ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x01 )
@@ -1346,6 +1362,7 @@
 #define HCI_CONTROL_LE_AUDIO_DEVICE_ROLE_EVT                ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x05 )
 #define HCI_CONTROL_LE_AUDIO_INCOMING_CALL_EVT              ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x06 )
 #define HCI_CONTROL_LE_AUDIO_CALL_TERMINATED_EVT            ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x07 )
+#define HCI_CONTROL_LE_AUDIO_BRADCAST_SINK_STREAM_RSP_EVT   ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x08 )
 
 /* Status codes returned in HCI_CONTROL_EVENT_COMMAND_STATUS the event */
 #define HCI_CONTROL_STATUS_SUCCESS                          0
@@ -1387,7 +1404,7 @@
 #define HCI_CONTROL_HID_REPORT_CHANNEL_CONTROL              0
 #define HCI_CONTROL_HID_REPORT_CHANNEL_INTERRUPT            1
 
-/* HID Report Type (matches BT HID Spec definitions) */
+/* HID Report Type (matches Bluetooth HID Spec definitions) */
 #define HCI_CONTROL_HID_REPORT_TYPE_OTHER                   0
 #define HCI_CONTROL_HID_REPORT_TYPE_INPUT                   1
 #define HCI_CONTROL_HID_REPORT_TYPE_OUTPUT                  2

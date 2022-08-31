@@ -82,10 +82,8 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @name Definition for messages exchanged between an app and Generic Location Model
  * @{ */
 #define WICED_BT_MESH_LOCATION_GLOBAL_GET                   2   /**< Get global location */
-#define WICED_BT_MESH_LOCATION_GLOBAL_SET                   3   /**< Set global location */
 #define WICED_BT_MESH_LOCATION_GLOBAL_STATUS                4   /**< Reply to get/set global location or global location changed notification */
 #define WICED_BT_MESH_LOCATION_LOCAL_GET                    5   /**< Get local location */
-#define WICED_BT_MESH_LOCATION_LOCAL_SET                    6   /**< Set local location */
 #define WICED_BT_MESH_LOCATION_LOCAL_STATUS                 7   /**< Reply to get/set local location or local location changed notification */
 /** @} LOCATION_EVENT */
 
@@ -94,7 +92,6 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @anchor ONOFF_EVENT
  * @name Definition for messages exchanged between an app and Generic OnOff Model
  * @{ */
-#define WICED_BT_MESH_ONOFF_SET                             9   /**< Set on off state */
 #define WICED_BT_MESH_ONOFF_STATUS                          10  /**< Reply to get/set on off message or on off state changed notification */
 /** @} ONOFF_EVENT */
 
@@ -102,7 +99,6 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @anchor LEVEL_EVENT
  * @name Definition for messages exchanged between an app and Generic Level Model
  * @{ */
-#define WICED_BT_MESH_LEVEL_SET                             13  /**< Set level state */
 #define WICED_BT_MESH_LEVEL_STATUS                          16  /**< Reply to  level message or level state changed notification */
 /** @} LEVEL_EVENT */
 
@@ -124,7 +120,6 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @anchor POWER_LEVEL_EVENT
  * @name Definition for messages exchanged between an app and Generic Power Level Model and Generic Power Level Setup Models
  * @{ */
-#define WICED_BT_MESH_POWER_LEVEL_SET                        25  /**< Set power level state */
 #define WICED_BT_MESH_POWER_LEVEL_STATUS                     28  /**< Reply to power level message or level state changed notification */
 #define WICED_BT_MESH_POWER_LEVEL_LAST_STATUS                33  /**< Reply to Get Last Power Level message */
 #define WICED_BT_MESH_POWER_LEVEL_DEFAULT_STATUS             34  /**< Reply to Get default Power :evel message or default changed notification */
@@ -135,12 +130,9 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @anchor LIGHT_LIGHTNESS_EVENT
  * @name Definition for messages exchanged between an app and Light Lightness Model and Light Lightness Setup Models
  * @{ */
-#define WICED_BT_MESH_LIGHT_LIGHTNESS_SET                   37  /**< Set Light Lightness Actual state */
 #define WICED_BT_MESH_LIGHT_LIGHTNESS_CONTROL               38  /**< Set command received from the external source */
 #define WICED_BT_MESH_LIGHT_LIGHTNESS_STATUS                40  /**< Reply to Light Lightness Get/Set message or Light Lightness Actual changed notification */
-#define WICED_BT_MESH_LIGHT_LIGHTNESS_LINEAR_SET            42  /**< Set Light Lightness Linear state */
 #define WICED_BT_MESH_LIGHT_LIGHTNESS_LINEAR_STATUS         43  /**< Reply to Light Lightness Get/Set message or Light Lightness Status changed notification */
-#define WICED_BT_MESH_LIGHT_LIGHTNESS_SET_RANGE             44  /**< Set Light Lightness Actual min/max values for the element */
 #define WICED_BT_MESH_LIGHT_LIGHTNESS_LAST_STATUS           45  /**< Reply to Get last Light Lightness Actual message */
 #define WICED_BT_MESH_LIGHT_LIGHTNESS_DEFAULT_STATUS        46  /**< Reply to Get Light Lightness Actual default message or default level state changed notification */
 #define WICED_BT_MESH_LIGHT_LIGHTNESS_RANGE_STATUS          47  /**< Reply to Get Light Lightness Actual range message or range changed notification */
@@ -150,12 +142,9 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @anchor LIGHT_CTL_EVENT
  * @name Definition for messages exchanged between an app and Light CTL Model and Light CTL Setup Models
  * @{ */
-#define WICED_BT_MESH_LIGHT_CTL_SET                         51  /**< Set Light CTL state */
 #define WICED_BT_MESH_LIGHT_CTL_STATUS                      54  /**< Reply to Light CTL Get/Set message or Light CTL changed notification */
 #define WICED_BT_MESH_LIGHT_CTL_TEMPERATURE_STATUS          59  /**< Reply to Get last Light CTL message */
-#define WICED_BT_MESH_LIGHT_CTL_SET_TEMPERATURE_RANGE       60  /**< Set Light CTL min/max temperature range values for the element */
 #define WICED_BT_MESH_LIGHT_CTL_DEFAULT_STATUS              61  /**< Reply to Get Light CTL default message or default level state changed notification */
-#define WICED_BT_MESH_LIGHT_CTL_SET_DEFAULT                 62  /**< Set Light CTL default temperature value for the element */
 #define WICED_BT_MESH_LIGHT_CTL_TEMPERATURE_RANGE_STATUS    63  /**< Reply to Get Light CTL range message or range changed notification */
 /** @} LIGHT_CTL_EVENT */
 
@@ -163,15 +152,11 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @anchor LIGHT_HSL_EVENT
  * @name Definition for messages exchanged between an app and Light CTL Model and Light CTL Setup Models
  * @{ */
-#define WICED_BT_MESH_LIGHT_HSL_SET                         65  /**< Set Light HSL state */
 #define WICED_BT_MESH_LIGHT_HSL_STATUS                      66  /**< Reply to Light HSL Get/Set message or Light HSL changed notification */
 #define WICED_BT_MESH_LIGHT_HSL_TARGET_STATUS               68  /**< Light HSL Target status */
 #define WICED_BT_MESH_LIGHT_HSL_DEFAULT_STATUS              69  /**< Reply to Get Light HSL default message or default level state changed notification */
-#define WICED_BT_MESH_LIGHT_HSL_RANGE_SET                   70  /**< Set Light HSL min/max hue/saturation range values for the element */
 #define WICED_BT_MESH_LIGHT_HSL_RANGE_STATUS                71  /**< Reply to Get Light HSL range message or range changed notification */
-#define WICED_BT_MESH_LIGHT_HSL_HUE_SET                     72  /**< Set Light HSL Temperature state */
 #define WICED_BT_MESH_LIGHT_HSL_HUE_STATUS                  73  /**< Reply to Get/Set Light HSL Hue message */
-#define WICED_BT_MESH_LIGHT_HSL_SATURATION_SET              74  /**< Set Light HSL Saturation state */
 #define WICED_BT_MESH_LIGHT_HSL_SATURATION_STATUS           75  /**< Light HSL Saturation changed or reply message */
 /** @} LIGHT_HSL_EVENT */
 
@@ -179,15 +164,11 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
 * @anchor LIGHT_XYL_EVENT
 * @name Definition for messages exchanged between an app and Light CTL Model and Light CTL Setup Models
 * @{ */
-#define WICED_BT_MESH_LIGHT_XYL_SET                         77  /**< Set Light xyL state */
 #define WICED_BT_MESH_LIGHT_XYL_STATUS                      78  /**< Reply to Light xyL Get/Set message or Light xyL changed notification */
 #define WICED_BT_MESH_LIGHT_XYL_TARGET_STATUS               80  /**< Light xyL Target values */
 #define WICED_BT_MESH_LIGHT_XYL_DEFAULT_STATUS              81  /**< Reply to Get Light xyL default message or default level state changed notification */
-#define WICED_BT_MESH_LIGHT_XYL_RANGE_SET                   82  /**< Set Light xyL min/max x/y range values for the element */
 #define WICED_BT_MESH_LIGHT_XYL_RANGE_STATUS                83  /**< Reply to Get Light xyL range message or range changed notification */
-#define WICED_BT_MESH_LIGHT_XYL_X_SET                       84  /**< Set Light xyL Temperature state */
 #define WICED_BT_MESH_LIGHT_XYL_X_STATUS                    85  /**< Reply to Get last Light xyL message */
-#define WICED_BT_MESH_LIGHT_XYL_Y_SET                       86  /**< Set Light xyL Temperature state */
 #define WICED_BT_MESH_LIGHT_XYL_Y_STATUS                    87  /**< Reply to Get last Light xyL message */
 /** @} LIGHT_XYL_EVENT */
 
@@ -195,14 +176,10 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @anchor LIGHT_LC_EVENT
  * @name Definition for messages exchanged between an app and Light CTL Model and Light CTL Setup Models
  * @{ */
-#define WICED_BT_MESH_LIGHT_LC_MODE_SET                     89  /**< Set Light LC Mode Set state */
 #define WICED_BT_MESH_LIGHT_LC_MODE_STATUS                  90  /**< Reply to Light LC Mode Get/Set */
-#define WICED_BT_MESH_LIGHT_LC_OCCUPANCY_MODE_SET           92  /**< Set Light LC Occupancy Mode Set state */
 #define WICED_BT_MESH_LIGHT_LC_OCCUPANCY_MODE_STATUS        93  /**< Reply to Light LC Occupancy Mode Get/Set */
-#define WICED_BT_MESH_LIGHT_LC_LIGHT_ONOFF_SET              95  /**< Set Light LC Light OnOff Set state */
 #define WICED_BT_MESH_LIGHT_LC_LIGHT_ONOFF_STATUS           96  /**< Reply to Light LC Light OnOff Get/Set */
 #define WICED_BT_MESH_LIGHT_LC_PROPERTY_GET                 97  /**< Get Light LC Property Get state */
-#define WICED_BT_MESH_LIGHT_LC_PROPERTY_SET                 98  /**< Set Light LC Property Set state */
 #define WICED_BT_MESH_LIGHT_LC_PROPERTY_STATUS              99  /**< Reply to Light LC Property Get/Set */
  /** @} LIGHT_LC_EVENT */
 
@@ -211,7 +188,6 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
  * @name Definition for messages exchanged between an app and Generic User Property Model
  * @{ */
 #define WICED_BT_MESH_USER_PROPERTY_GET                     100 /**< Get Property state */
-#define WICED_BT_MESH_USER_PROPERTY_SET                     101 /**< Set Property state */
 #define WICED_BT_MESH_ADMIN_PROPERTIES_STATUS               102 /**< A list of the Admin Properties reported by the peer */
 #define WICED_BT_MESH_ADMIN_PROPERTY_STATUS                 103 /**< Reply to get/set Property message or Property state changed notification */
 #define WICED_BT_MESH_MANUF_PROPERTIES_STATUS               104 /**< A list of the Manufacturer Properties reported by the peer */
@@ -235,14 +211,10 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
 
 /* Sensor Setup */
 #define WICED_BT_MESH_SENSOR_CADENCE_GET                     120 /**< Get Sensor Cadence state */
-#define WICED_BT_MESH_SENSOR_CADENCE_SET                     121 /**< Set Sensor Cadence state */
-#define WICED_BT_MESH_SENSOR_CADENCE_SET_UNACKED             122 /**< Set Sensor Cadence state UnAcknowledged */
 #define WICED_BT_MESH_SENSOR_CADENCE_STATUS                  123 /**< Sensor Cadence state values reported by peer */
 #define WICED_BT_MESH_SENSOR_SETTINGS_GET                    124 /**< Get Sensor Settings list from the peer */
 #define WICED_BT_MESH_SENSOR_SETTINGS_STATUS                 125 /**< A list of the sensor setting values reported by the peer */
 #define WICED_BT_MESH_SENSOR_SETTING_GET                     126 /**< Get Sensor Setting state */
-#define WICED_BT_MESH_SENSOR_SETTING_SET                     127 /**< Set Sensor Setting state */
-#define WICED_BT_MESH_SENSOR_SETTING_SET_UNACKED             128 /**< Set Sensor Setting state UnAcknowledged */
 #define WICED_BT_MESH_SENSOR_SETTING_STATUS                  129 /**< Sensor Setting state values reported by peer */
 /** @} SENSOR_EVENT */
 
@@ -265,7 +237,6 @@ extern uint8_t  wiced_bt_mesh_scheduler_events_max_num;
 #define WICED_BT_MESH_SCHEDULER_GET                          135 /**< Get the scheduler register */
 #define WICED_BT_MESH_SCHEDULER_STATUS                       136 /**< Scheduler register status reported by the peer */
 #define WICED_BT_MESH_SCHEDULER_ACTION_GET                   137 /**< Get the scheduler entry */
-#define WICED_BT_MESH_SCHEDULER_ACTION_SET                   138 /**< Set the scheduler entry */
 #define WICED_BT_MESH_SCHEDULER_ACTION_STATUS                139 /**< Scheduler entry status reply */
 /** @} SCHEDULER_EVENT */
 
@@ -943,9 +914,6 @@ extern wiced_bool_t wiced_bt_mesh_remote_provisioning_server_message_handler(wic
 #define WICED_BT_MESH_MODEL_LIGHT_LC_CLIENT \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_LIGHT_LC_CLNT, wiced_bt_mesh_model_light_lc_client_message_handler, NULL, NULL }
 
-#define WICED_BT_MESH_MODEL_TIME_CLIENT \
-    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_TIME_CLNT, wiced_bt_mesh_model_time_client_message_handler, NULL, NULL }
-
 
 /** @} WICED_BT_MESH_MODEL_DEFINITIONS */
 
@@ -1199,10 +1167,8 @@ typedef struct
 {
     uint16_t lightness_actual_present;              /**< The present value of the Light Lightness Actual state */
     uint16_t lightness_linear_present;              /**< The present value of the Light Lightness Linear state */
-    uint32_t lux_level_present;                     /**< The present value of the Lux Level to be produce by the device, only valid if used in LC */
     uint16_t lightness_actual_target;               /**< The target value of the Light Lightness Actual state */
     uint16_t lightness_linear_target;               /**< The target value of the Light Lightness Linear state */
-    uint32_t lux_level_target;                      /**< The target value of the Lux Level to be produce by the device, only valid if used in LC */
     uint32_t remaining_time;                        /**< Remaining time for transition */
 } wiced_bt_mesh_light_lightness_status_t;
 
@@ -2100,6 +2066,7 @@ wiced_result_t wiced_bt_mesh_model_location_client_send_local_set(wiced_bt_mesh_
  * Mesh OnOff Server Device.
  * The model is used as a base for multiple other models.  This device is typically not used standalone.  The closest
  * is Power OnOff Device which adds on power up behavior to the device and then can be used standalone.
+ * With the TIME_AND_SCHEDULER_SUPPORT the model TIME_CLNT is needed just to send TIME_GET message. Therefore message_handler is NULL.
  */
 #ifdef TIME_AND_SCHEDULER_SUPPORT
 #define WICED_BT_MESH_MODEL_ONOFF_SERVER \
@@ -2110,6 +2077,7 @@ wiced_result_t wiced_bt_mesh_model_location_client_send_local_set(wiced_bt_mesh_
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_SCHEDULER_SETUP_SRV, wiced_bt_mesh_model_scheduler_setup_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_TIME_SRV, wiced_bt_mesh_model_time_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_TIME_SETUP_SRV, wiced_bt_mesh_model_time_setup_server_message_handler, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_TIME_CLNT, NULL, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_GENERIC_ONOFF_SRV, wiced_bt_mesh_model_onoff_server_message_handler, wiced_bt_mesh_model_onoff_server_scene_store_handler, wiced_bt_mesh_model_onoff_server_scene_recall_handler }
 #else
 #define WICED_BT_MESH_MODEL_ONOFF_SERVER \
@@ -2395,7 +2363,7 @@ wiced_result_t wiced_bt_mesh_model_onoff_client_send_set(wiced_bt_mesh_event_t *
  * \brief Generic Level Server callback is called by the Mesh Models library when the level needs
  * to be changed. If peer device sends Set Level, Delta Level or Move Level command specifying
  * not zero transition interval, the callback will be called periodically.  The only event that
- * the application needs to process is @ref WICED_BT_MESH_LEVEL_SET.
+ * the application needs to process is @ref WICED_BT_MESH_LEVEL_STATUS.
  *
  * @param       element_idx Element Index of the model
  * @param       event The event that the application should process (see @ref LEVEL_EVENT "Level Events")
@@ -2952,7 +2920,7 @@ wiced_result_t wiced_bt_mesh_model_power_onoff_client_send_onpowerup_set(wiced_b
  * when the power level of the device is changed locally.
  *
  * Most of the functionality of the Mesh Power Level server device is implemented in the Mesh Models Library. The
- * application only needs to set hardware appropriately on receiving @ref WICED_BT_MESH_POWER_LEVEL_SET event.
+ * application only needs to set hardware appropriately on receiving @ref WICED_BT_MESH_POWER_LEVEL_STATUS event.
  * If client requests to change power to the target value over a period of time, the library will maintain the timer
  * and will periodically call the application with appropriate power level.
  *
@@ -3412,7 +3380,7 @@ wiced_result_t wiced_bt_mesh_model_property_client_send_property_set(wiced_bt_me
  * send an appropriate status message if it is configured to do so.
  *
  * Most of the functionality of the Light Lightness server device is implemented in the Mesh Models Library. The
- * application only needs to set hardware appropriately on receiving @ref WICED_BT_MESH_LIGHT_LIGHTNESS_SET event.
+ * application only needs to set hardware appropriately on receiving @ref WICED_BT_MESH_LIGHT_LIGHTNESS_STATUS event.
  * If client requests to change the brightness to the target value over a period of time, the library will maintain
  * the timer and will periodically call the application with appropriate power level.
  *
@@ -3477,7 +3445,7 @@ wiced_result_t wiced_bt_mesh_model_property_client_send_property_set(wiced_bt_me
  * least once more before the transition is completed.
  *
  * @param       element_idx Element index of the primary element
- * @param       event The only event that the application should process is @ref WICED_BT_MESH_LIGHT_LIGHTNESS_SET
+ * @param       event The only event that the application should process is @ref WICED_BT_MESH_LIGHT_LIGHTNESS_STATUS
  * @param       p_data Pointer to the @ref wiced_bt_mesh_light_lightness_status_t structure
  *
  * @return      None
@@ -3768,7 +3736,7 @@ wiced_result_t wiced_bt_mesh_model_light_lightness_client_send_range_set(wiced_b
  * send an appropriate status message if it is configured to do so.
  *
  * Most of the functionality of the Light CTL server device is implemented in the Mesh Models Library. The
- * application only needs to set hardware appropriately on receiving @ref WICED_BT_MESH_LIGHT_CTL_SET event.
+ * application only needs to set hardware appropriately on receiving @ref WICED_BT_MESH_LIGHT_CTL_STATUS event.
  * If client requests to change the brightness or the color temperature to the target value over a period of time,
  * the library will maintain the timer and will periodically call the application with appropriate values.
  *
@@ -3846,7 +3814,7 @@ wiced_result_t wiced_bt_mesh_model_light_lightness_client_send_range_set(wiced_b
  * least once more before the transition is completed.
  *
  * @param       element_idx Element Index of the model
- * @param       event The only event that the application should process is @ref WICED_BT_MESH_LIGHT_CTL_SET
+ * @param       event The only event that the application should process is @ref WICED_BT_MESH_LIGHT_CTL_STATUS
  * @param       p_data Pointer to the @ref wiced_bt_mesh_light_ctl_status_data_t structure
  *
  * @return      None
@@ -4164,7 +4132,7 @@ wiced_result_t wiced_bt_mesh_model_light_ctl_client_send_temperature_range_set(w
  * maintain correct state and send an appropriate status message if it is configured to do so.
  *
  * Most of the functionality of the Light HSL server device is implemented in the Mesh Models Library. The
- * application only needs to set hardware appropriately on receiving @ref WICED_BT_MESH_LIGHT_HSL_SET event.
+ * application only needs to set hardware appropriately on receiving @ref WICED_BT_MESH_LIGHT_HSL_STATUS event.
  * If a client requests to change the brightness or the color to the target values over a period of time,
  * the library will maintain the timer and will periodically call the application with appropriate values.
  *
@@ -4247,7 +4215,7 @@ wiced_result_t wiced_bt_mesh_model_light_ctl_client_send_temperature_range_set(w
  * least once more before the transition is completed.
  *
  * @param       element_idx Element index of the primary element
- * @param       event The only event that the application should process is @ref WICED_BT_MESH_LIGHT_HSL_SET
+ * @param       event The only event that the application should process is @ref WICED_BT_MESH_LIGHT_HSL_STATUS
  * @param       p_data Pointer to the @ref wiced_bt_mesh_light_hsl_status_data_t structure
  *
  * @return      None
@@ -4572,7 +4540,7 @@ wiced_result_t wiced_bt_mesh_model_light_hsl_client_send_range_set(wiced_bt_mesh
  * maintain correct state and send an appropriate status message if it is configured to do so.
  *
  * Most of the functionality of the Light XYL server device is implemented in the Mesh Models Library. The
- * application only needs to set hardware appropriately on receiving @ref WICED_BT_MESH_LIGHT_XYL_SET event.
+ * application only needs to set hardware appropriately on receiving @ref WICED_BT_MESH_LIGHT_XYL_STATUS event.
  * If a client requests to change the brightness or the color to the target values over a period of time,
  * the library will maintain the timer and will periodically call the application with appropriate values.
  *
@@ -4642,7 +4610,7 @@ wiced_result_t wiced_bt_mesh_model_light_hsl_client_send_range_set(wiced_bt_mesh
  * least once more before the transition is completed.
  *
  * @param       element_idx Element index of the element
- * @param       event The only event that the application should process is @ref WICED_BT_MESH_LIGHT_XYL_SET
+ * @param       event The only event that the application should process is @ref WICED_BT_MESH_LIGHT_XYL_STATUS
  * @param       p_data Pointer to the @ref wiced_bt_mesh_light_xyl_status_data_t structure
  *
  * @return      None
@@ -5168,13 +5136,11 @@ wiced_result_t wiced_bt_mesh_model_light_lc_client_send_property_set(wiced_bt_me
  *
  * @param       element_idx Device element to where model is used
  * @param       event The event that the application should process (see @ref SENSOR_EVENT "Sensor Events")
- * @param       property_id Property ID of the sensor for which Sensor Cadence change shall be reported
- * @param       setting_property_id Setting Property ID of the sensor for which Sensor setting change shall be reported
+ * @param       p_data Pointer to the data portion of the message
  *
  * @return      None
  */
-typedef void(wiced_bt_mesh_sensor_server_config_callback_t)(uint8_t element_idx, uint16_t event, uint16_t property_id, uint16_t setting_prop_id);
-
+typedef void(wiced_bt_mesh_sensor_server_config_callback_t)(uint8_t element_idx, uint16_t event, void* p_data);
 
 /*
  * \brief Sensor server report callback is called by the Mesh Models library on receiving a Get message from the sensor client.
@@ -5985,6 +5951,13 @@ void wiced_bt_mesh_models_set_trace_level(uint8_t level);
  * @param[in]   start_idx    Starting element index
  */
 int wiced_bt_mesh_model_find_element_idx(uint16_t company_id, uint16_t model_id, uint8_t start_idx);
+
+
+/**
+ *
+ * Interval in seconds to send time get message while the time isn't set yet. The value can be changed by the application. 0 means don't send time get message if time isn't initialized. Default value is 0.
+ */
+extern uint8_t wiced_bt_mesh_model_timer_server_get_interval;
 
 /* @} wiced_bt_mesh_models */
 

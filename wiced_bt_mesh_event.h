@@ -112,6 +112,7 @@ typedef struct wiced_bt_mesh_event__t
         uint8_t         tx_flag;    /**< Transmission failed or timeout occurred waiting for peer reply */
 #define RPL_DELAY_DONT_SAVE         0xff
         uint8_t         rpl_delay;   /**< Model indicates how SEQ shall be saved by the core. It is delay in seconds to save SEQ in RPL. 0-save immediatly; 0xff - don't save; */
+        uint8_t         tx_delay;    /**< If this value is not 0, wiced_bt_mesh_core_send() will delay sending of the event by this number of milliseconds. */
     } status;
 #define TAG_USE_DIRECTED            0x01
 #define TAG_IMMUTABLE_CREDENTIALS   0x02

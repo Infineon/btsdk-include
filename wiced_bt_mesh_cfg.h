@@ -255,7 +255,6 @@ typedef PACKED struct
     uint16_t                                company_id;         /**< Company identifier assigned by the Bluetooth SIG */
     uint16_t                                product_id;         /**< Vendor-assigned product identifier */
     uint16_t                                vendor_id;          /**< Vendor-assigned product version identifier */
-    uint16_t                                replay_cache_size;  /**< Number of replay protection entries, i.e. maximum number of mesh devices that can send application messages to this device.*/
     uint16_t                                features;           /**< A bit field indicating the device features (see @ref BT_MESH_CORE_FEATURE "Supported features bitmap") */
     uint16_t                                oob;                /**< The OOB field (see @ref BT_MESH_CORE_OOB "OOB bitmap"). It indicates the availability of OOB data.*/
     const char                              *uri;               /**< Optional URI (can be NULL) for advertising along with the Unprovisioned Device beacon. Can start from "HTTP://" or "HTTPS://"*/

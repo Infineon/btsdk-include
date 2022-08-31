@@ -469,7 +469,7 @@ void wiced_bt_anc_read_rsp(wiced_bt_gatt_operation_complete_t *p_data);
 *
 ***************************************************************************//**
 *
-* The application should call this function when BLE connection with a peer
+* The application should call this function when LE connection with a peer
 * device has been established.
 *
 * \param           p_conn_status  : pointer to a wiced_bt_gatt_connection_status_t which includes
@@ -486,7 +486,7 @@ void wiced_bt_anc_client_connection_up(wiced_bt_gatt_connection_status_t *p_conn
 *
 ***************************************************************************//**
 *
-* The application should call this function when BLE connection with a peer
+* The application should call this function when LE connection with a peer
 * device has been disconnected.
 *
 * \param           p_conn_status  : pointer to a wiced_bt_gatt_connection_status_t which includes

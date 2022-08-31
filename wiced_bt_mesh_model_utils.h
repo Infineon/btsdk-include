@@ -391,6 +391,13 @@ typedef void (wiced_bt_mesh_transition_callback_t) (uint32_t *p_present, void *r
 void mesh_server_transition_start(uint8_t element_idx, uint32_t transition_time, uint32_t delay, uint32_t *target, uint32_t *present, uint32_t num_values, wiced_bt_mesh_transition_callback_t *p_callback, void *p_ref_data);
 
 /**
+ * Stop the Transition procedure. The transition server will callback to the parent to indicated current state.
+ * Parameters:
+ *   element_idx Index of the element of the device
+ */
+void mesh_server_transition_stop(uint8_t element_idx);
+
+/**
  * Start the Transition procedure
  * Parameters:
  *   element_idx Index of the element of the device

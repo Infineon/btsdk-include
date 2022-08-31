@@ -177,7 +177,7 @@ wiced_result_t wiced_bt_hrs_init(wiced_bt_hrs_event_cback_t *p_callback, wiced_b
 *
 ***************************************************************************//**
 *
-* The application calls this function when BLE connection with a peer device
+* The application calls this function when LE connection with a peer device
 * has been established.
 *
 * \param           conn_id  : GATT connection ID.
@@ -192,7 +192,7 @@ void wiced_bt_hrs_connection_up(uint16_t conn_id);
 *
 ***************************************************************************//**
 *
-* The application calls this function when BLE connection with a peer device
+* The application calls this function when LE connection with a peer device
 * has been disconnected.
 *
 * \param           conn_id  : GATT connection ID.

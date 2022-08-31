@@ -336,7 +336,7 @@ void wiced_bt_battery_client_process_indication(wiced_bt_gatt_operation_complete
 *
 ***************************************************************************//**
 *
-* The application calls this function when BLE connection with a peer
+* The application calls this function when LE connection with a peer
 * device established.
 *
 * \param           p_conn_status  : The pointer to a wiced_bt_gatt_connection_status_t
@@ -353,7 +353,7 @@ void wiced_bt_battery_client_connection_up(wiced_bt_gatt_connection_status_t *p_
 *
 ***************************************************************************//**
 *
-* The application calls this function when BLE connection with a peer
+* The application calls this function when LE connection with a peer
 * device disconnected.
 *
 * \param           p_conn_status  : The pointer to a wiced_bt_gatt_connection_status_t

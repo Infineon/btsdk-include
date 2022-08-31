@@ -235,7 +235,7 @@ void wiced_bt_hrc_discovery_complete(wiced_bt_gatt_discovery_complete_t *p_data)
 *
 ***************************************************************************//**
 *
-* The application calls this function when BLE connection with a peer
+* The application calls this function when LE connection with a peer
 * device has been established.
 *
 * \param           conn_id  : Connection Identifier.
@@ -250,7 +250,7 @@ void wiced_bt_hrc_connection_up(uint16_t conn_id);
 *
 ***************************************************************************//**
 *
-* The application calls this function when BLE connection with a peer
+* The application calls this function when LE connection with a peer
 * device has been released.
 *
 * \param           conn_id  : Connection Identifier.

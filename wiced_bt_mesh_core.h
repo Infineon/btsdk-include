@@ -1743,6 +1743,42 @@ void wiced_bt_mesh_core_set_trace_level(uint32_t fids_mask, uint8_t level);
 // Sets bd address for advertisements
 void wiced_bt_mesh_core_set_adv_bdaddr(wiced_bt_device_address_t bda);
 
+// The time in units of 1/256th second needed to transmit the message. It is time to encrypt, obfuscate, deliver message to the controller and send it out
+// The default value is 0. App is responsible to set correct value depending on platform.
+extern uint8_t wiced_bt_mesh_core_msg_tx_delay;
+// The time in units of 1/256th second needed to handle the message. It is time from the moment the controller receives the message over the air and model(or app) receives related callback.
+// The default value is 0. App is responsible to set correct value depending on platform.
+extern uint8_t wiced_bt_mesh_core_msg_rx_delay;
+
+/**
+* Represents delay statistics.
+*/
+typedef struct
+{
+    uint8_t     rx_cnt;                             /**< Number of successfuly received and decrypted messages */
+    uint8_t     rx_delay;                           /**< Overage delay of successfuly received and decrypted messages */
+    uint8_t     tx_cnt;                             /**< Number of successfuly encrypted and transmitted messages */
+    uint8_t     tx_delay;                           /**< Overage delay of successfuly encrypted and transmitted messages */
+} wiced_bt_mesh_core_delay_statistics_t;
+
+/**
+* \brief Gets delay statistics.
+*
+* @param[out]   p_data             pointer where to copy delay statistics
+*
+* @return       None
+*/
+void wiced_bt_mesh_core_delay_statistics_get(wiced_bt_mesh_core_delay_statistics_t* p_data);
+
+/**
+* \brief Resets delay statistics.
+*
+* @param       None
+*
+* @return      None
+*/
+void wiced_bt_mesh_core_delay_statistics_reset(void);
+
 #ifdef __cplusplus
 }
 #endif

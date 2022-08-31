@@ -57,6 +57,8 @@
 #define CY_MAGIC_RPR_SUPPORTED          0x01
 #define CY_MAGIC_SELF_CONFIG_SUPPORTED  0x02
 #define CY_MAGIC_RELAY_SUPPORTED        0x04
+#define CY_MAGIC_L1                     0x10
+#define CY_MAGIC_L2                     0x20
 
 #pragma pack(1)
 #ifndef PACKED

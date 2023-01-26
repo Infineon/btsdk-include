@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2023, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -538,6 +538,18 @@ typedef uint16_t(*wiced_bt_mesh_core_hal_write_nvram_t)(uint16_t vs_id, uint16_t
 typedef uint16_t(*wiced_bt_mesh_core_hal_read_nvram_t)(uint16_t vs_id, uint16_t data_length, uint8_t* p_data, wiced_result_t* p_status);
 
 /**
+* \brief Calculate AES encryption by using Hardware acceleration
+ *
+ * @param[in]       in_data     : point to input data buffer
+ * @param[in|out]   out_data    : point to output data buffer
+ * @param[in]       key         : point to key data buffer
+ *
+ * @return  void
+ */
+typedef void (*wiced_bt_mesh_core_hal_aes_encrypt_t)(uint8_t* in_data, uint8_t* out_data, uint8_t* key);
+
+
+/**
 * hal api for wiced_bt_mesh_core_set_hal_api()
 * Application has to implement all these functions and call wiced_bt_mesh_core_set_hal_api() at the startup.
 */
@@ -550,6 +562,7 @@ typedef struct
     wiced_bt_mesh_core_hal_delete_nvram_t           delete_nvram;
     wiced_bt_mesh_core_hal_write_nvram_t            write_nvram;
     wiced_bt_mesh_core_hal_read_nvram_t             read_nvram;
+    wiced_bt_mesh_core_hal_aes_encrypt_t            aes_encrypt;
 }wiced_bt_mesh_core_hal_api_t;
 
 
@@ -588,6 +601,14 @@ wiced_result_t wiced_bt_mesh_core_init(wiced_bt_mesh_core_init_t *p_init);
  * @param[in]   instance        Instance of the stopped advertisement
  */
 void wiced_bt_mesh_core_adv_end(uint8_t instance);
+
+/**
+ * \brief Set max number of advertisement instances.
+ * \details Application calls it before first advertisement start. It can be called after first advertisement start because that number is always >= 1.
+ *
+ * @param[in]   max_num     Mmax number of advertisement instances
+ */
+void wiced_bt_mesh_core_set_max_num_adv_instances(uint8_t max_num);
 
 /**
  * \brief Mesh Core de-initialization.
@@ -1074,7 +1095,7 @@ typedef struct
     uint8_t   prov_salt[WICED_BT_MESH_KEY_LEN * 2]; // It can keep 128 or 256 ConformationSalt or 128 bit ProvisioningSalt
     uint8_t   session_key[WICED_BT_MESH_KEY_LEN];
     uint8_t   random[WICED_BT_MESH_PROVISION_RANDOM_LEN * 2]; // Random can be 128 bit or 256 bit
-    uint8_t   oob_value[16];    /**< max static OOB value len is 256 bits(16bytes). Max input and output OOB value length is 8 bytes */
+    uint8_t   oob_value[32];    /**< max static OOB value len is 256 bits(32bytes). Max input and output OOB value length is 8 bytes */
     uint8_t   oob_value_len;    /**< length of the OOB value */
     uint16_t  net_key_idx;      /**< NetKeyIdx provisioned */
     wiced_bt_mesh_core_precord_descriptor_t* p_prov_record_descriptor;
@@ -1449,6 +1470,13 @@ extern uint16_t wiced_bt_mesh_core_nvm_idx_df_config;
 /* Advertisements TX Power. Default value is 4. */
 extern uint8_t  wiced_bt_mesh_core_adv_tx_power;
 
+/* Delay for the writing configuration in seconds. Default value is 3*/
+extern uint32_t wiced_bt_mesh_core_write_config_delay;
+
+// Calls all delayed writes (configuration, node_info, rpl) and releases all related resources (timers and buffers)
+// It has to be called before restarting the node by wiced_hal_wdog_reset_system()
+void wiced_bt_mesh_core_execute_delayed_nvram_writes(void);
+
 /**
 * If the value of that variable is WICED_TRUE then the transport layer always use 32-bit TransMIC.
 * Otherwise the transport layer uses 64-bit TransMIC for segmented access messages if it fits into max transport PDU.
@@ -1461,19 +1489,6 @@ extern wiced_bool_t wiced_bt_core_short_trans_mic;
 * Default value is WICED_FALSE.
 */
 extern wiced_bool_t wiced_bt_core_iv_update_test_mode;
-
-/**
-* Segment Transmission Timer - If the segment transmission timer expires and no valid acknowledgment for the segmented message is received,
-* then the lower transport layer shall retransmit all unacknowledged Lower Transport PDUs
-* Default value is 1000 (1 sec)
-*/
-extern uint16_t wiced_bt_core_lower_transport_seg_trans_timeout_ms;
-
-/**
-* Number of times the lower transport layer transmits all unacknowledged Lower Transport PDUs
-* Default value is 3
-*/
-extern uint8_t wiced_bt_core_lower_transport_seg_trans_cnt;
 
 /**
 * On WICED_TRUE CPU is boost for cpypto operations
@@ -1631,7 +1646,7 @@ extern uint16_t wiced_bt_mesh_core_provisioning_srv_adv_interval;
 */
 extern uint16_t wiced_bt_mesh_core_provisioning_url_adv_interval;
 /**
-* \brief Minimum and maximum delay in milliseconds of the message being relayed. Default values: 20, 50
+* \brief Minimum and maximum delay in milliseconds of the message being relayed. Default values: 0, 10
 */
 extern uint16_t    wiced_bt_mesh_core_delay_relay_min;
 extern uint16_t    wiced_bt_mesh_core_delay_relay_max;
@@ -1778,6 +1793,15 @@ void wiced_bt_mesh_core_delay_statistics_get(wiced_bt_mesh_core_delay_statistics
 * @return      None
 */
 void wiced_bt_mesh_core_delay_statistics_reset(void);
+
+/**
+* \brief Sets intersegment delay.
+*
+* @param[in]   delay_ms     Intersegment delay in milliseconds
+*
+* @return       None
+*/
+void wiced_bt_mesh_set_inter_segment_delay(uint8_t delay_ms);
 
 #ifdef __cplusplus
 }

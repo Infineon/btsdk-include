@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2023, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -66,6 +66,16 @@ extern "C" {
 #define PORT_PURGE_TXCLEAR     0x01
 #define PORT_PURGE_RXCLEAR     0x02
 
+// iAP2 connection error code
+#define IAP2_CONN_RFCOMM_FAILED         0x01    /**<  failed to create RFCOMM connection */
+#define IAP2_CONN_RFCOMM_CLOSED         0x02    /**<  RFCOMM connection closed */
+#define IAP2_CONN_SVC_DISC_FAILED       0x03    /**<  service discovery failed */
+#define IAP2_CONN_AUTH_FAILED           0x04    /**<  authentication failed */
+#define IAP2_CONN_ID_REJECTED           0x05    /**<  identification rejected */
+#define IAP2_CONN_EAP_FAILED            0x06    /**<  external accessory protocol session failed */
+#define IAP2_CONN_PEER_RESET            0x07    /**<  peer reset the iAP2 link */
+#define IAP2_CONN_NO_RESP               0x08    /**<  no response from iAP2 peer */
+
 /**
  * Data provided by the application and utilized by the library
  */
@@ -118,7 +128,7 @@ typedef void (*wiced_bt_iap2_connection_up_callback_t)(uint16_t handle, uint8_t*
  *
  * @return          Nothing
  */
-typedef void (*wiced_bt_iap2_connection_failed_callback_t)(void);
+typedef void (*wiced_bt_iap2_connection_failed_callback_t)(uint8_t err_code);
 
 /**
  * Function         wiced_bt_iap2_service_not_found_callback

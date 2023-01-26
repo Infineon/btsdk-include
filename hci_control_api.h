@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * \file <hci_control_api.h>
 *
-* Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2016-2023, Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
 * This software, including source code, documentation and related
@@ -254,6 +254,11 @@
 #define HCI_CONTROL_HIDD_COMMAND_DISCONNECT                 ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x06 )     /* Disconnect HID connection */
 #define HCI_CONTROL_HIDD_COMMAND_VIRTUAL_UNPLUG             ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x07 )     /* Send Virtual Unplug */
 #define HCI_CONTROL_HIDD_COMMAND_KEY                        ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x08 )     /* Send USB key */
+#define HCI_CONTROL_HIDD_COMMAND_AUDIO_START_REQ            ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x09 )     /* Audio Start Request */
+#define HCI_CONTROL_HIDD_COMMAND_AUDIO_STOP_REQ             ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x0A )     /* Audio Stop Request */
+#define HCI_CONTROL_HIDD_COMMAND_AUDIO_DATA                 ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x0B )     /* Audio Data */
+#define HCI_CONTROL_HIDD_COMMAND_AUDIO_SET_COPY             ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x0C )     /* Enable/Disable Audio Data copy */
+#define HCI_CONTROL_HIDD_COMMAND_AUDIO_MIC_START_STOP       ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x0D )     /* Audio MIC Start/stop */
 
 /* Test commands */
 #define HCI_CONTROL_TEST_COMMAND_ENCAPSULATED_HCI_COMMAND   ( ( HCI_CONTROL_GROUP_TEST << 8 ) | 0x10 )     /* Encapsulated HCI command - For manufacturing test purposes */
@@ -472,6 +477,15 @@
 #define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_UPLOAD_FINISH              ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x65 )  /* FW Upload completed */
 #define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_UPLOAD_GET_STATUS          ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x66 )  /* Get current status and phase */
 
+#define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_START                      ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x67 )  /* FW Distribution start */
+#define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_SUSPEND                    ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x68 )  /* FW Distribution suspend */
+#define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_RESUME                     ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x69 )  /* FW Distribution resume */
+#define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_STOP                       ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x6a )  /* FW Distribution stop */
+#define HCI_CONTROL_MESH_COMMAND_FW_DISTRIBUTION_GET_STATUS                 ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x6b )  /* FW Distribution get current status */
+
+#define HCI_CONTROL_MESH_COMMAND_FW_UPDATE_INFO_GET                         ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x6c )  /* FW Update get device firmware info */
+#define HCI_CONTROL_MESH_COMMAND_FW_UPDATE_METADATA_CHECK                   ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x6d )  /* FW Update check metadata (to see if FW can be accepted) */
+
 /* Mesh commands */
 #define HCI_CONTROL_MESH_COMMAND_CORE_NETWORK_LAYER_TRNSMIT                 ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x01 )  /* Network Layer Transmit Mesage command */
 #define HCI_CONTROL_MESH_COMMAND_CORE_TRANSPORT_LAYER_TRNSMIT               ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x02 )  /* Transport Layer Transmit Mesage command */
@@ -640,6 +654,17 @@
 
 #define HCI_CONTROL_MESH_COMMAND_CORE_DELAY_STATS_GET                       ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x92 )  /* Get delay statistics */
 
+#define HCI_CONTROL_MESH_COMMAND_OPCODES_AGGREGATOR_START                   ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x93 )  /* Opcodes Aggregator starts, the following commands will be added to a sequence (not sent) */
+#define HCI_CONTROL_MESH_COMMAND_OPCODES_AGGREGATOR_FINISH                  ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x94 )  /* Opcodes Aggregator finishes and the sequence will be sent to peer device */
+
+#define HCI_CONTROL_MESH_COMMAND_CONFIG_LARGE_COMPOS_DATA_GET               ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x95 )  /* Large Composition Data Get */
+#define HCI_CONTROL_MESH_COMMAND_CONFIG_MODELS_METADATA_GET                 ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x96 )  /* Models Metadata Get */
+
+#define HCI_CONTROL_MESH_COMMAND_CONFIG_SAR_TRANSMITTER_GET                 ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x97 )  /* SAR Transmitter Get */
+#define HCI_CONTROL_MESH_COMMAND_CONFIG_SAR_TRANSMITTER_SET                 ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x98 )  /* SAR Transmitter Set */
+#define HCI_CONTROL_MESH_COMMAND_CONFIG_SAR_RECEIVER_GET                    ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x99 )  /* SAR Receiver Get */
+#define HCI_CONTROL_MESH_COMMAND_CONFIG_SAR_RECEIVER_SET                    ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x9a )  /* SAR Receiver Set */
+
 /* Battery Client Profile commands */
 #define HCI_CONTROL_BATT_CLIENT_COMMAND_CONNECT             ( ( HCI_CONTROL_GROUP_BATT_CLIENT << 8 ) | 0x00 )    /* Battery Client connect */
 #define HCI_CONTROL_BATT_CLIENT_COMMAND_DISCONNECT          ( ( HCI_CONTROL_GROUP_BATT_CLIENT << 8 ) | 0x01 )    /* Battery Client disconnect */
@@ -670,6 +695,7 @@
 #define HCI_CONTROL_BATT_CLIENT_COMMAND_MODEL_SIGNAL        ( ( HCI_CONTROL_GROUP_BATT_CLIENT << 8 ) | 0x20 )
 #define HCI_CONTROL_BATT_CLIENT_COMMAND_NUMBER_MODIFY       ( ( HCI_CONTROL_GROUP_BATT_CLIENT << 8 ) | 0x21 )
 #define HCI_CONTROL_BATT_CLIENT_COMMAND_NUMBER_SIGNAL       ( ( HCI_CONTROL_GROUP_BATT_CLIENT << 8 ) | 0x22 )
+#define HCI_CONTROL_BATT_CLIENT_COMMAND_READ                ( ( HCI_CONTROL_GROUP_BATT_CLIENT << 8 ) | 0x23 )
 
 /* FindMe Locator Client Profile commands */
 #define HCI_CONTROL_FINDME_LOCATOR_COMMAND_CONNECT          ( ( HCI_CONTROL_GROUP_FINDME_LOCATOR << 8 ) | 0x00 )    /* FindMe Target connect */
@@ -909,6 +935,10 @@
 #define HCI_CONTROL_HIDD_EVENT_CLOSED                       ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x04 )    /* Host attempt to establish connection failed */
 #define HCI_CONTROL_HIDD_EVENT_HOST_ADDR                    ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x05 )    /* Paired host address */
 #define HCI_CONTROL_HIDD_EVENT_STATE_CHANGE                 ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x06 )    /* Device State Change */
+#define HCI_CONTROL_HIDD_EVENT_AUDIO_DATA_REQ               ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x07 )    /* Audio data request */
+#define HCI_CONTROL_HIDD_EVENT_AUDIO_DATA                   ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x08 )    /* Audio data */
+#define HCI_CONTROL_HIDD_EVENT_AUDIO_STOP                   ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x09 )    /* Audio data stopped */
+#define HCI_CONTROL_HIDD_EVENT_CAPABILITY                   ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0x0A )    /* Device capability */
 #define HCI_CONTROL_HIDD_EVENT_COMMAND_STATUS               ( ( HCI_CONTROL_GROUP_HIDD << 8 ) | 0xFF )    /* Result status for HID commands */
 
 /* Events for the Test events group */
@@ -1127,6 +1157,11 @@
 #define HCI_CONTROL_MESH_EVENT_TIME_ROLE_STATUS                             ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x54 )  /* Time Role status event */
 #define HCI_CONTROL_MESH_EVENT_TIME_SET                                     ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x55 )  /* Time Set event */
 
+#define HCI_CONTROL_MESH_EVENT_FW_DISTRIBUTION_STATUS                       ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x56 )  /* FW Distribution status event */
+
+#define HCI_CONTROL_MESH_EVENT_FW_UPDATE_INFO_STATUS                        ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x57 )  /* FW Update info status event */
+#define HCI_CONTROL_MESH_EVENT_FW_UPDATE_METADATA_STATUS                    ( ( HCI_CONTROL_GROUP_MESH_MODELS << 8 ) | 0x58 )  /* FW Update metadata status event */
+
 /* Mesh events */
 #define HCI_CONTROL_MESH_EVENT_COMMAND_STATUS                               ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x00 )      /* Command status event */
 #define HCI_CONTROL_MESH_EVENT_TX_COMPLETE                                  ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x01 )      /* Tx Complete event */
@@ -1217,6 +1252,14 @@
 #define HCI_CONTROL_MESH_EVENT_PROVISION_DEVICE_CAPABITIES   HCI_CONTROL_MESH_EVENT_PROVISION_DEVICE_CAPABILITIES           /* Deprecated, retained for backward compatibility */
 
 #define HCI_CONTROL_MESH_EVENT_CORE_DELAY_STATS_STATUS                      ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x4c )      /* Delay statistics Status event */
+
+#define HCI_CONTROL_MESH_EVENT_OPCODES_AGGREGATOR_ADD_STATUS                ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x4d )      /* Opcodes Aggregator add message Status event */
+
+#define HCI_CONTROL_MESH_EVENT_LARGE_COMPOS_DATA_STATUS                     ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x4e )      /* Large Composition Data status */
+#define HCI_CONTROL_MESH_EVENT_MODELS_METADATA_STATUS                       ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x4f )      /* Models Metadata status */
+
+#define HCI_CONTROL_MESH_EVENT_SAR_TRANSMITTER_STATUS                       ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x50 )      /* SAR Transmitter Status */
+#define HCI_CONTROL_MESH_EVENT_SAR_RECEIVER_STATUS                          ( ( HCI_CONTROL_GROUP_MESH << 8 ) | 0x51 )      /* SAR Receiver Status */
 
 /* Events for the Battery Client profile */
 #define HCI_CONTROL_BATT_CLIENT_EVENT_CONNECTED             ( ( HCI_CONTROL_GROUP_BATT_CLIENT << 8 ) | 0x00 )    /* Battery Client connected */
@@ -1343,7 +1386,7 @@
 #define HCI_CONTROL_LE_AUDIO_COMMAND_UNMUTE                 ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x09 )
 #define HCI_CONTROL_LE_AUDIO_COMMAND_UNMUTE_VOL_UP          ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0A )
 #define HCI_CONTROL_LE_AUDIO_COMMAND_UNMUTE_VOL_DOWN        ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0B )
-#define HCI_CONTROL_LE_AUDIO_COMMAND_CALL                   ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0C )
+#define HCI_CONTROL_LE_AUDIO_COMMAND_PLACE_CALL             ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0C )
 #define HCI_CONTROL_LE_AUDIO_COMMAND_ACCEPT_CALL            ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0D )
 #define HCI_CONTROL_LE_AUDIO_COMMAND_TERMIANTE_CALL         ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0E )
 
@@ -1354,6 +1397,15 @@
 #define HCI_CONTROL_LE_AUDIO_COMMAND_BROADCAST_SINK_SYNC_TO_SOURCES         ((HCI_CONTROL_GROUP_LE_AUDIO << 8) | 0x16)
 #define HCI_CONTROL_LE_AUDIO_COMMAND_BROADCAST_SINK_LISTEN_TO_BROADCAST     ((HCI_CONTROL_GROUP_LE_AUDIO << 8) | 0x18)
 
+#define HCI_CONTROL_LE_AUDIO_COMMAND_HOLD_CALL             ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x19 )
+#define HCI_CONTROL_LE_AUDIO_COMMAND_RETRIEVE_CALL         ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x1A )
+#define HCI_CONTROL_LE_AUDIO_COMMAND_REMOTELY_HOLD_CALL    ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x1B )
+#define HCI_CONTROL_LE_AUDIO_COMMAND_REM_RETRIEVE_CALL     ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x1C )
+#define HCI_CONTROL_LE_AUDIO_COMMAND_ORIGINATE_CALL        ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x1D )
+#define HCI_CONTROL_LE_AUDIO_COMMAND_LOC_REM_HELD_CALL     ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x1E )
+#define HCI_CONTROL_LE_AUDIO_COMMAND_JOIN_CALL             ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x1F )
+#define HCI_CONTROL_LE_AUDIO_COMMAND_CALL                  ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x20 )//should be removed, retained for backward compatibility
+
 /* LE Audio Events */
 #define HCI_CONTROL_LE_AUDIO_MEDIA_PLAYER_EVT               ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x01 )
 #define HCI_CONTROL_LE_AUDIO_PLAY_STATUS_EVT                ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x02 )
@@ -1362,7 +1414,10 @@
 #define HCI_CONTROL_LE_AUDIO_DEVICE_ROLE_EVT                ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x05 )
 #define HCI_CONTROL_LE_AUDIO_INCOMING_CALL_EVT              ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x06 )
 #define HCI_CONTROL_LE_AUDIO_CALL_TERMINATED_EVT            ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x07 )
-#define HCI_CONTROL_LE_AUDIO_BRADCAST_SINK_STREAM_RSP_EVT   ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x08 )
+#define HCI_CONTROL_LE_AUDIO_BROADCAST_SINK_STREAM_RSP_EVT  ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x08 )
+#define HCI_CONTROL_LE_AUDIO_STATUS_UPDATE_EVT              ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x09 )
+#define HCI_CONTROL_LE_AUDIO_MUTE_AND_VOLUME_STATUS_EVT     ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0a )
+
 
 /* Status codes returned in HCI_CONTROL_EVENT_COMMAND_STATUS the event */
 #define HCI_CONTROL_STATUS_SUCCESS                          0
@@ -1490,5 +1545,29 @@
 #define HCI_CONTROL_PANU_STATUS_FAIL_SDP                      1   /* Open failed due to SDP */
 #define HCI_CONTROL_PANU_STATUS_FAIL_RFCOMM                   2   /* Open failed due to RFCOMM */
 #define HCI_CONTROL_PANU_STATUS_FAIL_CONN_TOUT                3   /* Link loss occured due to connection timeout */
+
+/* HIDD button key simulation */
+#define HCI_CONTROL_HIDD_KEY_IR       0xf0
+#define HCI_CONTROL_HIDD_KEY_AUDIO    0xf1
+#define HCI_CONTROL_HIDD_KEY_MOTION   0xf2
+#define HCI_CONTROL_HIDD_KEY_CONNECT  0xf3
+#define HCI_CONTROL_HIDD_KEY_HOME     0xf4
+#define HCI_CONTROL_HIDD_KEY_BACK     0xf5
+#define HCI_CONTROL_HIDD_KEY_MUTE     0xf6
+#define HCI_CONTROL_HIDD_KEY_POWER    0xf7
+
+#define HCI_CONTROL_HIDD_AUDIO_SUPPORT       0x1
+#define HCI_CONTROL_HIDD_AUDIO_8K            0x2
+#define HCI_CONTROL_HIDD_AUDIO_16K           0x4
+#define HCI_CONTROL_HIDD_AUDIO_DIGITAL_MIC   0x8
+#define HCI_CONTROL_HIDD_AUDIO_ADPCM         0x10
+#define HCI_CONTROL_HIDD_AUDIO_OPUS          0x20
+
+#define HCI_CONTROL_HIDD_MOUSE_SUPPORT    0x1
+#define HCI_CONTROL_HIDD_MOUSE_8_BIT      0x2
+#define HCI_CONTROL_HIDD_MOUSE_12_BIT     0x4
+#define HCI_CONTROL_HIDD_MOUSE_16_BIT     0x8
+
+#define HCI_CONTROL_HIDD_IR_SUPPORT       0x1
 
 #endif /* HCI_CONTROL_API.H_ */

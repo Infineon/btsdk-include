@@ -1,5 +1,5 @@
 /*
-* Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2016-2023, Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
 * This software, including source code, documentation and related
@@ -98,6 +98,8 @@
 #define FID_MMDL_APP__SENSOR_SERVER_C                           80
 #define FID_MMDL_APP__TIME_CLIENT_C                             81
 #define FID_MMDL_APP__TIME_SERVER_C                             82
+#define FID_MMDL_APP__OPCODES_AGGREGATOR_CLIENT_C               83
+#define FID_MMDL_APP__OPCODES_AGGREGATOR_SERVER_C               84
 
 // for non-embedded build get rid of TRACE... definitions in afx.h
 #if defined(MESH_OVER_GATT_ONLY)

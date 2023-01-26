@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2023, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -194,6 +194,12 @@ extern "C"
 #define WICED_BT_MESH_DF_DIRECTED_CONTROL_NETWORK_TRANSMIT_STATUS  285
 #define WICED_BT_MESH_DF_DIRECTED_CONTROL_RELAY_RETRANSMIT_STATUS  286
 
+#define WICED_BT_MESH_CONFIG_LARGE_COMPOS_DATA_STATUS              287
+#define WICED_BT_MESH_CONFIG_MODELS_METADATA_STATUS                288
+
+#define WICED_BT_MESH_CONFIG_SAR_TRANSMITTER_STATUS                289
+#define WICED_BT_MESH_CONFIG_SAR_RECEIVER_STATUS                   290
+
 /* This structure contains information sent from the provisioner application to provisioner library to setup local device */
 typedef struct
 {
@@ -370,7 +376,7 @@ typedef struct
 {
     uint8_t   pub_key_type;             /**< Bitmap of Supported public key types (Static OOB information available 0x01 is the only one supported at 1.0 time) */
     uint8_t   static_oob_type;          /**< Supported static OOB Types (1 if available) */
-    uint8_t   static_oob[16];           /**< static data if static_oob_type is 1 */
+    uint8_t   static_oob[32];           /**< static data if static_oob_type is 1 */
     uint8_t   output_oob_size;          /**< Maximum size of Output OOB supported (0 - device does not support output OOB, 1-8 max size in octets supported by the device) */
     uint16_t  output_oob_action;        /**< Output OOB Action field values (see @ref BT_MESH_OUT_OOB_ACT "Output OOB Action field values") */
     uint8_t   input_oob_size;           /**< Maximum size in octets of Input OOB supported */

@@ -710,7 +710,7 @@ extern wiced_bool_t wiced_bt_mesh_remote_provisioning_server_message_handler(wic
  * in the first element of the device.
  */
 #define WICED_BT_MESH_DEVICE \
-    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_CONFIG_SRV, NULL, NULL, NULL }, \
+    { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_CONFIG_SRV, wiced_bt_mesh_config_server_message_handler, NULL, NULL }, \
     { MESH_COMPANY_ID_BT_SIG, WICED_BT_MESH_CORE_MODEL_ID_HEALTH_SRV, NULL, NULL, NULL }
 
 /**
@@ -5958,6 +5958,29 @@ int wiced_bt_mesh_model_find_element_idx(uint16_t company_id, uint16_t model_id,
  * Interval in seconds to send time get message while the time isn't set yet. The value can be changed by the application. 0 means don't send time get message if time isn't initialized. Default value is 0.
  */
 extern uint8_t wiced_bt_mesh_model_timer_server_get_interval;
+
+/**
+ * \brief Config Server Model Message Handler
+ * \details Application Library typically calls this function when function to process a message received from the Config Client.
+ * The function parses the message and if appropriate calls the application back to perform functionality.
+ *
+ * @param       p_event Mesh event with information about received message.
+ * @param       p_data Pointer to the data portion of the message
+ * @param       data_len Length of the data in the message
+ *
+ * @return      WICED_TRUE if the message is for this company ID/Model combination, WICED_FALSE otherwise.
+ */
+wiced_bool_t wiced_bt_mesh_config_server_message_handler(wiced_bt_mesh_event_t* p_event, uint8_t* p_data, uint16_t data_len);
+
+/**
+ * This function can be called to send message through the core.  The function keeps track of the output event .
+ *
+ * @param       p_event Fully prepared wiced_bt_mesh_event_t structure with information on where and how event should be sent
+ * @param       opcode opcode to send
+ * @param       params Pointer to the parameters data to be sent out.
+ * @param       len Size of the parameters data to be sent out. The maximum length is about 377 bytes (depends on the size of the opcode).
+ */
+void wiced_bt_mesh_config_server_send_reply(wiced_bt_mesh_event_t* p_event, uint16_t opcode, uint8_t* p_buffer, uint16_t len);
 
 /* @} wiced_bt_mesh_models */
 

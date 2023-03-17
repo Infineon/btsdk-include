@@ -93,6 +93,7 @@
 #define HCI_CONTROL_GROUP_HCITEST                             0x2c
 #define HCI_CONTROL_GROUP_MESH_MODELS                         0x2d
 #define HCI_CONTROL_GROUP_CONN_MESH                           0x2e
+#define HCI_CONTROL_GROUP_BMS                                 0x2e
 #define HCI_CONTROL_GROUP_PANU                                0x2f
 #define HCI_CONTROL_GROUP_LE_AUDIO                            0x30
 #define HCI_CONTROL_GROUP_MISC                                0xFF
@@ -262,6 +263,7 @@
 
 /* Test commands */
 #define HCI_CONTROL_TEST_COMMAND_ENCAPSULATED_HCI_COMMAND   ( ( HCI_CONTROL_GROUP_TEST << 8 ) | 0x10 )     /* Encapsulated HCI command - For manufacturing test purposes */
+#define HCI_CONTROL_TEST_COMMAND_LOOPBACK_DATA              ( ( HCI_CONTROL_GROUP_TEST << 8 ) | 0x11 )     /* Send Loopback data */
 
 /* ANCS commands */
 #define HCI_CONTROL_ANCS_COMMAND_ACTION                     ( ( HCI_CONTROL_GROUP_ANCS << 8 ) | 0x01 )      /* ANCS notification */
@@ -778,6 +780,27 @@
 #define HCI_CONTROL_CONN_MESH_COMMAND_OTA_DATA              ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0F )  /* Firmware image data */
 #define HCI_CONTROL_CONN_MESH_COMMAND_OTA_APPLY             ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x10 )  /* Apply new firmware image */
 #define HCI_CONTROL_CONN_MESH_COMMAND_OTA_CANCEL            ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x11 )  /* Cancel firmware update */
+#define HCI_CONTROL_CONN_MESH_COMMAND_GET_LQ_STATS          ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x12 )  /* Collect link quality stats */
+
+/* BMS Commands */
+#define HCI_CONTROL_BMS_COMMAND_BECOME_PROVISIONER          ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x01 )  /* Become Provisioner */
+#define HCI_CONTROL_BMS_COMMAND_END_PROVISIONING            ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x02 )  /* Become Provisioner */
+#define HCI_CONTROL_BMS_COMMAND_GET_NODE_LIST               ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x03 )  /* Provisioner only - report list of all nodes */
+#define HCI_CONTROL_BMS_COMMAND_SEND_APP_DATA               ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x04 )  /* Send Application Data */
+#define HCI_CONTROL_BMS_COMMAND_RESET                       ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x05 )  /* Reset device */
+#define HCI_CONTROL_BMS_COMMAND_FACTORY_RESET               ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x06 )  /* Factory reset the network */
+#define HCI_CONTROL_BMS_COMMAND_GET_CONN_STATUS             ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x07 )  /* Report connection status */
+#define HCI_CONTROL_BMS_COMMAND_PING_ALL_NODES              ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x08 )  /* Provisioner only - ping all nodes */
+#define HCI_CONTROL_BMS_COMMAND_START_STOP_DATA             ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x09 )  /* Start/Stop Data */
+#define HCI_CONTROL_BMS_COMMAND_GET_STATS                   ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0A )  /* Collect stats */
+#define HCI_CONTROL_BMS_COMMAND_IDENTIFY                    ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0B )  /* Identify node */
+#define HCI_CONTROL_BMS_COMMAND_GET_RSSI                    ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0C )  /* Collect RSSI values */
+#define HCI_CONTROL_BMS_COMMAND_APP_INFO_GET                ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0D )  /* Get node application info (FW ID) */
+#define HCI_CONTROL_BMS_COMMAND_OTA_START                   ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0E )  /* Firmware update start */
+#define HCI_CONTROL_BMS_COMMAND_OTA_DATA                    ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0F )  /* Firmware image data */
+#define HCI_CONTROL_BMS_COMMAND_OTA_APPLY                   ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x10 )  /* Apply new firmware image */
+#define HCI_CONTROL_BMS_COMMAND_OTA_CANCEL                  ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x11 )  /* Cancel firmware update */
+#define HCI_CONTROL_BMS_COMMAND_GET_LQ_STATS                ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x12 )  /* Collect link quality stats */
 
 #define HCI_CONTROL_PANU_COMMAND_CONNECT                    ( ( HCI_CONTROL_GROUP_PANU << 8 ) | 0x01 )
 #define HCI_CONTROL_PANU_COMMAND_DISCONNECT                 ( ( HCI_CONTROL_GROUP_PANU << 8 ) | 0x02 )
@@ -943,6 +966,7 @@
 
 /* Events for the Test events group */
 #define HCI_CONTROL_TEST_EVENT_ENCAPSULATED_HCI_EVENT       ( ( HCI_CONTROL_GROUP_TEST << 8 ) | 0x01 )     /* Encapsulated HCI Event message */
+#define HCI_CONTROL_TEST_EVENT_LOOPBACK_DATA                ( ( HCI_CONTROL_GROUP_TEST << 8 ) | 0x02 )     /* Send Loopback data */
 
 /* Events for ANCS */
 #define HCI_CONTROL_ANCS_EVENT_NOTIFICATION                 ( ( HCI_CONTROL_GROUP_ANCS << 8 ) | 0x01 )      /* ANCS notification */
@@ -1366,6 +1390,24 @@
 #define HCI_CONTROL_CONN_MESH_EVENT_RSSI_VALUES             ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0c )  /* [Src Node] [Peer addr][RSSI] ... */
 #define HCI_CONTROL_CONN_MESH_EVENT_APP_INFO                ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0d )  /* Node application info (FW ID) */
 #define HCI_CONTROL_CONN_MESH_EVENT_OTA_STATUS              ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0e )  /* Firmware update command status */
+#define HCI_CONTROL_CONN_MESH_EVENT_LQ_STATS                ( ( HCI_CONTROL_GROUP_CONN_MESH << 8 ) | 0x0f )  /* Link quality Stats */
+
+/* BMS Events */
+#define HCI_CONTROL_BMS_EVENT_NODE_PROVISIONED              ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x01 )  /* Node addr */
+#define HCI_CONTROL_BMS_EVENT_GET_DATA                      ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x02 )  /* Application Data Received */
+#define HCI_CONTROL_BMS_EVENT_APP_DATA                      ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x03 )  /* Application Data Received */
+#define HCI_CONTROL_BMS_EVENT_NODE_LIST                     ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x04 )  /* Node List report */
+#define HCI_CONTROL_BMS_EVENT_CONN_STATUS                   ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x05 )  /* Connection Status update */
+#define HCI_CONTROL_BMS_EVENT_PING_RESULT                   ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x06 )  /* Ping Result */
+#define HCI_CONTROL_BMS_EVENT_DATA_STATS                    ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x07 )  /* Stats */
+#define HCI_CONTROL_BMS_EVENT_CONN_UP                       ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x08 )  /* Node addr */
+#define HCI_CONTROL_BMS_EVENT_CONN_DOWN                     ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x09 )  /* Node addr */
+#define HCI_CONTROL_BMS_EVENT_OP_STATE_CHANGED              ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0a )  /* Node addr */
+#define HCI_CONTROL_BMS_EVENT_RESET_COMPLETE                ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0b )  /* Node addr */
+#define HCI_CONTROL_BMS_EVENT_RSSI_VALUES                   ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0c )  /* [Src Node] [Peer addr][RSSI] ... */
+#define HCI_CONTROL_BMS_EVENT_APP_INFO                      ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0d )  /* Node application info (FW ID) */
+#define HCI_CONTROL_BMS_EVENT_OTA_STATUS                    ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0e )  /* Firmware update command status */
+#define HCI_CONTROL_BMS_EVENT_LQ_STATS                      ( ( HCI_CONTROL_GROUP_BMS << 8 ) | 0x0f )  /* Link quality Stats */
 
 #define HCI_CONTROL_PANU_EVENT_OPEN                         ( ( HCI_CONTROL_GROUP_PANU << 8 ) | 0x01 )
 #define HCI_CONTROL_PANU_EVENT_CLOSE                        ( ( HCI_CONTROL_GROUP_PANU << 8 ) | 0x02 )
@@ -1405,6 +1447,8 @@
 #define HCI_CONTROL_LE_AUDIO_COMMAND_LOC_REM_HELD_CALL     ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x1E )
 #define HCI_CONTROL_LE_AUDIO_COMMAND_JOIN_CALL             ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x1F )
 #define HCI_CONTROL_LE_AUDIO_COMMAND_CALL                  ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x20 )//should be removed, retained for backward compatibility
+#define HCI_CONTROL_LE_AUDIO_COMMAND_REM_HOLD_CALL         ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x21 )
+#define HCI_CONTROL_LE_AUDIO_COMMAND_REM_HOLD_RETRIEVE     ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x22 )
 
 /* LE Audio Events */
 #define HCI_CONTROL_LE_AUDIO_MEDIA_PLAYER_EVT               ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x01 )
@@ -1417,7 +1461,8 @@
 #define HCI_CONTROL_LE_AUDIO_BROADCAST_SINK_STREAM_RSP_EVT  ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x08 )
 #define HCI_CONTROL_LE_AUDIO_STATUS_UPDATE_EVT              ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x09 )
 #define HCI_CONTROL_LE_AUDIO_MUTE_AND_VOLUME_STATUS_EVT     ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0a )
-
+#define HCI_CONTROL_LE_AUDIO_CALL_FRINDLY_NAME_EVT          ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0b )
+#define HCI_CONTROL_LE_AUDIO_REMOTE_HOLD_CALL_EVT           ( ( HCI_CONTROL_GROUP_LE_AUDIO << 8 ) | 0x0c )
 
 /* Status codes returned in HCI_CONTROL_EVENT_COMMAND_STATUS the event */
 #define HCI_CONTROL_STATUS_SUCCESS                          0

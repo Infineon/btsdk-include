@@ -167,6 +167,7 @@ extern "C"
 #define WICED_BT_MESH_TX_COMPLETE                            255  /**< Transmission completed, or timeout waiting for peer ack. */
 
 #define WICED_BT_MESH_CONFIG_PRIVATE_BEACON_STATUS           262  /**< Private Beacon Status */
+
 #define WICED_BT_MESH_CONFIG_PRIVATE_GATT_PROXY_STATUS       263  /**< Private GATT Proxy Status */
 #define WICED_BT_MESH_CONFIG_PRIVATE_NODE_IDENTITY_STATUS    264  /**< Private Node Identity Status */
 #define WICED_BT_MESH_CONFIG_ON_DEMAND_PRIVATE_PROXY_STATUS  265  /**< On-Demand Private Proxy Status */

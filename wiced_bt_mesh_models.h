@@ -5906,6 +5906,16 @@ typedef void (*wiced_bt_mesh_unprovisioned_device_cb_t)(uint8_t* p_uuid, uint16_
 void wiced_bt_mesh_remote_provisioning_server_init(void);
 
 /**
+ * \brief Configures Remote Provisioning Server shall drop all unprovisioned beacons and provisioning service adverts with RSSI less than min_rssi.
+ *        It shall be called after wiced_bt_mesh_remote_provisioning_server_init;
+ *
+ * @param       min_rssi min RSSI to handle
+ *
+ * @return      None
+ */
+void wiced_bt_mesh_remote_provisioning_server_set_min_rssi(int8_t min_rssi);
+
+/**
  * \brief Process Scan Response Packets to check if the packet is for remote provisioning server.
  *
  * @param  p_adv_report Advertising report paremeters

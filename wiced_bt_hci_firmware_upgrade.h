@@ -106,6 +106,8 @@ extern "C" {
 ******************************************************************************/
 typedef void (wiced_hci_firmware_upgrade_status_callback_t)(uint8_t status);
 
+/** \} group_hci_fw_upgrade_cback_functions */
+
 /**
 * \addtogroup group_hci_fw_upgrade_functions
 * \{
@@ -177,11 +179,9 @@ wiced_bool_t ota_fw_upgrade_handle_data(uint16_t conn_id, uint8_t *data, int32_t
 wiced_bool_t ota_fw_upgrade_handle_command(uint16_t conn_id, uint8_t *data, int32_t len);
 #define hci_fw_upgrade_handle_command ota_fw_upgrade_handle_command
 
-/** \} group_ota_fw_upgrade_functions */
+/** \} group_hci_fw_upgrade_functions */
 #ifdef __cplusplus
 }
 #endif
-
-/** \} group_ota_wiced_firmware_upgrade */
 
 #endif /* WICED_BT_HCI_FIRMWARE_UPGRADE__H */

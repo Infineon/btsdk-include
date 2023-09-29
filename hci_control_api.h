@@ -835,6 +835,7 @@
 #define HCI_CONTROL_IFXVH_COMMAND_AUDIO_START                               ( ( HCI_CONTROL_GROUP_IFXVH << 8 ) | 0x03 ) /* Start audio */
 #define HCI_CONTROL_IFXVH_COMMAND_AUDIO_STOP                                ( ( HCI_CONTROL_GROUP_IFXVH << 8 ) | 0x04 ) /* Stop audio */
 #define HCI_CONTROL_IFXVH_COMMAND_SET_HOST_CAPABILITES                      ( ( HCI_CONTROL_GROUP_IFXVH << 8 ) | 0x05 ) /* Set host capabilities */
+#define HCI_CONTROL_IFXVH_COMMAND_CONNECT                                   ( ( HCI_CONTROL_GROUP_IFXVH << 8 ) | 0x06 ) /* Initiate Scan for connection */
 
 /* General events that the controller can send */
 #define HCI_CONTROL_EVENT_COMMAND_STATUS                    ( ( HCI_CONTROL_GROUP_DEVICE << 8 ) | 0x01 )    /* Command status event for the requested operation */
@@ -1459,6 +1460,7 @@
 #define HCI_CONTROL_IFXVH_EVENT_AUDIO_STOP                                ( ( HCI_CONTROL_GROUP_IFXVH << 8 ) | 0x04 ) /* Audio stopped */
 #define HCI_CONTROL_IFXVH_EVENT_AUDIO_DATA                                ( ( HCI_CONTROL_GROUP_IFXVH << 8 ) | 0x05 ) /* Set host capabilities */
 #define HCI_CONTROL_IFXVH_EVENT_MSG                                       ( ( HCI_CONTROL_GROUP_IFXVH << 8 ) | 0x06 ) /* Message */
+#define HCI_CONTROL_IFXVH_EVENT_STATUS_CHANGED                            ( ( HCI_CONTROL_GROUP_IFXVH << 8 ) | 0x07 ) /* Status Changed */
 
 /* Status codes returned in HCI_CONTROL_EVENT_COMMAND_STATUS the event */
 #define HCI_CONTROL_STATUS_SUCCESS                          0
@@ -1628,5 +1630,11 @@
 #define HCI_CONTROL_HIDD_MOUSE_16_BIT     0x8
 
 #define HCI_CONTROL_HIDD_IR_SUPPORT       0x1
+
+/* IFXV defines */
+#define HCI_CONTROL_IFXV_STATUS_IDLE         0x0
+#define HCI_CONTROL_IFXV_STATUS_SCANNING     0x1
+#define HCI_CONTROL_IFXV_STATUS_DISCOVERY    0x2
+#define HCI_CONTROL_IFXV_STATUS_CONNECTED    0x3
 
 #endif /* HCI_CONTROL_API.H_ */

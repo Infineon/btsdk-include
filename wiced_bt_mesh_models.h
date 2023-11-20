@@ -5992,6 +5992,13 @@ wiced_bool_t wiced_bt_mesh_config_server_message_handler(wiced_bt_mesh_event_t* 
  */
 void wiced_bt_mesh_config_server_send_reply(wiced_bt_mesh_event_t* p_event, uint16_t opcode, uint8_t* p_buffer, uint16_t len);
 
+/**
+ * This function can be called to configure configuration server to send always segmented messages regardless of the message size.
+ *
+ * @param       enable WICED_TRUE enables the mode when config server always sends segmented messages. WICED_FALSE disables that mode.
+ */
+void wiced_bt_mesh_config_server_send_segmented(wiced_bool_t enable);
+
 /* @} wiced_bt_mesh_models */
 
 #define MESH_NODE_ID_INVALID          0x0000

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2023, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2024, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -1802,6 +1802,15 @@ void wiced_bt_mesh_core_delay_statistics_reset(void);
 * @return       None
 */
 void wiced_bt_mesh_set_inter_segment_delay(uint8_t delay_ms);
+
+/**
+* \brief Generate key derivation key
+* @param[in]    net_key_idx     Global net key index
+* @param[in]    p_kdk           Buffer for output key 16 bytes length - key derivation key
+*
+* @return      WICED_TRUE on success. WICED_FALSE on error
+*/
+wiced_bool_t wiced_bt_mesh_core_generate_kdk(uint8_t net_key_idx, uint8_t *p_kdk);
 
 #ifdef __cplusplus
 }
